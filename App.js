@@ -1,46 +1,77 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState,useEffect}  from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import * as React from 'react';
+import { Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Click from './Click';
+
+
+import MyFridge from './Screen/MyFridge';
+import FoodInfo from './Screen/FoodInfo';
+import MenuInfo from './Screen/MenuInfo';
+import Menu from './Screen/Menu';
+
+const Tab = createBottomTabNavigator();
+
 
 export default function App() {
   return (
-    
-    <View style={styles.container}>
-      <View style={styles.top}/>
-      <View style={styles.body}/>
-      {/*<Text>Hi! I'm Adrian Lee.</Text>
-      <Click count={10}/>
-  <StatusBar style="auto" />*/}
-  <View style={styles.bottom} />
-    </View>
-
-  
-
+    <NavigationContainer>
+      <Tab.Navigator initialRouteName="MyFridge" tabBarOptions={{ activeTintColor: '#ff9933' }}>
+        <Tab.Screen name="MyFridge"
+          component={MyFridge}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="fridge" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen name="Menu"
+          component={Menu}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="receipt" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen name="Notification"
+          component={FoodInfo}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="bell" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen name="Setting"
+          component={MenuInfo}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="account" color={color} size={size} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-    /*backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  */
-  },
-  bottom: {
-    height: 80,
-    backgroundColor: '#808B96',
-  },
-  top:{
-    height: 80,
-    backgroundColor: '#E74C3C',
-  },
-  body:{
-    
-    backgroundColor:'#e5ffff',
-  }
-});
+function HomeScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>HOME</Text>
+    </View>
+  );
+}
+
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
+
+
