@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 function Menu({navigation}) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>MENU PAGE</Text>
+      <Text>MENU page</Text>
       <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
     );
