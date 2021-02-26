@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -14,12 +15,14 @@ import MenuInfo from './Screen/MenuInfo';
 import Menu from './Screen/Menu';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
 
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="MyFridge" tabBarOptions={{ activeTintColor: '#ff9933' }}>
+      <Tab.Navigator initialRouteName="Notification" tabBarOptions={{ activeTintColor: '#ff9933' }}>
         <Tab.Screen name="MyFridge"
           component={MyFridge}
           options={{
@@ -58,19 +61,23 @@ export default function App() {
 }
 
 
-function HomeScreen() {
+function MyStack() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>HOME</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={MyFridge}
+        options={{
+          headerTintColor: 'white',
+          headerStyle: { backgroundColor: 'tomato' },
+        }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={MenuInfo}
+        options={{ headerStyleInterpolator: forFade }}
+      />
+    </Stack.Navigator>
   );
 }
 
