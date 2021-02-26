@@ -35,8 +35,8 @@ function FoodInfo({ navigation }) {
         onPress={() => navigation.navigate('MyFridge')}
       />
       <Button
-        title="Go to MenuInfo"
-        onPress={() => navigation.navigate('MenuInfo')}
+        title="Go to Menu"
+        onPress={() => navigation.navigate('Menu')}
       />
         </View>
       </View>

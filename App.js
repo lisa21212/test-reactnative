@@ -4,11 +4,13 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+
+// import icon
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-
+// import 頁面
 import MyFridge from './Screen/MyFridge';
 import FoodInfo from './Screen/FoodInfo';
 import MenuInfo from './Screen/MenuInfo';
@@ -57,27 +59,6 @@ export default function App() {
         />
       </Tab.Navigator>
     </NavigationContainer>
-  );
-}
-
-
-function MyStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={MyFridge}
-        options={{
-          headerTintColor: 'white',
-          headerStyle: { backgroundColor: 'tomato' },
-        }}
-      />
-      <Stack.Screen
-        name="Profile"
-        component={MenuInfo}
-        options={{ headerStyleInterpolator: forFade }}
-      />
-    </Stack.Navigator>
   );
 }
 
