@@ -7,13 +7,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-function MenuInfo({ navigation }) {
+function MenuInfo({navigation}) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>MenuInfo page</Text>
+      <Text>Menu Information</Text>
       <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
     );
   }
 
   export default MenuInfo;
+

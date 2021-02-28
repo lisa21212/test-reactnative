@@ -8,9 +8,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import MyFridge from './MyFridge';
-import MenuInfo from './MenuInfo';
-import Menu from './Menu';
+// import MyFridge from './MyFridge';
+// import MenuInfo from './MenuInfo';
+// import Menu from './Menu';
 
 function FoodInfo({ navigation }) {
   return (
@@ -38,50 +38,16 @@ function FoodInfo({ navigation }) {
         title="Go to Menu"
         onPress={() => navigation.navigate('Menu')}
       />
+      <Button
+        title="Go to MenuInfo"
+        onPress={() => navigation.navigate('MenuInfo')}
+      />
         </View>
       </View>
     </>
   );
 }
 
-const Stack = createStackNavigator();
-
-
-function MyStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={MenuInfo}
-        options={{
-          headerTintColor: 'white',
-          headerStyle: { backgroundColor: 'tomato' },
-        }}
-      />
-      <Stack.Screen
-        name="Profile"
-        component={MenuInfo}
-      />
-    </Stack.Navigator>
-  );
-}
-
-const forFade = ({ current, next }) => {
-  const opacity = Animated.add(
-    current.progress,
-    next ? next.progress : 0
-  ).interpolate({
-    inputRange: [0, 1, 2],
-    outputRange: [0, 1, 0],
-  });
-
-  return {
-    leftButtonStyle: { opacity },
-    rightButtonStyle: { opacity },
-    titleStyle: { opacity },
-    backgroundStyle: { opacity },
-  };
-};
 
 
 const styles = StyleSheet.create({
@@ -103,14 +69,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   body_image: {
-    height: 50, 
+    height: 103, 
     width: 200, 
     borderWidth: 2, 
-    marginTop: 20,
     backgroundColor: '#ffb3d9',
-    position:'absolute',
-    top:100,
-    left:100,
   },
 })
 export default FoodInfo;
