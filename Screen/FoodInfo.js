@@ -1,25 +1,18 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import { Text, View, StyleSheet,Button } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// import MyFridge from './MyFridge';
-// import MenuInfo from './MenuInfo';
-// import Menu from './Menu';
-
 function FoodInfo({ navigation }) {
   return (
     <>
-      <View style={{ height: 20, backgroundColor: 'white' }} />
+      <View style={{ height: 40, backgroundColor: 'white' }} />
       <View style={{ flexDirection: 'row' }}>
         <View style={styles.cell_fixed}>
-          <Ionicons name="chevron-back" size={30} color="black" style={{ marginLeft: 10 }} />
         </View>
+
         <View style={styles.cell}>
           <Text style={{ fontSize: 20, textAlign: 'center' }}>Apple</Text>
         </View>
@@ -39,8 +32,8 @@ function FoodInfo({ navigation }) {
         onPress={() => navigation.navigate('Menu')}
       />
       <Button
-        title="Go to MenuInfo"
-        onPress={() => navigation.navigate('MenuInfo')}
+        title="Go to keep"
+        onPress={() => navigation.navigate('KeepRecipe')}
       />
         </View>
       </View>

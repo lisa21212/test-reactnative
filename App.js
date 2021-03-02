@@ -15,18 +15,39 @@ import MyFridge from './Screen/MyFridge';
 import FoodInfo from './Screen/FoodInfo';
 import MenuInfo from './Screen/MenuInfo';
 import Menu from './Screen/Menu';
+import Keep from './Screen/Keep';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+const menuStack = createStackNavigator();
+const fridgeStack = createStackNavigator();
 
 
 export default function App() {
+  function FridgeScreen(){
+    return(
+      <fridgeStack.Navigator screenOptions={{headerShown: false}}> 
+      <fridgeStack.Screen name="Fridge" component={MyFridge}/>
+      <fridgeStack.Screen name="MenuInfo" component={MenuInfo}/>
+      </fridgeStack.Navigator>
+    )
+  }
+
+  
+  function MenuScreen() {
+    return (
+      <menuStack.Navigator screenOptions={{headerShown: false}}>
+        <menuStack.Screen name="Menu" component={Menu}/>
+        <menuStack.Screen name="Keep" component={Keep}/>
+      </menuStack.Navigator>
+    )
+  }
   return (
     <NavigationContainer>
       <Tab.Navigator initialRouteName="Notification" tabBarOptions={{ activeTintColor: '#ff9933' }}>
         <Tab.Screen name="MyFridge"
-          component={MyFridge}
+          component={FridgeScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="fridge" color={color} size={size} />
@@ -34,7 +55,7 @@ export default function App() {
           }}
         />
         <Tab.Screen name="Menu"
-          component={Menu}
+          component={MenuScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="receipt" color={color} size={size} />
@@ -50,7 +71,7 @@ export default function App() {
           }}
         />
         <Tab.Screen name="Setting"
-          component={MenuInfo}
+          component={Keep}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account" color={color} size={size} />
