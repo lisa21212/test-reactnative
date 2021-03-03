@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MenuInfo from './MenuInfo';
 
 
 
@@ -25,7 +26,7 @@ function Menu({navigation}) {
       </View>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>推薦菜單頁面</Text>
-      <Button title="Go back" onPress={() => navigation.goBack()} />
+      <Button title="炒菠菜" onPress={() => navigation.navigate(MenuInfo)} />
     </View>
     </>
     );

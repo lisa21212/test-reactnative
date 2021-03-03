@@ -58,5 +58,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  top_text: {
+    fontSize: 15,
+    textAlign: 'center',
+  },
+  body_image: {
+    height: 103, 
+    width: 200, 
+    borderWidth: 2, 
+    backgroundColor: '#ffb3d9',
+  },
 })
 export default FoodInfo;

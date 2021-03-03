@@ -43,6 +43,7 @@ export default function App() {
       <menuStack.Navigator screenOptions={{headerShown: false}}>
         <menuStack.Screen name="Menu" component={Menu}/>
         <menuStack.Screen name="Keep" component={Keep}/>
+        <menuStack.Screen name="MenuInfo" component={MenuInfo}/>
       </menuStack.Navigator>
     )
   }
