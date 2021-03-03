@@ -24,7 +24,7 @@ function MenuInfo({navigation}) {
           </View>
       </View>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>推薦菜單頁面</Text>
+      <Text>菜單資訊頁面</Text>
       <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
     </>

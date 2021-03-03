@@ -1,34 +1,37 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { Text, View, Button,StyleSheet} from 'react-native';
+import { Text, View, Button, StyleSheet} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
+const Stack = createStackNavigator();
 
-
-function MyFridge({ navigation }) {
+function Notification({navigation}) {
     return (
       <>
       <View style={{ height: 40, backgroundColor: 'white' }} />
       <View style={{ flexDirection: 'row' }}>
           <View style={styles.cell_fixed}>
-          <Button title="備忘錄" onPress={() => navigation.navigate('MenuInfo')} />
+          {/* <Ionicons name="chevron-back" size={30} color="black" style={{ marginLeft: 10 }} onPress={() => navigation.goBack()} /> */}
           </View>
           <View style={styles.cell}>
-              <Text style={{ fontSize: 20, textAlign: 'center' }}>我的冰箱</Text>
+              <Text style={{ fontSize: 20, textAlign: 'center' }}>通知</Text>
           </View>
           <View style={{width: 120,height: 40,backgroundColor: 'white', justifyContent: 'center'}}>
-              <Button title="公告欄" onPress={() => navigation.navigate('MenuInfo')} />
           </View>
       </View>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>MyFridge page</Text>
-      <Button title="蘋果" onPress={() => navigation.navigate('FoodInfo')} />
+      <Text>通知頁面</Text>
+      <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
     </>
     );
   }
 
-  export default MyFridge;
+  export default Notification;
 
 
   const styles = StyleSheet.create({
@@ -46,3 +49,4 @@ function MyFridge({ navigation }) {
         alignItems: 'center'
     },
 })
+

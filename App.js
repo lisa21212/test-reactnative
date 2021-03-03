@@ -17,6 +17,7 @@ import MenuInfo from './Screen/MenuInfo';
 import Menu from './Screen/Menu';
 import Keep from './Screen/Keep';
 import Setting from './Screen/Setting';
+import Notification from './Screen/Notification';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -31,7 +32,8 @@ export default function App() {
       <fridgeStack.Navigator screenOptions={{headerShown: false}}> 
       <fridgeStack.Screen name="Fridge" component={MyFridge}/>
       <fridgeStack.Screen name="MenuInfo" component={MenuInfo}/>
-      </fridgeStack.Navigator>
+      <fridgeStack.Screen name="FoodInfo" component={FoodInfo}/>
+       </fridgeStack.Navigator>
     )
   }
 
@@ -64,7 +66,7 @@ export default function App() {
           }}
         />
         <Tab.Screen name="Notification"
-          component={FoodInfo}
+          component={Notification}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="bell" color={color} size={size} />

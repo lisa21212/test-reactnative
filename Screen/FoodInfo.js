@@ -11,6 +11,7 @@ function FoodInfo({ navigation }) {
       <View style={{ height: 40, backgroundColor: 'white' }} />
       <View style={{ flexDirection: 'row' }}>
         <View style={styles.cell_fixed}>
+        <Ionicons name="chevron-back" size={30} color="black" style={{ marginLeft: 10 }} onPress={() => navigation.goBack()} />
         </View>
 
         <View style={styles.cell}>
@@ -56,16 +57,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  top_text: {
-    fontSize: 15,
-    textAlign: 'center',
-  },
-  body_image: {
-    height: 103, 
-    width: 200, 
-    borderWidth: 2, 
-    backgroundColor: '#ffb3d9',
   },
 })
 export default FoodInfo;
