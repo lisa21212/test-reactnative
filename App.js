@@ -16,6 +16,7 @@ import FoodInfo from './Screen/FoodInfo';
 import MenuInfo from './Screen/MenuInfo';
 import Menu from './Screen/Menu';
 import Keep from './Screen/Keep';
+import Setting from './Screen/Setting';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -71,7 +72,7 @@ export default function App() {
           }}
         />
         <Tab.Screen name="Setting"
-          component={Keep}
+          component={Setting}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account" color={color} size={size} />

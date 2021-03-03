@@ -9,7 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 
-function keep({ navigation }) {
+function Keep({ navigation }) {
     return (
         <>
             <View style={{ height: 40, backgroundColor: 'white' }} />
