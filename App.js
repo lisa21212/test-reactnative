@@ -49,7 +49,7 @@ export default function App() {
   }
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="Notification" tabBarOptions={{ activeTintColor: '#ff9933' }}>
+      <Tab.Navigator initialRouteName="MyFridge" tabBarOptions={{ activeTintColor: '#ff9933' }}>
         <Tab.Screen name="MyFridge"
           component={FridgeScreen}
           options={{

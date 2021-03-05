@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { Text, View, StyleSheet,Button } from 'react-native';
+import { Text, View, StyleSheet, Button, Image } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -11,31 +11,42 @@ function FoodInfo({ navigation }) {
       <View style={{ height: 40, backgroundColor: 'white' }} />
       <View style={{ flexDirection: 'row' }}>
         <View style={styles.cell_fixed}>
-        <Ionicons name="chevron-back" size={30} color="black" style={{ marginLeft: 10 }} onPress={() => navigation.goBack()} />
+          <Ionicons name="chevron-back" size={30} color="black" style={{ marginLeft: 10 }} onPress={() => navigation.goBack()} />
         </View>
 
         <View style={styles.cell}>
-          <Text style={{ fontSize: 20, textAlign: 'center' }}>Apple</Text>
+          <Text style={{ fontSize: 25, textAlign: 'center', fontWeight: '600' }}>Apple</Text>
         </View>
         <View style={styles.cell_fixed}>
           {/* 右上按鈕空間 */}
         </View>
       </View>
 
-      <View style={{ flex: 1,justifyContent: 'center', alignItems: 'center'  }}>
+      <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingTop: 50 }}>
         <View style={styles.body_image}>
-        <Button
-        title="Go to MyFridge"
-        onPress={() => navigation.navigate('MyFridge')}
-      />
-      <Button
-        title="Go to Menu"
-        onPress={() => navigation.navigate('Menu')}
-      />
-      <Button
-        title="Go to keep"
-        onPress={() => navigation.navigate('KeepRecipe')}
-      />
+          <Image source={require('../assets/apple.png')} style={{ height: 190, width: 190 }} />
+        </View>
+
+        <View style={{ flexDirection: 'row', alignItems: 'flex-start', paddingTop: 15}}>
+          <View style={styles.textbox}>
+            <Text style={{ fontSize: 20 }}>放入時間:</Text>
+            <Text style={{ fontSize: 20 }}>2020/3/5</Text>
+          </View>
+          <View style={styles.textbox}>
+            <Text style={{ fontSize: 20 }}>建議保存期限:</Text>
+            <Text style={{ fontSize: 20 }}>7 天</Text>
+          </View>
+        </View>
+        
+        <View style={{ flexDirection: 'row', alignItems: 'flex-start', paddingTop: 15}}>
+          <View style={styles.textbox}>
+            <Text style={{ fontSize: 20 }}>數量:</Text>
+            <Text style={{ fontSize: 20 }}>2 個</Text>
+          </View>
+          <View style={styles.textbox}>
+            <Text style={{ fontSize: 20 }}>熱量評估:</Text>
+            <Text style={{ fontSize: 20 }}>20 kcal</Text>
+          </View>
         </View>
       </View>
     </>
@@ -63,10 +74,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   body_image: {
-    height: 103, 
-    width: 200, 
-    borderWidth: 2, 
-    backgroundColor: '#ffb3d9',
+    height: 275,
+    width: 275,
+    borderWidth: 2,
+    backgroundColor: 'white',
+    borderRadius: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'lightgrey',
   },
+  textbox: {
+    height: 150,
+    width: 180,
+    borderRadius: 50,
+    backgroundColor: 'white',
+    borderColor: 'lightgrey',
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  }
 })
 export default FoodInfo;
