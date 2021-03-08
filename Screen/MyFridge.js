@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { Text, View, Button, StyleSheet } from 'react-native';
+import { Text, View, Button, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 
 
 
@@ -21,14 +21,53 @@ function MyFridge({ navigation }) {
                 </View>
             </View>
 
-            <View style={{ flex: 1, justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row' }}>
-                <Button title="肉類" onPress={() => navigation.navigate('MenuInfo')}/>
+            <ScrollView>
+                <View style={{ flex: 1, justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row' }}>
+                    <Button title="肉類" onPress={() => navigation.navigate('MenuInfo')} />
+                    <Button title="肉類" onPress={() => navigation.navigate('MenuInfo')} />
+                    <Button title="肉類" onPress={() => navigation.navigate('MenuInfo')} />
+                    <Button title="肉類" onPress={() => navigation.navigate('MenuInfo')} />
+                    <Button title="肉類" onPress={() => navigation.navigate('MenuInfo')} />
+                    <Button title="肉類" onPress={() => navigation.navigate('MenuInfo')} />
+                </View>
 
-            </View>
-            <View style={{ flex: 15, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>MyFridge page</Text>
-                <Button title="蘋果" onPress={() => navigation.navigate('FoodInfo')} />
-            </View>
+
+                <View style={{ flex: 15, flexDirection: 'column' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
+                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('FoodInfo')}>
+                            <Image source={require('../assets/FridgeFood/apple.png')} style={{ height: 120, width: 120 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('FoodInfo')}>
+                            <Image source={require('../assets/FridgeFood/avocado.jpeg')} style={{ height: 110, width: 120 }} />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
+                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('FoodInfo')}>
+                            <Image source={require('../assets/FridgeFood/pineapple.png')} style={{ height: 150, width: 150 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('FoodInfo')}>
+                            <Image source={require('../assets/FridgeFood/strawberry.png')} style={{ height: 160, width: 160 }} />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
+                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('FoodInfo')}>
+                            <Image source={require('../assets/FridgeFood/guava.png')} style={{ height: 150, width: 150 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('FoodInfo')}>
+                            <Image source={require('../assets/FridgeFood/grape.jpg')} style={{ height: 140, width: 140 }} />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
+                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('FoodInfo')}>
+                            <Image source={require('../assets/FridgeFood/banana.png')} style={{ height: 100, width: 100 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('FoodInfo')}>
+                            <Image source={require('../assets/FridgeFood/orange.jpg')} style={{ height: 160, width: 160 }} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ScrollView>
+
         </>
     );
 }
@@ -68,5 +107,16 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         fontSize: 18,
         justifyContent: 'center',
+    },
+    body_image: {
+        height: 200,
+        width: 200,
+        borderWidth: 2,
+        backgroundColor: 'white',
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: 'lightgrey',
+        margin: 5,
     },
 })

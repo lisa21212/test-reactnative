@@ -27,7 +27,7 @@ function FoodInfo({ navigation }) {
           <Image source={require('../assets/apple.png')} style={{ height: 190, width: 190 }} />
         </View>
 
-        <View style={{ flexDirection: 'row', alignItems: 'flex-start', paddingTop: 15}}>
+        <View style={styles.boxcontainer}>
           <View style={styles.textbox}>
             <Text style={{ fontSize: 20 }}>放入時間:</Text>
             <Text style={{ fontSize: 20 }}>2020/3/5</Text>
@@ -38,7 +38,7 @@ function FoodInfo({ navigation }) {
           </View>
         </View>
         
-        <View style={{ flexDirection: 'row', alignItems: 'flex-start', paddingTop: 15}}>
+        <View style={styles.boxcontainer}>
           <View style={styles.textbox}>
             <Text style={{ fontSize: 20 }}>數量:</Text>
             <Text style={{ fontSize: 20 }}>2 個</Text>
@@ -83,6 +83,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: 'lightgrey',
   },
+  boxcontainer:{ 
+    flexDirection: 'row', 
+    alignItems: 'flex-start', 
+    paddingTop: 15,
+    
+  },
+
   textbox: {
     height: 150,
     width: 180,
@@ -92,6 +99,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-  }
+    margin:5,
+  },
 })
 export default FoodInfo;
