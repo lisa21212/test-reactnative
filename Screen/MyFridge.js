@@ -46,7 +46,7 @@ function MyFridge({ navigation }) {
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Pineapple')}>
-                            <Image source={require('../assets/FridgeFood/pineapple.png')} style={{ height: 60, width: 60 }} />
+                            <Image source={require('../assets/FridgeFood/pineapple.png')} style={{ height: 150, width: 150 }} />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Strawberry')}>
                             <Image source={require('../assets/FridgeFood/strawberry.png')} style={{ height: 160, width: 160 }} />
