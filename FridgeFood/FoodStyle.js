@@ -1,4 +1,7 @@
-const styles = StyleSheet.create({
+import 'react-native-gesture-handler';
+import {StyleSheet} from 'react-native';
+
+export const styles = StyleSheet.create({
     cell_fixed: {
       width: 80,
       height: 40,

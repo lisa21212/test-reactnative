@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Text, View, StyleSheet, Button, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import FoodStyle from '../FridgeFood/FoodStyle'
+import { styles } from './FoodStyle';
 
 
 function FoodInfo({ navigation }) {
@@ -24,8 +24,8 @@ function FoodInfo({ navigation }) {
       </View>
 
       <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingTop: 50 }}>
-        <View style={styles.body_image}>
-          <Image source={require('../assets/FridgeFood/banana.jpg')} style={{ height: 190, width: 190 }} />
+        <View style={banana.image}>
+          <Image source={require('../assets/FridgeFood/banana.jpg')} style={{ height: 160, width: 220 }} />
         </View>
 
         <View style={styles.boxcontainer}>
@@ -38,7 +38,7 @@ function FoodInfo({ navigation }) {
             <Text style={{ fontSize: 20 }}>15 天</Text>
           </View>
         </View>
-        
+
         <View style={styles.boxcontainer}>
           <View style={styles.textbox}>
             <Text style={{ fontSize: 20 }}>數量:</Text>
@@ -55,26 +55,8 @@ function FoodInfo({ navigation }) {
 }
 
 
-
-const styles = StyleSheet.create({
-  cell_fixed: {
-    width: 80,
-    height: 40,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignSelf: 'center'
-  },
-  cell: {
-    flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  top_text: {
-    fontSize: 15,
-    textAlign: 'center',
-  },
-  body_image: {
+const banana = StyleSheet.create({
+  image: {
     height: 275,
     width: 275,
     borderWidth: 2,
@@ -84,23 +66,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: 'lightgrey',
   },
-  boxcontainer:{ 
-    flexDirection: 'row', 
-    alignItems: 'flex-start', 
-    paddingTop: 15,
-    
-  },
-
-  textbox: {
-    height: 150,
-    width: 180,
-    borderRadius: 50,
-    backgroundColor: 'white',
-    borderColor: 'lightgrey',
-    borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    margin:5,
-  },
 })
+
 export default FoodInfo;
