@@ -35,7 +35,10 @@ function MyFridge({ navigation }) {
                 <View style={{ flex: 15, flexDirection: 'column' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('FoodInfo')}>
-                            <Image source={require('../assets/FridgeFood/apple.png')} style={{ height: 120, width: 120 }} />
+                            <Image source={require('../assets/FridgeFood/apple.png')} style={{ height: 60, width: 60 }} />
+                            <Text>數量</Text>
+                            <Text>名稱
+                            </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Avocado')}>
                             <Image source={require('../assets/FridgeFood/avocado.jpeg')} style={{ height: 110, width: 120 }} />
@@ -43,7 +46,7 @@ function MyFridge({ navigation }) {
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Pineapple')}>
-                            <Image source={require('../assets/FridgeFood/pineapple.png')} style={{ height: 150, width: 150 }} />
+                            <Image source={require('../assets/FridgeFood/pineapple.png')} style={{ height: 60, width: 60 }} />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Strawberry')}>
                             <Image source={require('../assets/FridgeFood/strawberry.png')} style={{ height: 160, width: 160 }} />
@@ -109,8 +112,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     body_image: {
-        height: 180,
-        width: 180,
+        height: 170,
+        width: 170,
         borderWidth: 2,
         backgroundColor: 'white',
         borderRadius: 50,

@@ -1,15 +1,17 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { Text, View, Button, StyleSheet } from 'react-native';
+import { Text, View, Button, StyleSheet, TextInput, Image } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Materialicons from 'react-native-vector-icons/MaterialIcons'
 import { ScrollView } from 'react-native-gesture-handler';
+import SearchBar from './Searchbar';
 
 
 
 
 function Menu({ navigation }) {
+
     return (
         <>
             <View style={{ height: 40, backgroundColor: 'white' }} />
@@ -21,20 +23,40 @@ function Menu({ navigation }) {
                     <Text style={{ fontSize: 20, textAlign: 'center' }}>推薦菜單</Text>
                 </View>
                 <View style={{ width: 120, height: 40, backgroundColor: 'white', justifyContent: 'center' }}>
-                    <Materialicons name="favorite-outline" size={30} color="black" style={{ alignSelf:'flex-end', marginRight:15 }} onPress={() => navigation.navigate('Keep')} />
+                    <Materialicons name="favorite-outline" size={30} color="black" style={{ alignSelf: 'flex-end', marginRight: 15 }} onPress={() => navigation.navigate('Keep')} />
                 </View>
             </View>
-            <View>
+
+            <View style={{
+                backgroundColor: "#cccccc",
+                borderRadius: 5,
+                padding: 5,
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: 0
+            }}>
+                <TextInput placeholder="What are you looking for?"
+                    placeholderTextColor="black"
+                    style={{
+                        paddingHorizontal: 20,
+                        height: 40,
+                        backgroundColor: '#cccccc',
+                        fontSize:18,
+                    }}>
+                </TextInput>
+                <Image source={require('../assets/search_black.png')} style={{ width: 25, height: 25, right: 15, position: 'absolute' }} />
+
 
             </View>
-
             <ScrollView>
-                <View style={{alignItems: 'center' }}>
+
+
+                <View style={{ alignItems: 'center' ,marginTop:10}}>
                     <Text>推薦菜單頁面</Text>
                     <Button title="炒菠菜" onPress={() => navigation.navigate(Menu)} />
                 </View>
             </ScrollView>
-            
+
         </>
     );
 }
