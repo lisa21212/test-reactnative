@@ -29,19 +29,21 @@ function Menu({ navigation }) {
 
             <View style={{
                 backgroundColor: "#cccccc",
-                borderRadius: 5,
+                borderRadius: 20,
                 padding: 5,
                 flexDirection: "row",
                 alignItems: "center",
-                marginTop: 0
+                marginTop: 8,
+                margin:10,
             }}>
-                <TextInput placeholder="What are you looking for?"
+                <TextInput placeholder="Search somthing to eat"
                     placeholderTextColor="black"
                     style={{
-                        paddingHorizontal: 20,
                         height: 40,
                         backgroundColor: '#cccccc',
                         fontSize:18,
+                        margin:0.5,
+                        padding:10,
                     }}>
                 </TextInput>
                 <Image source={require('../assets/search_black.png')} style={{ width: 25, height: 25, right: 15, position: 'absolute' }} />
@@ -51,7 +53,7 @@ function Menu({ navigation }) {
             <ScrollView>
 
 
-                <View style={{ alignItems: 'center' ,marginTop:10}}>
+                <View style={{ alignItems: 'center' ,marginTop:5}}>
                     <Text>推薦菜單頁面</Text>
                     <Button title="炒菠菜" onPress={() => navigation.navigate(Menu)} />
                 </View>
