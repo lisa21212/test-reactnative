@@ -38,49 +38,49 @@ function Keep({ navigation }) {
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center',marginTop:10}}>
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Pineapple')}>
                             <Image source={require('../assets/Recipe/豬肋排.jpg')} style={styles.imageposition} />
-                            <Text style={{flex:2, textAlign: 'center'}}>
+                            <Text style={styles.textinbox}>
                                 醬燒豬肋排
                             </Text>
                             <Ionicons name="trash-outline" size={35} color="black" style={{flex:0.7}} onPress={() => navigation.goBack()} />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
                             <Image source={require('../assets/Recipe/海鮮羹.jpg')} style={styles.imageposition} />
-                            <Text style={{flex:2, textAlign: 'center'}}>
+                            <Text style={styles.textinbox}>
                                 海鮮羹
                             </Text>
                             <Ionicons name="trash-outline" size={35} color="black" style={{flex:0.7}} onPress={() => navigation.goBack()} />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
                             <Image source={require('../assets/Recipe/清蒸石斑.jpg')} style={styles.imageposition} />
-                            <Text style={{flex:2, textAlign: 'center'}}>
+                            <Text style={styles.textinbox}>
                                 醬燒豬肋排
                             </Text>
                             <Ionicons name="trash-outline" size={35} color="black" style={{flex:0.7}} onPress={() => navigation.goBack()} />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
                             <Image source={require('../assets/Recipe/水煮牛.jpg')} style={styles.imageposition} />
-                            <Text style={{flex:2, textAlign: 'center'}}>
+                            <Text style={styles.textinbox}>
                                 重慶水煮牛
                             </Text>
                             <Ionicons name="trash-outline" size={35} color="black" style={{flex:0.7}} onPress={() => navigation.goBack()} />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
                             <Image source={require('../assets/Recipe/炒飯.jpg')} style={styles.imageposition} />
-                            <Text style={{flex:2, textAlign: 'center'}}>
+                            <Text style={styles.textinbox}>
                                 蛋炒飯
                             </Text>
                             <Ionicons name="trash-outline" size={35} color="black" style={{flex:0.7}} onPress={() => navigation.goBack()} />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
                             <Image source={require('../assets/Recipe/海參.jpg')} style={styles.imageposition} />
-                            <Text style={{flex:2, textAlign: 'center'}}>
+                            <Text style={styles.textinbox}>
                                 海參煲
                             </Text>
                             <Ionicons name="trash-outline" size={35} color="black" style={{flex:0.7}} onPress={() => navigation.goBack()} />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
                             <Image source={require('../assets/Recipe/砂鍋雞.jpg')} style={styles.imageposition} />
-                            <Text style={{flex:2, textAlign: 'center'}}>
+                            <Text style={styles.textinbox}>
                                 砂鍋雞
                             </Text>
                             <Ionicons name="trash-outline" size={35} color="black" style={{flex:0.7}} onPress={() => navigation.goBack()} />
@@ -128,4 +128,9 @@ const styles = StyleSheet.create({
         marginLeft:30,
         borderRadius:20
     },
+    textinbox:{
+        flex:2, 
+        textAlign: 'center',
+        fontSize:15,
+    }
 })
