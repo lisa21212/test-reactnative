@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useState } from 'react';
-import { Text, View, Button, StyleSheet, TextInput, Image, TouchableOpacity, Component } from 'react-native';
+import { Text, View, Button, StyleSheet, TextInput, Image, TouchableOpacity, Alert} from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Materialicons from 'react-native-vector-icons/MaterialIcons'
@@ -12,6 +12,22 @@ const DATA =[{name: '絲瓜炒牛肉'},{name: '醬燒豬肋排'},{name: '海鮮�
 
 
 function Menu({ navigation }) {
+
+    const TwoCellAlert = () =>
+    Alert.alert(
+        '想要更改推薦菜單？',
+        '拜託不要更換啦',
+        [
+            {
+              text: "Cancel", onPress: () => console.log("Cancel Pressed"),
+              
+            },
+            { 
+                text: "OK", onPress: () => console.log("OK Pressed"), style: "cancel"
+            },
+          ]
+
+    )
 
     const [heart, setHeart ] = useState(false)
 
@@ -30,6 +46,7 @@ function Menu({ navigation }) {
                 </View>
             </View>
 
+            {/* 搜尋列 */}
             <View style={{
                 backgroundColor: "#cccccc",
                 borderRadius: 20,
@@ -52,12 +69,12 @@ function Menu({ navigation }) {
                 <Image source={require('../assets/search_black.png')} style={{ width: 25, height: 25, right: 15, position: 'absolute' }} />
             </View>
 
-
+            {/* 推薦食譜區 */}
             <View>
                 <ScrollView horizontal={true}>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Pineapple')}>
-                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} />
+                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert} />
                             <Image source={require('../assets/Recipe/豬肋排.jpg')} style={styles.image_style} />
                             <View style={{ flex: 1.5 }}>
                                 <Text style={{ marginTop: 10 }}>醬燒豬肋排</Text>
@@ -65,7 +82,7 @@ function Menu({ navigation }) {
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Strawberry')}>
-                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} />
+                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert} />
                             <Image source={require('../assets/Recipe/海鮮羹.jpg')} style={styles.image_style} />
                             <View style={{ flex: 1.5 }}>
                                 <Text style={{ marginTop: 10 }}>海鮮羹</Text>
@@ -73,7 +90,7 @@ function Menu({ navigation }) {
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Strawberry')}>
-                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} />
+                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert}/>
                             <Image source={require('../assets/Recipe/炒飯.jpg')} style={styles.image_style} />
                             <View style={{ flex: 1.5 }}>
                                 <Text style={{ marginTop: 10 }}>蝦仁蛋炒飯</Text>
@@ -81,7 +98,7 @@ function Menu({ navigation }) {
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Strawberry')}>
-                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} />
+                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert}/>
                             <Image source={require('../assets/Recipe/海參.jpg')} style={styles.image_style} />
                             <View style={{ flex: 1.5 }}>
                                 <Text style={{ marginTop: 10 }}>精華海參煲</Text>
@@ -89,7 +106,7 @@ function Menu({ navigation }) {
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Strawberry')}>
-                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} />
+                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert}/>
                             <Image source={require('../assets/Recipe/砂鍋雞.jpg')} style={styles.image_style} />
                             <View style={{ flex: 1.5 }}>
                                 <Text style={{ marginTop: 10 }}>主廚砂鍋雞</Text>
@@ -97,7 +114,7 @@ function Menu({ navigation }) {
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Strawberry')}>
-                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} />
+                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert}/>
                             <Image source={require('../assets/Recipe/水煮牛.jpg')} style={styles.image_style} />
                             <View style={{ flex: 1.5 }}>
                                 <Text style={{ marginTop: 10 }}>重慶水煮牛</Text>
