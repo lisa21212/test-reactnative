@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Materialicons from 'react-native-vector-icons/MaterialIcons'
 import { ScrollView } from 'react-native-gesture-handler';
 
-const DATA = [{ name: '絲瓜炒牛肉',steps: '',}, { name: '醬燒豬肋排' }, { name: '海鮮羹' }, { name: '清蒸鮮石斑' }]
+const DATA = [{ name: '絲瓜炒牛肉', steps: '',}, { name: '醬燒豬肋排' }, { name: '海鮮羹' }, { name: '清蒸鮮石斑' }]
 
 
 

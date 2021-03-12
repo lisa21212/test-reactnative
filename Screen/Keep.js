@@ -35,7 +35,7 @@ function Keep({ navigation }) {
             </View>
 
             <ScrollView>
-                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center',marginTop:10}}>
+                <View style={{justifyContent: 'center', alignItems: 'center',marginTop:10}}>
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Pineapple')}>
                             <Image source={require('../assets/Recipe/豬肋排.jpg')} style={styles.imageposition} />
                             <Text style={styles.textinbox}>
