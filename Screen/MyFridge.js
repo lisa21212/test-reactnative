@@ -14,13 +14,13 @@ function MyFridge({ navigation }) {
             <View style={{ height: 40, backgroundColor: 'white' }} />
             <View style={{ flexDirection: 'row' }}>
                 <View style={styles.cell_fixed}>
-                    <Button title="備忘錄" onPress={() => navigation.navigate('Keep')} />
+                    <Button title="備忘錄" onPress={() => navigation.navigate('Memo')} />
                 </View>
                 <View style={styles.cell}>
                     <Text style={{ fontSize: 20, textAlign: 'center', fontWeight: '600' }}>我的冰箱</Text>
                 </View>
                 <View style={{ width: 120, height: 40, backgroundColor: 'white', justifyContent: 'center' }}>
-                    <Button title="公告欄" onPress={() => navigation.navigate('MenuInfo')} />
+                    <Button title="公告欄" onPress={() => navigation.navigate('Board')} />
                 </View>
             </View>
 

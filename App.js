@@ -18,6 +18,8 @@ import Menu from './Screen/Menu';
 import Keep from './Screen/Keep';
 import Setting from './Screen/Setting';
 import Notification from './Screen/Notification';
+import Board from './Screen/Board';
+import Memo from './Screen/Memo'
 import Grape from './FridgeFood/Grape'
 import Strawberry from './FridgeFood/Strawberry'
 import Pineapple from './FridgeFood/Pineapple'
@@ -31,6 +33,7 @@ const Stack = createStackNavigator();
 
 const menuStack = createStackNavigator();
 const fridgeStack = createStackNavigator();
+const loginStack = createStackNavigator();
 
 
 export default function App() {
@@ -41,6 +44,8 @@ export default function App() {
       <fridgeStack.Screen name="Keep" component={Keep}/>
       <fridgeStack.Screen name="MenuInfo" component={MenuInfo}/>
       <fridgeStack.Screen name="FoodInfo" component={FoodInfo}/>
+      <fridgeStack.Screen name="Board" component={Board}/>
+      <fridgeStack.Screen name="Memo" component={Memo}/>
       <fridgeStack.Screen name="Grape" component={Grape}/>
       <fridgeStack.Screen name="Strawberry" component={Strawberry}/>
       <fridgeStack.Screen name="Pineapple" component={Pineapple}/>
@@ -62,6 +67,15 @@ export default function App() {
       </menuStack.Navigator>
     )
   }
+
+  function LoginScreenStack(){
+    return(
+      <loginStack.Navigator screenOptions={{headerShown: false}}>
+
+      </loginStack.Navigator>
+    )
+  }
+
   return (
     <NavigationContainer>
       <Tab.Navigator initialRouteName="MyFridge" tabBarOptions={{ activeTintColor: '#ff9933' }}>

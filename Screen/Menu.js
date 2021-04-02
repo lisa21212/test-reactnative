@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Materialicons from 'react-native-vector-icons/MaterialIcons'
 import { ScrollView } from 'react-native-gesture-handler';
 
-const DATA = [{ name: '絲瓜炒牛肉', steps: '',}, { name: '醬燒豬肋排' }, { name: '海鮮羹' }, { name: '清蒸鮮石斑' }]
+const DATA = [{ name: '絲瓜炒牛肉', steps: '', food: '絲瓜、牛肉'}, { name: '醬燒豬肋排', food:'豬肋排、花椰菜' }, { name: '海鮮羹', food:'蝦仁、花枝、金針菇'}, { name: '清蒸鮮石斑', food:'石斑魚、青蔥、薑'  }]
 
 
 
@@ -129,7 +129,7 @@ function Menu({ navigation }) {
                 <ScrollView>
                     <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 30 }}>其他食譜</Text>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                        {/* { DATA.map(item=> <Text>{ item.name }</Text>) } */}
+                        { DATA.map(item=> <Text>{ item.name },{}</Text>) }
                         
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('MenuInfo')}>
                             <Image source={require('../assets/Recipe/絲瓜炒牛肉.jpg')} style={styles.imageposition} />
