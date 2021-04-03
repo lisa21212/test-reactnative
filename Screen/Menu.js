@@ -129,7 +129,7 @@ function Menu({ navigation }) {
                 <ScrollView>
                     <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 30 }}>其他食譜</Text>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                        { DATA.map(item=> <Text>{ item.name },{}</Text>) }
+                        {/* { DATA.map(item=> <Text>{ item.name },{}</Text>) } */}
                         
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('MenuInfo')}>
                             <Image source={require('../assets/Recipe/絲瓜炒牛肉.jpg')} style={styles.imageposition} />

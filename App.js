@@ -20,6 +20,8 @@ import Setting from './Screen/Setting';
 import Notification from './Screen/Notification';
 import Board from './Screen/Board';
 import Memo from './Screen/Memo'
+import LoginScreen from './Screen/LoginScreen'
+import RegisterScreen from './Screen/RegisterScreen'
 import Grape from './FridgeFood/Grape'
 import Strawberry from './FridgeFood/Strawberry'
 import Pineapple from './FridgeFood/Pineapple'
@@ -71,7 +73,8 @@ export default function App() {
   function LoginScreenStack(){
     return(
       <loginStack.Navigator screenOptions={{headerShown: false}}>
-
+        <LoginScreenStack name="Login" component={LoginScreen}/>
+        <LoginScreenStack name="Register" component={RegisterScreen}/>
       </loginStack.Navigator>
     )
   }
