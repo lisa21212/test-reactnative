@@ -41,7 +41,7 @@ function Menu({ navigation }) {
                     <Text style={{ fontSize: 20, textAlign: 'center', fontWeight: '600' }}>推薦菜單</Text>
                 </View>
                 <View style={{ width: 120, height: 40, backgroundColor: 'white', justifyContent: 'center' }}>
-                    <Materialicons name="favorite-outline" size={30} color="black" style={{ alignSelf: 'flex-end', marginRight: 15 }} onPress={() => navigation.navigate('Keep')} />
+                    <Materialicons name="favorite" size={30} color="black" style={{ alignSelf: 'flex-end', marginRight: 15 }} onPress={() => navigation.navigate('Keep')} />
                 </View>
             </View>
 
