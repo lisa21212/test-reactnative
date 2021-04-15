@@ -10,6 +10,7 @@ import { Text } from 'react-native-paper'
 import { theme } from '../core/theme'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import MyFridge from './MyFridge';
+import LoginScreen from './LoginScreen';
 
 
 
@@ -26,7 +27,7 @@ const Habbit = ({ navigation }) =>{
       </View>
         <View style={styles.container1}>
         <TouchableOpacity
-        onPress={() => navigation.navigate(MyFridge)}>
+        onPress={() => navigation.navigate('Login')}>
           <Text style={styles.check}>下一頁
         </Text>
         </TouchableOpacity>
