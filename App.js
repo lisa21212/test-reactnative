@@ -22,6 +22,9 @@ import Board from './Screen/Board';
 import Memo from './Screen/Memo'
 import LoginScreen from './Screen/LoginScreen'
 import RegisterScreen from './Screen/RegisterScreen'
+import Habbit from './Screen/Habbit'
+import Preference from './Screen/Preference'
+import People from  './Screen/People'
 import Grape from './FridgeFood/Grape'
 import Strawberry from './FridgeFood/Strawberry'
 import Pineapple from './FridgeFood/Pineapple'
@@ -31,11 +34,10 @@ import Orange from './FridgeFood/Orange'
 import Avocado from './FridgeFood/Avocado'
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+const LoginStack = createStackNavigator();
 
 const menuStack = createStackNavigator();
 const fridgeStack = createStackNavigator();
-const loginStack = createStackNavigator();
 
 
 export default function App() {
@@ -72,49 +74,61 @@ export default function App() {
 
   function LoginScreenStack(){
     return(
-      <loginStack.Navigator screenOptions={{headerShown: false}}>
-        <LoginScreenStack name="Login" component={LoginScreen}/>
-        <LoginScreenStack name="Register" component={RegisterScreen}/>
-      </loginStack.Navigator>
+      <LoginStack.Navigator screenOptions={{headerShown: false}}>
+        <LoginStack.Screen name="Login" component={LoginScreen}/>
+        <LoginStack.Screen name="Register" component={RegisterScreen}/>
+        <LoginStack.Screen name="Habbit" component={Habbit}/>
+        <LoginStack.Screen name="Preference" component={Preference}/>
+        <LoginStack.Screen name="People" component={People}/>
+        <LoginStack.Screen name="MyFridge" component={MyFridge}/>
+      </LoginStack.Navigator>
+    )
+  }
+
+  function TabStack() {
+    return (
+      <Tab.Navigator initialRouteName="MyFridge" tabBarOptions={{ activeTintColor: '#ff9933' }}>
+      <Tab.Screen name="MyFridge"
+        component={FridgeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="fridge" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen name="Menu"
+        component={MenuScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="receipt" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen name="Notification"
+        component={Notification}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="bell" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen name="Setting"
+        component={Setting}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
     )
   }
 
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="MyFridge" tabBarOptions={{ activeTintColor: '#ff9933' }}>
-        <Tab.Screen name="MyFridge"
-          component={FridgeScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="fridge" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen name="Menu"
-          component={MenuScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="receipt" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen name="Notification"
-          component={Notification}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="bell" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen name="Setting"
-          component={Setting}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="account" color={color} size={size} />
-            ),
-          }}
-        />
-      </Tab.Navigator>
+        {
+          true ? <TabStack/> : <LoginScreenStack/>
+        }
     </NavigationContainer>
   );
 }

@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 16,
     height: 26,
-    borderRadius:'50%',
+    borderRadius:99,
     borderColor:'blue',
     borderWidth:1}
     })

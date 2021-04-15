@@ -39,16 +39,14 @@ const RegisterScreen = ({ navigation }) => {
     <Background>
        <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('LoginScreen')}
-        >
+          onPress={() => navigation.goBack()}>
           <Text style={styles.check}>上一頁
        </Text>
         </TouchableOpacity>
       </View>
         <View style={styles.container1}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Habbit')}
-        >
+          onPress={() => navigation.navigate('Habbit')}>
           <Text style={styles.check}>下一頁
        </Text>
         </TouchableOpacity>

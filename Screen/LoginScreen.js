@@ -70,7 +70,7 @@ const LoginScreen = ({ navigation }) => {
         Login
       </Button>
       <View style={styles.row}>
-        <TouchableOpacity onPress={() => navigation.replace('RegisterScreen')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
           <Text style={styles.link}>Register at first time</Text>
         </TouchableOpacity>
       </View>
