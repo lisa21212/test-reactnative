@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import * as React from 'react';
+import React, { useState } from 'react'
 import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -25,6 +25,8 @@ import RegisterScreen from './Screen/RegisterScreen'
 import Habbit from './Screen/Habbit'
 import Preference from './Screen/Preference'
 import People from './Screen/People'
+import Stores from './Screen/Stores'
+import Recipe from './Screen/Recipe'
 import Grape from './FridgeFood/Grape'
 import Strawberry from './FridgeFood/Strawberry'
 import Pineapple from './FridgeFood/Pineapple'
@@ -39,6 +41,7 @@ const LoginStack = createStackNavigator();
 const menuStack = createStackNavigator();
 const fridgeStack = createStackNavigator();
 const settingStack = createStackNavigator();
+
 
 
 export default function App() {
@@ -69,6 +72,8 @@ export default function App() {
         <menuStack.Screen name="Menu" component={Menu} />
         <menuStack.Screen name="Keep" component={Keep} />
         <menuStack.Screen name="MenuInfo" component={MenuInfo} />
+        <menuStack.Screen name="Stores" component={Stores} />
+        <menuStack.Screen name="Recipe" component={Recipe} />
       </menuStack.Navigator>
     )
   }
@@ -114,7 +119,7 @@ export default function App() {
           }}
         />
         <Tab.Screen name="Setting"
-          component={Setting}
+          component={Preference}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account" color={color} size={size} />
@@ -128,6 +133,7 @@ export default function App() {
 
 
   return (
+    
     <NavigationContainer>
       {
         true ? <TabStack /> : <LoginScreenStack />

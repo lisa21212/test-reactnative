@@ -1,67 +1,91 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { Text, View, Button, StyleSheet} from 'react-native';
+import { Text, View, Button, StyleSheet, FlatList, TextInput } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 
 const Stack = createStackNavigator();
 
 function Notification({ navigation }) {
-    return (
-      <>
-      <View style={{ height: 40, backgroundColor: 'white' }} />
-      <View style={{ flexDirection: 'row' }}>
-          <View style={styles.cell}>
-              <Text style={{ fontSize: 20, textAlign: 'center' }}>通知</Text>
-          </View>
-          </View>
-      <View style={{ flex: 2,justifyContent: 'flex-start',alignItems: 'center',backgroundColor: 'white'  }} >   
-      <View style={styles.body_image} >
-        <View style={{ flexDirection: 'row',  alignContent: 'space-between'}}>
-            <Ionicons name="notifications" size={30} color="black" alignItems='left' >
-            <Text style={{ fontSize: 20, textAlign: 'left',marginTop: 270 }}>蘋果即將於三天內到期    今天18:30</Text></Ionicons>
+    const data = [
+        { conversation: "冰箱中的蘋果即將過期", date: "2021-03-16" },
+        { conversation: "留言板中有一則新的留言", date: "2021-03-17" },
+    ]
+    const [text, onChangeText] = React.useState("Useless Text");
+
+    const renderItem = ({ item, i }) => (
+        <View style={styles.conversations}>
+            <MaterialCommunityIcons name="bell" size={25} color="orange" style={{justifyContent:'center', padding:15}}/>
+            <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 2, fontSize: 16, marginLeft: 10 }}>{item.conversation}</Text>
+            <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 1, fontSize: 16 }}>{item.date}</Text>
         </View>
-        <View style={{ flexDirection: 'row',  alignContent: 'space-between'}}>
-            <Ionicons name="notifications" size={30} color="black" alignItems='left' >
-            <Text style={{ fontSize: 20, textAlign: 'left',marginTop: 270 }}>菠菜即將於三天內到期    今天18:40</Text></Ionicons>
-        </View>
-        <View style={{ flexDirection: 'row',  alignContent: 'space-between'}}>
-            <Ionicons name="notifications" size={30} color="black" alignItems='left' >
-            <Text style={{ fontSize: 20, textAlign: 'left',marginTop: 270 }}>公告欄訊息已更新             三天前</Text></Ionicons>
-        </View>
-        
-        
-        </View>
-        </View>
-        
-    </>
+
     );
-  }
 
-  export default Notification;
+    return (
+        <>
+            {/* Header */}
+            <View style={{ height: 40, backgroundColor: 'white' }} />
+            <View style={{ flexDirection: 'row' }}>
+                <View style={styles.cell_fixed}>
+                    {/* <Ionicons name="chevron-back" size={30} color="black" style={{ marginLeft: 10 }} onPress={() => navigation.goBack()} /> */}
+                </View>
+
+                <View style={styles.cell}>
+                    <Text style={{ fontSize: 25, textAlign: 'center' }}>通知</Text>
+                </View>
+                <View style={styles.cell_fixed}>
+                    {/* 右上按鈕空間 */}
+                </View>
+            </View>
+
+            <View style={{ flex: 0.5, justifyContent: 'flex-start' }}>
+                <FlatList
+                    data={data}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.conversation}
+                    style={{ padding: 5 }}
+                >
+                </FlatList>
+            </View>
+        </>
+    );
+}
+
+export default Notification;
 
 
-  const styles = StyleSheet.create({
+const styles = StyleSheet.create({
+    body_image: {
+        height: 300,
+        width: 400,
+        borderWidth: 2,
+        backgroundColor: 'grey',
+    },
     cell_fixed: {
-        width: 120,
+        width: 80,
         height: 40,
         backgroundColor: 'white',
         justifyContent: 'center',
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     cell: {
         flex: 1,
         backgroundColor: 'white',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
-    body_image: {
-        flex: 2,
+    conversations: {
         backgroundColor: 'white',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center'
-    },
+        height: 50,
+        margin: 8,
+        marginTop: 10,
+        borderRadius: 8,
+        flexDirection: 'row',
+        
+    }
 })
 

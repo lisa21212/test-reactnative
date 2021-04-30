@@ -9,7 +9,7 @@ import Button from '../components/Button'
 import { Text } from 'react-native-paper'
 import { theme } from '../core/theme'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
-
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 
 const Habbit = ({ navigation }) =>{
@@ -18,7 +18,7 @@ const Habbit = ({ navigation }) =>{
     <Background>
      <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={() => navigation.navigate('RegisterScreen')}
         >
           <Text style={styles.check}>上一頁
        </Text>
@@ -26,18 +26,21 @@ const Habbit = ({ navigation }) =>{
       </View>
         <View style={styles.container1}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Preference')}
+          onPress={() => navigation.navigate('People')}
         >
           <Text style={styles.check}>下一頁
         </Text>
         </TouchableOpacity>
 </View>
     <Header>飲食習慣</Header>
-    <Text style={styles.Singin}>不吃牛肉</Text>
-    <Text style={styles.Singin}>不吃豬肉</Text>
-    <Text style={styles.Singin}>不吃海鮮</Text>
-    <Text style={styles.Singin}>蛋奶素</Text>
-    <Text style={styles.Singin}>全素</Text>
+
+<BouncyCheckbox style={{padding:10}} onPress={(isChecked: boolean) => {}} text='不吃牛肉'/>
+    <BouncyCheckbox style={{padding:10}} onPress={(isChecked: boolean) => {}} text='不吃豬肉'/>
+        <BouncyCheckbox style={{padding:10}} onPress={(isChecked: boolean) => {}} text='不吃海鮮'/>
+            <BouncyCheckbox style={{padding:10}} onPress={(isChecked: boolean) => {}} text='蛋奶素   '/>
+
+    <BouncyCheckbox style={{padding:10}} onPress={(isChecked: boolean) => {}} text='全素       '/>
+
     <Text style={styles.Singin}></Text>
      <Text style={styles.Singin}></Text>
   </Background>
@@ -46,9 +49,8 @@ const Habbit = ({ navigation }) =>{
 const styles = StyleSheet.create({
     Singin: {
     fontSize: 16,
-    flex: 2,
-    flexDirection: 'column',
-    // justifyConntent:'space-around',
+        flex: 2,
+        flexDirection: 'column',
     color: theme.colors.primary,
     },
     check: {

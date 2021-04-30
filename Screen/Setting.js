@@ -1,17 +1,18 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, TouchableHighlight, useState} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from 'react-native-elements/dist/config';
-
-
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { Checkbox } from 'react-native-paper';
 
 const Stack = createStackNavigator();
 
 function Setting({ navigation }) {
+    const [isSelected, setSelection] = React.useState(true);
     return (
         <>
             <View style={{ height: 40, backgroundColor: 'white' }} />
@@ -37,6 +38,9 @@ function Setting({ navigation }) {
                 </View>
                 <View style={styles.tytle}>
                     <Text>肉類</Text>
+              
+                    <BouncyCheckbox onPress={(isChecked: false) => {}} />
+    
                 </View>
                 <View style={styles.tytle}>
                     <Text>蔬菜類</Text>

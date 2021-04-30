@@ -8,28 +8,33 @@ import Button from '../components/Button'
 import TextInput from '../components/TextInput'
 import BackButton from '../components/BackButton'
 import { theme } from '../core/theme'
-import { emailValidator } from '../helpers/emailValidator'
+import { emailValidator } from 
+'../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
-import firebase from 'firebase';
-import config from '../config/config';
-
+import * as firebase from 'firebase';
+import firestore from 'firebase/firestore'
+import * as FirebaseCore from 'expo-firebase-core';
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState({ value: '', error: '' })
-  const [password, setPassword] = useState({ value: '', error: '' })
-  const onLoginPressed = () => {
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
-    if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
-      return
-    }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Dashboard' }],
-    })
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [message, setMessage] = useState("");
+if (!firebase.apps.length) {
+firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
   }
+  async function signIn(){
+    try {
+      const res= firebase.auth()
+        .signInWithEmailAndPassword(email, password);
+      console.log('User login successfully!');
+      setEmail('');
+      setPassword('');
+      setMessage('');
+    }
+    catch(error){
+      setMessage(error.message);
+    } 
+   };
 
   return (
     <Background>
@@ -38,8 +43,8 @@ const LoginScreen = ({ navigation }) => {
       <TextInput
         label="Email"
         returnKeyType="next"
-        value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: '' })}
+        value={email}
+        onChangeText={(text) => setEmail(text)}
         error={!!email.error}
         errorText={email.error}
         autoCapitalize="none"
@@ -50,8 +55,8 @@ const LoginScreen = ({ navigation }) => {
       <TextInput
         label="Password"
         returnKeyType="done"
-        value={password.value}
-        onChangeText={(text) => setPassword({ value: text, error: '' })}
+        value={password}
+        onChangeText={(text) => setPassword(text)}
         error={!!password.error}
         errorText={password.error}
         secureTextEntry
@@ -66,7 +71,7 @@ const LoginScreen = ({ navigation }) => {
        </Text>
         </TouchableOpacity>
       </View>
-      <Button mode="contained" onPress={onLoginPressed}>
+      <Button mode="contained" onPress={signIn}>
         Login
       </Button>
       <View style={styles.row}>
@@ -77,6 +82,7 @@ const LoginScreen = ({ navigation }) => {
     </Background>
   )
 }
+
 
 const styles = StyleSheet.create({
   forgotPassword: {

@@ -1,101 +1,88 @@
 import 'react-native-gesture-handler';
-import React,{ useState }  from 'react'
-import { TouchableOpacity,StyleSheet, View } from 'react-native'
+import React, { useState } from 'react'
+import { TouchableOpacity, StyleSheet, View } from 'react-native'
 import Background from '../components/Background'
-import Logo from '../components/Logo'
 import Header from '../components/Header'
-import Paragraph from '../components/Paragraph'
 import Button from '../components/Button'
-import Checkpox from '../components/Checkpox'
 import { Text } from 'react-native-paper'
-import { theme } from '../core/theme'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 
 
 
-
-const Preference = ({ navigation }) =>{
-    return (
+const Preference = ({ navigation }) => {
+  const [status, setStatus] = useState(0)
+  return (
     <Background>
-     <View style={styles.container}>
+      {/* <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Habbit')} >
-          <Text style={styles.check}>上一頁
-       </Text>
+          onPress={() => navigation.navigate('Habbit')}>
+          <Text style={{ fontWeight: 'bold', fontSize: 18 }}>上一頁</Text>
         </TouchableOpacity>
       </View>
-        <View style={styles.container1}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('People')}>
-          <Text style={styles.check}>下一頁
-        </Text>
+      <View style={styles.container1}>
+        <TouchableOpacity nPress={() => navigation.navigate('People')}>
+          <Text style={{ fontWeight: 'bold', fontSize: 18 }}>下一頁</Text>
         </TouchableOpacity>
-</View>
-    <Header>偏好設定</Header>
-    <View style={styles.container3}>
-    <Text style={styles.row}>海鮮</Text>
-  </View>
-<View style={styles.cc}>
-    <Text style={styles.Singin}>  蝦子      </Text>
-    <Text style={styles.Singin}>  生魚      </Text>
-    <Text style={styles.Singin}>  海膽      </Text>
-    <Text style={styles.Singin}>  石斑      </Text>
-</View>
- <View style={styles.container3}>
-    <Text style={styles.row}>肉類</Text>
-  </View>
-<View style={styles.cc}>
-    <Text style={styles.Singin}>  牛肉      </Text>
-    <Text style={styles.Singin}>  豬肉      </Text>
-    <Text style={styles.Singin}>  羊肉      </Text>
-    <Text style={styles.Singin}>  雞肉      </Text>
-</View>
-<View style={styles.container3}>
-    <Text style={styles.row}>菜類</Text>
-  </View>
-<View style={styles.cc}>
-    <Text style={styles.Singin}>  花椰菜      </Text>
-    <Text style={styles.Singin}>  大陸妹      </Text>
-    <Text style={styles.Singin}>  地瓜葉      </Text>
-    <Text style={styles.Singin}>  番茄      </Text>
-</View>
-    <View style={styles.container3}>
-    <Text style={styles.row}>家庭人數</Text>
-  </View>
-<View style={styles.cc}>
-    <Text style={styles.Singin}>一位      </Text>
-    <Text style={styles.Singin}>二位      </Text>
-    <Text style={styles.Singin}>三位      </Text>
-    <Text style={styles.Singin}>四位      </Text>
-    <Text style={styles.Singin}>五位      </Text>
-</View>
-<View style={styles.container3}>
-    <Text style={styles.row}>店家偏好設定</Text>
-  </View>
- <View style={styles.cc}>
-    <Text style={styles.Singin}>頂好      </Text>
-    <Text style={styles.Singin}>家樂福      </Text>
-</View>
-<Button
+      </View> */}
+      <Header>偏好設定</Header>
+      <View style={styles.container3}>
+        <Text style={styles.row}>海鮮</Text>
+      </View>
+      <View style={styles.cc}>
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='蝦子' />
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='黃魚' />
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='海膽' />
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='石斑' />
+      </View>
+      <View style={styles.container3}>
+        <Text style={styles.row}>肉類</Text>
+      </View>
+      <View style={styles.cc}>
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='牛肉' />
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='豬肉' />
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='羊肉' />
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='雞肉' />
+      </View>
+      <View style={styles.container3}>
+        <Text style={styles.row}>菜類</Text>
+      </View>
+      <View style={styles.cc}>
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='花椰菜' />
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='大陸妹' />
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='地瓜葉' />
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='番茄' />
+      </View>
+      <View style={styles.container3}>
+        <Text style={styles.row}>家庭人數</Text>
+      </View>
+      <View style={styles.cc}>
+        <BouncyCheckbox style={{ padding: 1 }} onPress={(isChecked: boolean) => { }} text='一位' />
+        <BouncyCheckbox style={{ padding: 1 }} onPress={(isChecked: boolean) => { }} text='二位' />
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='三位' />
+        <BouncyCheckbox onPress={(isChecked: boolean) => { }} text='四位' />
+        <BouncyCheckbox onPress={(isChecked: boolean) => { }} text='五位' />
+      </View>
+      <View style={styles.container3}>
+        <Text style={styles.row}>店家偏好設定</Text>
+      </View>
+      <View style={styles.cc}>
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='頂好' />
+        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='家樂福' />
+      </View>
+      <Button
         mode="contained"
         onPress={() => navigation.navigate('Login')}
-        style={{ marginTop: 6,backgroundColor: 'orange', }}>
+        style={{ marginTop: 6 }}>
         登出
       </Button>
-  </Background>
-)
+    </Background>
+  )
 }
 
 const styles = StyleSheet.create({
-    Singin: {
-    fontSize: 17,
-    flex: 1,
-    flexDirection: 'row',
-    color: theme.colors.secondary,
-    padding: 5,
-    },
-    container3: {
+  container3: {
     flex: 1,
     padding: 10,
   },
@@ -104,33 +91,30 @@ const styles = StyleSheet.create({
     borderBottomColor: "grey",
     alignItems: 'flex-start',
     fontSize: 18,
-    borderBottomWidth: StyleSheet.hairlineWidth}
-    ,
-    cc: {
-    flex: 1, 
+    borderBottomWidth: StyleSheet.hairlineWidth
+  }
+  ,
+  cc: {
+    flex: 1,
     flexDirection: 'row',
-    justifyContent:'space-between',
-    },
-    check: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    color: theme.colors.primary,
+    justifyContent: 'space-evenly',
   },
-    container: {
+
+  container: {
     position: 'absolute',
     top: 10 + getStatusBarHeight(),
     left: 4,
   },
-    container1: {
+  container1: {
     position: 'absolute',
     top: 10 + getStatusBarHeight(),
     right: 4,
   },
-   
-    
-      
+
+
+
 }
 
 )
-                                 
+
 export default Preference

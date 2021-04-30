@@ -29,7 +29,7 @@ function Board({ navigation }) {
         </View>
 
         <View style={styles.cell}>
-          <Text style={{ fontSize: 25, textAlign: 'center' }}>公告欄</Text>
+          <Text style={{ fontSize: 25, textAlign: 'center' }}>留言版</Text>
         </View>
         <View style={styles.cell_fixed}>
           {/* 右上按鈕空間 */}

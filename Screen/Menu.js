@@ -5,6 +5,7 @@ import { Searchbar } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Materialicons from 'react-native-vector-icons/MaterialIcons'
 import { ScrollView } from 'react-native-gesture-handler';
+import Stores from './Stores';
 
 const DATA = [{ name: '絲瓜炒牛肉', steps: '', food: '絲瓜、牛肉'}, { name: '醬燒豬肋排', food:'豬肋排、花椰菜' }, { name: '海鮮羹', food:'蝦仁、花枝、金針菇'}, { name: '清蒸鮮石斑', food:'石斑魚、青蔥、薑'  }]
 
@@ -35,7 +36,7 @@ function Menu({ navigation }) {
             <View style={{ height: 40, backgroundColor: 'white' }} />
             <View style={{ flexDirection: 'row' }}>
                 <View style={styles.cell_fixed}>
-                    <Ionicons name="ios-add" size={40} color="black" style={{ marginLeft: 10 }} onPress={() => navigation.goBack()} />
+                    <Ionicons name="ios-add" size={40} color="black" style={{ marginLeft: 10 }} onPress={() => navigation.navigate('Stores')} />
                 </View>
                 <View style={styles.cell}>
                     <Text style={{ fontSize: 20, textAlign: 'center', fontWeight: '600' }}>推薦菜單</Text>
@@ -67,9 +68,18 @@ function Menu({ navigation }) {
                 </TextInput>
                 <Image source={require('../assets/search_black.png')} style={{ width: 25, height: 25, right: 15, position: 'absolute' }} />
             </View>
-
+            {/* 類別列 */}
+            <View style={{justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row' }}>
+                    <Button title="中式" onPress={() => navigation.navigate('MenuInfo')} />
+                    <Button title="日式" onPress={() => navigation.navigate('MenuInfo')} />
+                    <Button title="美式" onPress={() => navigation.navigate('MenuInfo')} />
+                    <Button title="義式" onPress={() => navigation.navigate('MenuInfo')} />
+                    <Button title="飯類" onPress={() => navigation.navigate('MenuInfo')} />
+                    <Button title="麵類" onPress={() => navigation.navigate('MenuInfo')} />
+                </View>
             {/* 推薦食譜區 */}
             <View>
+            <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20, margin:5 }}>推薦食譜</Text>
                 <ScrollView horizontal={true}>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Pineapple')}>
@@ -127,7 +137,7 @@ function Menu({ navigation }) {
             {/* 其他食譜 */}
             <View style={{ flex: 1, marginTop: 10 }}>
                 <ScrollView>
-                    <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 30 }}>其他食譜</Text>
+                    <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20 }}>其他食譜</Text>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                         {/* { DATA.map(item=> <Text>{ item.name },{}</Text>) } */}
                         
