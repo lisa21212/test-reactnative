@@ -1,15 +1,68 @@
 import 'react-native-gesture-handler';
-import * as React from 'react';
-import { Text, View, Button, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, Button, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, FlatList } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as firebase from 'firebase';
+import firestore from 'firebase/firestore'
+import * as FirebaseCore from 'expo-firebase-core';
+
+import { Images } from '../config/imageConfig'
 
 
-
+if (!firebase.apps.length) {
+    firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
+}
+const db = firebase.firestore();
+db.ref = '/Fridge'
+var ref = db.collection("Fridge").orderBy("Expire", "asc");
 
 
 function MyFridge({ navigation }) {
+    const [Fruit, setFruits] = useState([]);
+    const [category, setCategory] = useState('all');
+
+
+    useEffect(()=>{
+        getData()
+    }, [])
+
+    function getData() {
+        let newFruits = [];
+        
+        ref.onSnapshot(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                const fruit = {
+                    Name: doc.data().Name,
+                    Number: doc.data().Number,
+                    Url: Images[doc.data().Name],
+                    Expire: doc.data().Expire,
+                    Category: doc.data().Category
+                }
+                newFruits.push(fruit)
+    
+            });
+            console.log('newFruits', newFruits)
+            setFruits(newFruits)
+        });
+    }
+
+    const renderItem = ({ item, i }) => (
+        <View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf: 'center' }}>
+            <TouchableOpacity style={styles.test} onPress={() => navigation.navigate('FoodInfo')}>
+                <Image source={item.Url} style={{ height: 60, flex: 0.5 }} />
+                <View style={{ flex: 2, flexDirection: 'row' }}>
+                    <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Expire} 天到期</Text>
+                    <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Number} 顆</Text>
+                </View>
+            </TouchableOpacity>
+        </View>
+    );
+
+
     return (
         <>
+
+
             {/* Header */}
             <View style={{ height: 40, backgroundColor: 'white' }} />
             <View style={{ flexDirection: 'row' }}>
@@ -23,8 +76,8 @@ function MyFridge({ navigation }) {
                     <Button title="公告欄" onPress={() => navigation.navigate('Board')} />
                 </View>
             </View>
-                       {/* 搜尋列 */}
-                       <View style={{
+            {/* 搜尋列 */}
+            <View style={{
                 backgroundColor: "#cccccc",
                 borderRadius: 20,
                 padding: 5,
@@ -46,31 +99,34 @@ function MyFridge({ navigation }) {
                 <Image source={require('../assets/search_black.png')} style={{ width: 25, height: 25, right: 15, position: 'absolute' }} />
             </View>
 
-            
-                {/* 過濾列 */}
-                <View style={{justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', paddingBottom:10 }}>
-                <TouchableOpacity style={styles.filterBox} onPress={() => navigation.navigate('MenuInfo')}>
-                    <Text style={{fontSize:18}}>水果</Text>
+
+            {/* 過濾列 */}
+            <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', paddingBottom: 10 }}>
+                <TouchableOpacity style={styles.filterBox} onPress={() => setCategory('all')}>
+                    <Text style={{ fontSize: 18 }}>全部</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.filterBox} onPress={() => navigation.navigate('MenuInfo')}>
-                    <Text style={{fontSize:18}}>肉類</Text>
+                <TouchableOpacity style={styles.filterBox} onPress={() => setCategory('all')}>
+                    <Text style={{ fontSize: 18 }}>水果</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.filterBox} onPress={() => navigation.navigate('MenuInfo')}>
-                    <Text style={{fontSize:18}}>蛋類</Text>
+                <TouchableOpacity style={styles.filterBox} onPress={() => setCategory('all')}>
+                    <Text style={{ fontSize: 18 }}>肉類</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.filterBox} onPress={() => navigation.navigate('MenuInfo')}>
-                    <Text style={{fontSize:18}}>海鮮</Text>
+                <TouchableOpacity style={styles.filterBox} onPress={() => setCategory('all')}>
+                    <Text style={{ fontSize: 18 }}>蛋類</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.filterBox} onPress={() => navigation.navigate('MenuInfo')}>
-                    <Text style={{fontSize:18}}>蔬菜</Text>
+                <TouchableOpacity style={styles.filterBox} onPress={() => setCategory('all')}>
+                    <Text style={{ fontSize: 18 }}>海鮮</Text>
                 </TouchableOpacity>
-                    {/* <Button title="水果" onPress={() => navigation.navigate('MenuInfo')} />
+                <TouchableOpacity style={styles.filterBox} onPress={() => setCategory('all')}>
+                    <Text style={{ fontSize: 18 }}>蔬菜</Text>
+                </TouchableOpacity>
+                {/* <Button title="水果" onPress={() => navigation.navigate('MenuInfo')} />
                     <Button title="肉類" onPress={() => navigation.navigate('MenuInfo')} />
                     <Button title="蛋類" onPress={() => navigation.navigate('MenuInfo')} />
                     <Button title="海鮮" onPress={() => navigation.navigate('MenuInfo')} />
                     <Button title="蔬菜" onPress={() => navigation.navigate('MenuInfo')} /> */}
-                </View>
-                <ScrollView>
+            </View>
+            <ScrollView>
                 {/* 庫存顯示區 */}
                 {/* 畫面一開始可以將快要到期的食材放在嫌面 ，期限小於三天的 */}
                 <View style={{ flex: 15, flexDirection: 'column' }}>
@@ -85,64 +141,56 @@ function MyFridge({ navigation }) {
                         </TouchableOpacity>
                     </View> */}
 
-                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf:'center' }}>
-                        <TouchableOpacity style={styles.test} onPress={() => navigation.navigate('FoodInfo')}>
-                            <Image source={require('../assets/FridgeFood/apple.png')} style={{ height: 60, flex: 0.5 }} />
-                            <View style={{flex:2, flexDirection:'row'}}>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>4 天到期</Text>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>5 顆</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.test}>
-                            <Image source={require('../assets/FridgeFood/grape.jpg')} style={{ height: 60, flex: 0.5 }} />
-                            <View style={{flex:2, flexDirection:'row'}}>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>3 天到期</Text>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>5 顆</Text>
-                            </View>
-                        </TouchableOpacity>
+                    <FlatList
+                        data={Fruit}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.conversation}
+                    >
+                    </FlatList>
+                    {/* <View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf: 'center' }}>
                         <TouchableOpacity style={styles.test}>
                             <Image source={require('../assets/FridgeFood/pineapple.png')} style={{ height: 60, flex: 0.5 }} />
-                            <View style={{flex:2, flexDirection:'row'}}>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>6 天到期</Text>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>6 顆</Text>
+                            <View style={{ flex: 2, flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>6 天到期</Text>
+                                <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>6 顆</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.test}>
                             <Image source={require('../assets/FridgeFood/avocado.jpeg')} style={{ height: 60, flex: 0.5 }} />
-                            <View style={{flex:2, flexDirection:'row'}}>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>3 天到期</Text>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>5 顆</Text>
+                            <View style={{ flex: 2, flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>3 天到期</Text>
+                                <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>5 顆</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.test}>
                             <Image source={require('../assets/FridgeFood/guava.png')} style={{ height: 60, flex: 0.5 }} />
-                            <View style={{flex:2, flexDirection:'row'}}>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>6 天到期</Text>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>6 顆</Text>
+                            <View style={{ flex: 2, flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>6 天到期</Text>
+                                <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>6 顆</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.test}>
                             <Image source={require('../assets/FridgeFood/banana.png')} style={{ height: 60, flex: 0.5 }} />
-                            <View style={{flex:2, flexDirection:'row'}}>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>5 天到期</Text>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>2 顆</Text>
+                            <View style={{ flex: 2, flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>5 天到期</Text>
+                                <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>2 顆</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.test}>
                             <Image source={require('../assets/FridgeFood/orange.png')} style={{ height: 60, flex: 0.5 }} />
-                            <View style={{flex:2, flexDirection:'row'}}>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>7 天到期</Text>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>8 顆</Text>
+                            <View style={{ flex: 2, flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>7 天到期</Text>
+                                <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>8 顆</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.test}>
                             <Image source={require('../assets/FridgeFood/strawberry.png')} style={{ height: 60, flex: 0.5 }} />
-                            <View style={{flex:2, flexDirection:'row'}}>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>4 天到期</Text>
-                                <Text style={{ fontSize: 18, flex: 1 ,textAlign:'center'}}>3 顆</Text>
+                            <View style={{ flex: 2, flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>4 天到期</Text>
+                                <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>3 顆</Text>
                             </View>
-                        </TouchableOpacity>
-                    </View>
+                        </TouchableOpacity> */}
+                    {/* </View> */}
 
                 </View>
             </ScrollView>
@@ -223,11 +271,11 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     filterBox: {
-        paddingVertical:10,
-        paddingHorizontal:10,
-        borderRadius:10, 
-        borderColor:'grey',
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        borderColor: 'grey',
         // borderWidth:1,
-        backgroundColor:'lightgrey'
+        backgroundColor: 'lightgrey'
     },
 })
