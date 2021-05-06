@@ -136,7 +136,7 @@ export default function App() {
     
     <NavigationContainer>
       {
-        true ? <TabStack /> : <LoginScreenStack />
+        false ? <TabStack /> : <LoginScreenStack />
       }
     </NavigationContainer>
   );
