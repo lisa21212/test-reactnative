@@ -1,18 +1,61 @@
 import 'react-native-gesture-handler';
-import React, { useState } from 'react';
-import { Text, View, Button, StyleSheet, TextInput, Image, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, Button, StyleSheet, TextInput, Image, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Materialicons from 'react-native-vector-icons/MaterialIcons'
 import { ScrollView } from 'react-native-gesture-handler';
 import Stores from './Stores';
+import * as firebase from 'firebase';
+import firestore from 'firebase/firestore'
+import * as FirebaseCore from 'expo-firebase-core';
 
-const DATA = [{ name: '絲瓜炒牛肉', steps: '', food: '絲瓜、牛肉'}, { name: '醬燒豬肋排', food:'豬肋排、花椰菜' }, { name: '海鮮羹', food:'蝦仁、花枝、金針菇'}, { name: '清蒸鮮石斑', food:'石斑魚、青蔥、薑'  }]
+import { Images } from '../config/imageConfig'
 
+const DATA = [{ name: '絲瓜炒牛肉', steps: '', food: '絲瓜、牛肉' }, { name: '醬燒豬肋排', food: '豬肋排、花椰菜' }, { name: '海鮮羹', food: '蝦仁、花枝、金針菇' }, { name: '清蒸鮮石斑', food: '石斑魚、青蔥、薑' }]
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
+}
+const db = firebase.firestore();
+db.ref = '/Fridge'
+var ref = db.collection("菜單");
 
 
 
 function Menu({ navigation }) {
+
+    const [Fruit, setFruits] = useState([]);
+
+
+    function getData() {
+        let newMenu = [];
+
+        ref.onSnapshot(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                const menu = {
+                    id: doc.id,
+                    Name: doc.data().name,
+                    desc: doc.data().desc,
+                    Url: Images[doc.data().Name],
+                    people: doc.data().people,
+                    type: doc.data().type,
+                    time: doc.data().time,
+                    ingre: doc.data().ingre,
+                }
+                newMenu.push(menu)
+                console.log(menu)
+
+            });
+            setFruits(newMenu)
+            setDisplayOfData(newMenu)
+        });
+    }
+
+    useEffect(() => {
+        getData()
+    }, [])
+
 
     const TwoCellAlert = () =>
         Alert.alert(
@@ -29,6 +72,19 @@ function Menu({ navigation }) {
         TwoCellAlert();
         setHeart(!heart);
     }
+
+    const renderItem = ({ item, i }) => (
+        <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('MenuInfo')}>
+            <Image source={require('../assets/Recipe/絲瓜炒牛肉.jpg')} style={styles.imageposition} />
+            <View style={styles.textinbox}>
+                <Text>{item.name}{'\n'}</Text>
+                <Text>{item.desc}</Text>
+            </View>
+            <Materialicons onPress={() => setHeart(!heart)} name={heart ? 'favorite' : 'favorite-outline'} size={35} style={{ flex: 0.7, color: 'red' }} />
+        </TouchableOpacity>
+    );
+
+
 
     return (
         <>
@@ -69,17 +125,32 @@ function Menu({ navigation }) {
                 <Image source={require('../assets/search_black.png')} style={{ width: 25, height: 25, right: 15, position: 'absolute' }} />
             </View>
             {/* 類別列 */}
-            <View style={{justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row' }}>
-                    <Button title="中式" onPress={() => navigation.navigate('MenuInfo')} />
-                    <Button title="日式" onPress={() => navigation.navigate('MenuInfo')} />
-                    <Button title="美式" onPress={() => navigation.navigate('MenuInfo')} />
-                    <Button title="義式" onPress={() => navigation.navigate('MenuInfo')} />
-                    <Button title="飯類" onPress={() => navigation.navigate('MenuInfo')} />
-                    <Button title="麵類" onPress={() => navigation.navigate('MenuInfo')} />
-                </View>
+            {/* <ScrollView horizontal={true}> */}
+            <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', paddingBottom: 10 }}>
+
+                <TouchableOpacity style={[styles.filterBox]} onPress={() => handleOnClick('fruit')}>
+                    <Text style={{ fontSize: 18 }}>中式</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.filterBox]} onPress={() => handleOnClick('meat')}>
+                    <Text style={{ fontSize: 18 }}>日式</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.filterBox]} onPress={() => handleOnClick('soy')}>
+                    <Text style={{ fontSize: 18 }}>美式</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.filterBox]} onPress={() => handleOnClick('sea')}>
+                    <Text style={{ fontSize: 18 }}>義式</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.filterBox]} onPress={() => handleOnClick('veg')}>
+                    <Text style={{ fontSize: 18 }}>飯類</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.filterBox]} onPress={() => handleOnClick('veg')}>
+                    <Text style={{ fontSize: 18 }}>麵類</Text>
+                </TouchableOpacity>
+            </View>
+            {/* </ScrollView> */}
             {/* 推薦食譜區 */}
             <View>
-            <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20, margin:5 }}>推薦食譜</Text>
+                <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20, margin: 5 }}>推薦食譜</Text>
                 <ScrollView horizontal={true}>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
                         <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Pineapple')}>
@@ -139,21 +210,15 @@ function Menu({ navigation }) {
                 <ScrollView>
                     <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20 }}>其他食譜</Text>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                        {/* { DATA.map(item=> <Text>{ item.name },{}</Text>) } */}
-                        
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('MenuInfo')}>
                             <Image source={require('../assets/Recipe/絲瓜炒牛肉.jpg')} style={styles.imageposition} />
                             <View style={styles.textinbox}>
-                                <Text>
-                                    絲瓜炒牛肉{'\n'}
-                                </Text>
-                                <Text>
-                                    食材: 絲瓜、牛肉、紅蘿蔔、猴頭菇、鹽、青蔥段
-                            </Text>
+                                <Text>絲瓜炒牛肉{'\n'}</Text>
+                                <Text>食材: 絲瓜、牛肉、紅蘿蔔、猴頭菇、鹽、青蔥段</Text>
                             </View>
                             <Materialicons onPress={() => setHeart(!heart)} name={heart ? 'favorite' : 'favorite-outline'} size={35} style={{ flex: 0.7, color: 'red' }} />
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Pineapple')}>
+                        {/* <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Pineapple')}>
                             <Image source={require('../assets/Recipe/豬肋排.jpg')} style={styles.imageposition} />
                             <View style={styles.textinbox}>
                                 <Text>
@@ -221,7 +286,7 @@ function Menu({ navigation }) {
                                 砂鍋雞
                             </Text>
                             <Materialicons name="favorite-outline" size={35} color="red" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 </ScrollView>
             </View>
@@ -295,6 +360,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 15,
         margin: 10,
+    },
+    filterBox: {
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        borderColor: 'grey',
+        // borderWidth:1,
+        backgroundColor: 'lightgrey'
     },
 })
 

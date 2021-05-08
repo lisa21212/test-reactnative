@@ -1,35 +1,27 @@
 import 'react-native-gesture-handler';
-import * as React from 'react';
-import { Text, View, StyleSheet, Button, Image, useState, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, Button, Image, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Materialicons from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialCicons from 'react-native-vector-icons/MaterialIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
-import DateTimePicker from '@react-native-community/datetimepicker';
+import * as firebase from 'firebase';
+import firestore from 'firebase/firestore'
+import * as FirebaseCore from 'expo-firebase-core';
 
-function FoodInfo({ navigation }) {
-  const [date, setDate] = React.useState(new Date(1598051730000));
-  const [mode, setMode] = React.useState('date');
-  const [show, setShow] = React.useState(false);
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setDate(currentDate);
-  };
+const db = firebase.firestore();
+db.ref = '/Fridge';
 
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
-  };
 
-  const showDatepicker = () => {
-    showMode('date');
-  };
+function update() {
 
-  const showTimepicker = () => {
-    showMode('time');
-  };
+}
 
+function FoodInfo({ navigation, route }) {
+
+  const { item } = route.params
+  const [Num, setNum] = useState(item.Number);
+  console.log("item:",item);
   return (
     <>
       <View style={{ height: 40, backgroundColor: 'white' }} />
@@ -39,7 +31,7 @@ function FoodInfo({ navigation }) {
         </View>
 
         <View style={styles.cell}>
-          <Text style={{ fontSize: 25, textAlign: 'center', fontWeight: '600' }}>蘋果</Text>
+          <Text style={{ fontSize: 25, textAlign: 'center', fontWeight: '600' }}>{item.Name}</Text>
         </View>
         <View style={styles.cell_fixed}>
           {/* 右上按鈕空間 */}
@@ -48,7 +40,7 @@ function FoodInfo({ navigation }) {
 
       <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingTop: 50 }}>
         <View style={styles.body_image}>
-          <Image source={require('../assets/FridgeFood/apple.png')} style={{ height: 190, width: 190 }} />
+          <Image source={item.Url} style={{ height: 190, width: 190 }} />
         </View>
 
         <View style={styles.boxcontainer}>
@@ -61,7 +53,7 @@ function FoodInfo({ navigation }) {
           </View>
           <View style={styles.textbox}>
             <Text style={{ fontSize: 20 }}>建議保存期限:</Text>
-            <Text style={{ fontSize: 20 }}>7 天</Text>
+            <Text style={{ fontSize: 20 }}>{item.Expire} 天</Text>
           </View>
         </View>
 
@@ -69,36 +61,32 @@ function FoodInfo({ navigation }) {
           <View style={styles.textbox}>
             <Text style={{ fontSize: 20 }}>數量:</Text>
             <View style={{ flexDirection: 'row' }}>
-              <Materialicons name="minus-circle-outline" size={25} color="#fd8728" style={{ paddingHorizontal: 5 }} onPress={() => navigation.navigate('Keep')} />
-              <Text style={{ fontSize: 20 }}>2 個</Text>
-              <MaterialCicons name="add-circle-outline" size={25} color="#fd8728" style={{ paddingHorizontal: 5 }} onPress={() => navigation.goBack()} />
+              <Materialicons name="minus-circle-outline" size={25} color="#fd8728" style={{ paddingHorizontal: 5 }} onPress={() => setNum(Num - 1)} />
+              <Text style={{ fontSize: 20 }}>{Num} {item.Unit}</Text>
+              <MaterialCicons name="add-circle-outline" size={25} color="#fd8728" style={{ paddingHorizontal: 5 }} onPress={() => setNum(Num + 1)} />
             </View>
 
           </View>
           <View style={styles.textbox}>
             <Text style={{ fontSize: 20 }}>熱量評估:</Text>
-            <Text style={{ fontSize: 20 }}>20 kcal</Text>
+            <Text style={{ fontSize: 20 }}>{item.Kal} kcal</Text>
           </View>
         </View>
-        <View>
-          {/* <View>
-        <Button onPress={showDatepicker} title="Show date picker!" />
-      </View>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={mode}
-          is24Hour={true}
-          display="default"
-          onChange={onChange}
-        />
-      )} */}
+        <TouchableOpacity style={{
+          paddingVertical: 10,
+          paddingHorizontal: 30,
+          borderRadius: 10,
+          borderColor: 'grey',
+          backgroundColor: '#ffa459',
+          marginTop: 40
+        }}
+          onPress={() => navigation.goBack()}
           
-        </View>
-        <TouchableOpacity style={{ paddingVertical: 10, paddingHorizontal: 30, borderRadius: 10, borderColor: 'grey', backgroundColor: '#ffa459', marginTop:40 }} onPress={() => navigation.goBack()}>
-            <Text style={{ fontSize: 20 }}>確認</Text>
-          </TouchableOpacity>
+          
+          
+        >
+          <Text style={{ fontSize: 20 }}>確認</Text>
+        </TouchableOpacity>
       </View>
     </>
   );
