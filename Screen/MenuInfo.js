@@ -1,86 +1,96 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { Text, View, Button, StyleSheet, Image } from 'react-native';
+import { Text, View, Button, StyleSheet, Image, FlatList } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Item } from 'native-base';
 
 
 const Stack = createStackNavigator();
 
-function MenuInfo({ navigation }) {
+function MenuInfo({ navigation, route }) {
+
+    const { item } = route.params
+    console.log('item', item);
+    let ingre = item.ingre;
+    let ingreArr = ingre.split('、');
+
+
+
     return (
         <>
+
             <View style={{ height: 40, backgroundColor: 'white' }} />
-            <View style={{zIndex:100, height:40, width:40, backgroundColor:'white', borderRadius:20, position: 'absolute', top: 50, left: 5, justifyContent:'center', alignItems:'center' }}>
-            <Ionicons name="chevron-back" size={30} color="black" onPress={() => navigation.goBack()}/>
+            <View style={{ zIndex: 100, height: 40, width: 40, backgroundColor: 'white', borderRadius: 20, position: 'absolute', top: 50, left: 5, justifyContent: 'center', alignItems: 'center' }}>
+                <Ionicons name="chevron-back" size={30} color="black" onPress={() => navigation.goBack()} />
             </View>
 
             <ScrollView>
                 <View>
-                    <Image source={require('../assets/Recipe/絲瓜炒牛肉.jpg')} style={{ width: '100%', height: 200}}>
+                    <Image source={item.url} style={{ width: '100%', height: 200 }}>
                     </Image>
                     <View style={{ width: '90%', alignSelf: 'center' }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, flex: 1 }}>
-                            <Text style={{ fontSize: 30, fontWeight: '600' }}>絲瓜炒牛肉</Text>
+                            <Text style={{ fontSize: 30, fontWeight: '600' }}>{item.Name}</Text>
                             <View style={{ height: 40, width: 100, borderRadius: 15, backgroundColor: 'lightgrey', justifyContent: 'center', alignItems: 'center', marginLeft: 10 }}>
-                                <Text style={{ fontSize: 18, fontWeight: '400' }}>10~15 分</Text>
+                                <Text style={{ fontSize: 18, fontWeight: '400' }}>{item.time} 分</Text>
                             </View>
                             <View style={{ height: 40, width: 100, borderRadius: 15, backgroundColor: 'lightgrey', justifyContent: 'center', alignItems: 'center', marginLeft: 10 }}>
-                                <Text style={{ fontSize: 18, fontWeight: '400' }}>3~4 人</Text>
+                                <Text style={{ fontSize: 18, fontWeight: '400' }}>{item.people} 人</Text>
                             </View>
                         </View>
 
                         {/* 以下為簡介區 */}
                         <View>
-                            <Text style={{ marginTop: 20, fontSize: 16, lineHeight: 20 }}>簡介:</Text>
+                            <Text style={{ marginTop: 20, fontSize: 20, lineHeight: 20 }}>簡介:</Text>
                             <View style={{ width: '100%', height: 2, backgroundColor: '#000', marginVertical: 4 }} />
-                            <Text style={{ fontSize: 16, lineHeight: 20 }}>絲瓜的清甜搭配牛肉的風味，不僅是一道菜，醬汁也非常下飯。</Text>
+                            <Text style={{ fontSize: 16, lineHeight: 20 }}>{item.desc}</Text>
 
-                            <Text style={{ marginTop: 30, fontSize: 16, lineHeight: 20 }}>食材:</Text>
+                            <Text style={{ marginTop: 30, fontSize: 20, lineHeight: 20 }}>食材:</Text>
                             <View style={{ width: '100%', height: 2, backgroundColor: '#000', marginVertical: 4 }} />
 
                             <View style={{ flexDirection: 'row', marginVertical: 4 }}>
-                                <View style={{flexDirection:'row', flex: 1}}>
-                                <Text style={{ fontSize: 16, lineHeight: 20, flex:1}}>絲瓜</Text>
-                                <View style={{alignItems:'flex-end', flex:1, marginHorizontal:20}}>
-                                <Ionicons name="checkmark" size={30} color="green"/>
+                                <View style={{ flexDirection: 'row', flex: 1 }}>
+                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>絲瓜</Text>
+                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
+                                        <Ionicons name="checkmark" size={30} color="green" />
+                                    </View>
                                 </View>
-                                </View>
-                                <View style={{flexDirection:'row', flex: 1 }}>
-                                <Text style={{ fontSize: 16, lineHeight: 20, flex:1}}>牛肉</Text>
-                                <View style={{alignItems:'flex-end', flex:1, marginHorizontal:20}}>
-                                <Ionicons name="checkmark" size={30} color="green"/>
-                                </View>
+                                <View style={{ flexDirection: 'row', flex: 1 }}>
+                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>牛肉</Text>
+                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
+                                        <Ionicons name="checkmark" size={30} color="green" />
+                                    </View>
                                 </View>
                             </View>
 
                             <View style={{ flexDirection: 'row', marginVertical: 4 }}>
-                                <View style={{flexDirection:'row', flex: 1 }}>
-                                <Text style={{ fontSize: 16, lineHeight: 20, flex:1}}>紅蘿蔔</Text>
-                                <View style={{alignItems:'flex-end', flex:1, marginHorizontal:20}}>
-                                <Ionicons name="checkmark" size={30} color="green"/>
+                                <View style={{ flexDirection: 'row', flex: 1 }}>
+                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>紅蘿蔔</Text>
+                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
+                                        <Ionicons name="checkmark" size={30} color="green" />
+                                    </View>
                                 </View>
-                                </View>
-                                <View style={{flexDirection:'row', flex: 1 }}>
-                                <Text style={{ fontSize: 16, lineHeight: 20, flex:1}}>青蔥段</Text>
-                                <View style={{alignItems:'flex-end', flex:1, marginHorizontal:20}}>
-                                <Ionicons name="close" size={30} color="red"/>
-                                </View>
+                                <View style={{ flexDirection: 'row', flex: 1 }}>
+                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>青蔥段</Text>
+                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
+                                        <Ionicons name="close" size={30} color="red" />
+                                    </View>
                                 </View>
                             </View>
                             <View style={{ flexDirection: 'row', marginVertical: 4 }}>
-                                <View style={{flexDirection:'row', flex: 1 }}>
-                                <Text style={{ fontSize: 16, lineHeight: 20, flex:1}}>猴頭菇</Text>
-                                <View style={{alignItems:'flex-end', flex:1, marginHorizontal:20}}>
-                                <Ionicons name="close" size={30} color="red"/>
-                                </View>
+                                <View style={{ flexDirection: 'row', flex: 1 }}>
+                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>猴頭菇</Text>
+                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
+                                        <Ionicons name="close" size={30} color="red" />
+                                    </View>
                                 </View>
                                 <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}></Text>
                             </View>
-                            
 
-                            <Text style={{ marginTop: 30, fontSize: 16, lineHeight: 20 }}>調味料:</Text>
+
+                            <Text style={{ marginTop: 30, fontSize: 20, lineHeight: 20 }}>調味料:</Text>
                             <View style={{ width: '100%', height: 2, backgroundColor: '#000', marginVertical: 4 }} />
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>醬油</Text>

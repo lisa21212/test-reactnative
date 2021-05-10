@@ -12,7 +12,6 @@ import * as FirebaseCore from 'expo-firebase-core';
 
 import { Images } from '../config/imageConfig'
 
-const DATA = [{ name: '絲瓜炒牛肉', steps: '', food: '絲瓜、牛肉' }, { name: '醬燒豬肋排', food: '豬肋排、花椰菜' }, { name: '海鮮羹', food: '蝦仁、花枝、金針菇' }, { name: '清蒸鮮石斑', food: '石斑魚、青蔥、薑' }]
 
 if (!firebase.apps.length) {
     firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
@@ -25,29 +24,29 @@ var ref = db.collection("菜單");
 
 function Menu({ navigation }) {
 
-    const [Fruit, setFruits] = useState([]);
-
+    const [Menu, setMenu] = useState([]);
+    const [DisaplyOfData, setDisplayOfData] = useState([]);
 
     function getData() {
         let newMenu = [];
-
         ref.onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
                 const menu = {
                     id: doc.id,
                     Name: doc.data().name,
                     desc: doc.data().desc,
-                    Url: Images[doc.data().Name],
+                    url: Images[doc.data().name],
                     people: doc.data().people,
                     type: doc.data().type,
                     time: doc.data().time,
                     ingre: doc.data().ingre,
+                    season: doc.data().season,
                 }
                 newMenu.push(menu)
                 console.log(menu)
 
             });
-            setFruits(newMenu)
+            setMenu(newMenu)
             setDisplayOfData(newMenu)
         });
     }
@@ -74,13 +73,27 @@ function Menu({ navigation }) {
     }
 
     const renderItem = ({ item, i }) => (
-        <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('MenuInfo')}>
-            <Image source={require('../assets/Recipe/絲瓜炒牛肉.jpg')} style={styles.imageposition} />
+        <TouchableOpacity style={{height: 170,
+            // width: '90%',
+            borderWidth: 2,
+            backgroundColor: 'white',
+            borderRadius: 50,
+            alignItems: 'center',
+            borderColor: 'lightgrey',
+            margin: 5,
+            flexDirection: 'row'}} onPress={() => navigation.navigate('MenuInfo', {item})}>
+            <Image source={item.url} style={{flex: 2,
+        height: 120,
+        width: 120,
+        marginLeft: 30,
+        borderRadius: 20}} />
             <View style={styles.textinbox}>
-                <Text>{item.name}{'\n'}</Text>
-                <Text>{item.desc}</Text>
+                <Text>{item.Name}{'\n'}</Text>
+                <Text>食材: {item.ingre}</Text>
             </View>
-            <Materialicons onPress={() => setHeart(!heart)} name={heart ? 'favorite' : 'favorite-outline'} size={35} style={{ flex: 0.7, color: 'red' }} />
+            <Materialicons onPress={() => setHeart(!heart)}
+                name={heart ? 'favorite' : 'favorite-outline'}
+                size={35} style={{ flex: 0.7, color: 'red' }} />
         </TouchableOpacity>
     );
 
@@ -148,6 +161,8 @@ function Menu({ navigation }) {
                 </TouchableOpacity>
             </View>
             {/* </ScrollView> */}
+
+
             {/* 推薦食譜區 */}
             <View>
                 <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20, margin: 5 }}>推薦食譜</Text>
@@ -206,18 +221,16 @@ function Menu({ navigation }) {
             </View>
 
             {/* 其他食譜 */}
-            <View style={{ flex: 1, marginTop: 10 }}>
+            <View style={{ flex: 1, marginTop: 5 }}>
+                <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20 ,margin: 5  }}>其他食譜</Text>
                 <ScrollView>
-                    <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20 }}>其他食譜</Text>
-                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                        <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('MenuInfo')}>
-                            <Image source={require('../assets/Recipe/絲瓜炒牛肉.jpg')} style={styles.imageposition} />
-                            <View style={styles.textinbox}>
-                                <Text>絲瓜炒牛肉{'\n'}</Text>
-                                <Text>食材: 絲瓜、牛肉、紅蘿蔔、猴頭菇、鹽、青蔥段</Text>
-                            </View>
-                            <Materialicons onPress={() => setHeart(!heart)} name={heart ? 'favorite' : 'favorite-outline'} size={35} style={{ flex: 0.7, color: 'red' }} />
-                        </TouchableOpacity>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf: 'center', marginTop: 10 }}>
+                        <FlatList
+                            data={DisaplyOfData}
+                            renderItem={renderItem}
+                            keyExtractor={item => item.conversation}
+                        >
+                        </FlatList>
                         {/* <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Pineapple')}>
                             <Image source={require('../assets/Recipe/豬肋排.jpg')} style={styles.imageposition} />
                             <View style={styles.textinbox}>
@@ -238,18 +251,6 @@ function Menu({ navigation }) {
                                 </Text>
                                 <Text>
                                     食材: 蝦仁、花枝、蟹腿肉、金針菇、干貝、烏醋
-                            </Text>
-                            </View>
-                            <Materialicons name="favorite-outline" size={35} color="red" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
-                            <Image source={require('../assets/Recipe/清蒸石斑.jpg')} style={styles.imageposition} />
-                            <View style={styles.textinbox}>
-                                <Text>
-                                    清蒸鮮石斑{'\n'}
-                                </Text>
-                                <Text>
-                                    食材: 石斑魚、青蔥、薑
                             </Text>
                             </View>
                             <Materialicons name="favorite-outline" size={35} color="red" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
@@ -314,7 +315,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     body_image: {
-        height: 220,
+        height: 180,
         width: 150,
         borderWidth: 2,
         backgroundColor: 'white',
@@ -342,7 +343,6 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         backgroundColor: 'white',
         borderRadius: 50,
-        justifyContent: 'flex-start',
         alignItems: 'center',
         borderColor: 'lightgrey',
         margin: 5,

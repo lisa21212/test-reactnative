@@ -9,4 +9,9 @@ export const Images = {
     '牛肉': require('../assets/FridgeFood/beaf.png'),
     '豬肉': require('../assets/FridgeFood/pork.png'),
     '雞肉': require('../assets/FridgeFood/chicken.png'),
+    '絲瓜炒牛肉': require('../assets/Recipe/絲瓜炒牛肉.jpg'),
+    '螞蟻上樹': require('../assets/Recipe/螞蟻上樹.jpeg'),
+    '清蒸鮮石斑': require('../assets/Recipe/清蒸石斑.jpg'),
+    '炒菠菜': require('../assets/Recipe/炒菠菜.jpeg'),
+
 }

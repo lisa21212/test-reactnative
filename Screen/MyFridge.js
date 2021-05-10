@@ -79,6 +79,9 @@ function MyFridge({ navigation }) {
     }
 
     const renderItem = ({ item, i }) => (
+        <ScrollView>
+
+        <View style={{ flex: 15, flexDirection: 'column' }}>
         <View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf: 'center' }}>
             <TouchableOpacity style={styles.test} onPress={() => navigation.navigate('FoodInfo', {item})}>
                 <Image source={item.Url} style={{ height: 60, flex: 0.5 }} />
@@ -88,6 +91,8 @@ function MyFridge({ navigation }) {
                 </View>
             </TouchableOpacity>
         </View>
+        </View>
+        </ScrollView>
     );
 
     const activeStyle = (type) => {
@@ -97,8 +102,6 @@ function MyFridge({ navigation }) {
 
     return (
         <>
-
-
             {/* Header */}
             <View style={{ height: 40, backgroundColor: 'white' }} />
             <View style={{ flexDirection: 'row' }}>
@@ -155,18 +158,14 @@ function MyFridge({ navigation }) {
                     <Text style={{ fontSize: 18 }}>蔬菜</Text>
                 </TouchableOpacity>
             </View>
-            <ScrollView>
                 {/* 庫存顯示區 */}
                 {/* 畫面一開始可以將快要到期的食材放在嫌面 ，期限小於三天的 */}
-                <View style={{ flex: 15, flexDirection: 'column' }}>
                     <FlatList
                         data={DisaplyOfData}
                         renderItem={renderItem}
                         keyExtractor={item => item.conversation}
                     >
                     </FlatList>
-                </View>
-            </ScrollView>
 
         </>
     );

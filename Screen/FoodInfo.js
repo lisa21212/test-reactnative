@@ -5,23 +5,30 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Materialicons from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialCicons from 'react-native-vector-icons/MaterialIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
-import * as firebase from 'firebase';
-import firestore from 'firebase/firestore'
-import * as FirebaseCore from 'expo-firebase-core';
-
-const db = firebase.firestore();
-db.ref = '/Fridge';
+import { ScrollView } from 'react-native';
 
 
-function update() {
-
-}
 
 function FoodInfo({ navigation, route }) {
 
   const { item } = route.params
   const [Num, setNum] = useState(item.Number);
-  console.log("item:",item);
+  console.log("item:", item);
+
+  function addcount() {
+    if (item.Unit === "公克") {
+      setNum(Num + 50)
+    } else {
+      setNum(Num + 1)
+    }
+  }
+  function minuscount() {
+    if (item.Unit === "公克") {
+      setNum(Num - 50)
+    } else {
+      setNum(Num - 1)
+    }
+  }
   return (
     <>
       <View style={{ height: 40, backgroundColor: 'white' }} />
@@ -37,57 +44,58 @@ function FoodInfo({ navigation, route }) {
           {/* 右上按鈕空間 */}
         </View>
       </View>
+      <ScrollView>
+        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingTop: 50 }}>
+          <View style={styles.body_image}>
+            <Image source={item.Url} style={{ height: 190, width: 190 }} />
+          </View>
 
-      <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingTop: 50 }}>
-        <View style={styles.body_image}>
-          <Image source={item.Url} style={{ height: 190, width: 190 }} />
-        </View>
-
-        <View style={styles.boxcontainer}>
-          <View style={styles.textbox}>
-            <Text style={{ fontSize: 20 }}>放入時間:</Text>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontSize: 20 }}>2020/3/5</Text>
-              <Entypo name="triangle-down" size={20} />
+          <View style={styles.boxcontainer}>
+            <View style={styles.textbox}>
+              <Text style={{ fontSize: 20 }}>放入時間:</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontSize: 20 }}>2020/3/5</Text>
+                <Entypo name="triangle-down" size={20} />
+              </View>
+            </View>
+            <View style={styles.textbox}>
+              <Text style={{ fontSize: 20 }}>建議保存期限:</Text>
+              <Text style={{ fontSize: 20 }}>{item.Expire} 天</Text>
             </View>
           </View>
-          <View style={styles.textbox}>
-            <Text style={{ fontSize: 20 }}>建議保存期限:</Text>
-            <Text style={{ fontSize: 20 }}>{item.Expire} 天</Text>
-          </View>
-        </View>
 
-        <View style={styles.boxcontainer}>
-          <View style={styles.textbox}>
-            <Text style={{ fontSize: 20 }}>數量:</Text>
-            <View style={{ flexDirection: 'row' }}>
-              <Materialicons name="minus-circle-outline" size={25} color="#fd8728" style={{ paddingHorizontal: 5 }} onPress={() => setNum(Num - 1)} />
-              <Text style={{ fontSize: 20 }}>{Num} {item.Unit}</Text>
-              <MaterialCicons name="add-circle-outline" size={25} color="#fd8728" style={{ paddingHorizontal: 5 }} onPress={() => setNum(Num + 1)} />
+          <View style={styles.boxcontainer}>
+            <View style={styles.textbox}>
+              <Text style={{ fontSize: 20 }}>數量:</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Materialicons name="minus-circle-outline" size={25} color="#fd8728" style={{ paddingHorizontal: 5 }} onPress={() => minuscount()} />
+                <Text style={{ fontSize: 20 }}>{Num} {item.Unit}</Text>
+                <MaterialCicons name="add-circle-outline" size={25} color="#fd8728" style={{ paddingHorizontal: 5 }} onPress={() => addcount()} />
+              </View>
+
             </View>
+            <View style={styles.textbox}>
+              <Text style={{ fontSize: 20 }}>熱量評估:</Text>
+              <Text style={{ fontSize: 20 }}>{item.Kal} kcal</Text>
+            </View>
+          </View>
+          <TouchableOpacity style={{
+            paddingVertical: 10,
+            paddingHorizontal: 30,
+            borderRadius: 10,
+            borderColor: 'grey',
+            backgroundColor: '#ffa459',
+            marginTop: 40
+          }}
+            onPress={() => navigation.goBack()}
 
-          </View>
-          <View style={styles.textbox}>
-            <Text style={{ fontSize: 20 }}>熱量評估:</Text>
-            <Text style={{ fontSize: 20 }}>{item.Kal} kcal</Text>
-          </View>
+
+
+          >
+            <Text style={{ fontSize: 20 }}>確認</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{
-          paddingVertical: 10,
-          paddingHorizontal: 30,
-          borderRadius: 10,
-          borderColor: 'grey',
-          backgroundColor: '#ffa459',
-          marginTop: 40
-        }}
-          onPress={() => navigation.goBack()}
-          
-          
-          
-        >
-          <Text style={{ fontSize: 20 }}>確認</Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </>
   );
 }
