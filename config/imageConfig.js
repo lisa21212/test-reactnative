@@ -13,5 +13,6 @@ export const Images = {
     '螞蟻上樹': require('../assets/Recipe/螞蟻上樹.jpeg'),
     '清蒸鮮石斑': require('../assets/Recipe/清蒸石斑.jpg'),
     '炒菠菜': require('../assets/Recipe/炒菠菜.jpeg'),
-
+    '重慶水煮牛': require('../assets/Recipe/麻辣水煮牛.jpeg'),
+    '海鮮羹': require('../assets/Recipe/海鮮羹.jpg'),
 }

@@ -17,8 +17,8 @@ if (!firebase.apps.length) {
     firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
 }
 const db = firebase.firestore();
-db.ref = '/Fridge'
-var ref = db.collection("菜單");
+db.ref = '/Fridge';
+var ref = db.collection("菜單").orderBy("rank", "desc");
 
 
 
@@ -41,6 +41,7 @@ function Menu({ navigation }) {
                     time: doc.data().time,
                     ingre: doc.data().ingre,
                     season: doc.data().season,
+                    like: doc.data().like,
                 }
                 newMenu.push(menu)
                 console.log(menu)
@@ -66,14 +67,15 @@ function Menu({ navigation }) {
             ]
         )
 
-    const [heart, setHeart] = useState(false)
+    const [heart, setHeart] = useState(Menu.like)
+    console.log(heart)
     function HeartAlert() {
-        TwoCellAlert();
         setHeart(!heart);
     }
 
     const renderItem = ({ item, i }) => (
-        <TouchableOpacity style={{height: 170,
+        <TouchableOpacity style={{
+            height: 170,
             // width: '90%',
             borderWidth: 2,
             backgroundColor: 'white',
@@ -81,12 +83,15 @@ function Menu({ navigation }) {
             alignItems: 'center',
             borderColor: 'lightgrey',
             margin: 5,
-            flexDirection: 'row'}} onPress={() => navigation.navigate('MenuInfo', {item})}>
-            <Image source={item.url} style={{flex: 2,
-        height: 120,
-        width: 120,
-        marginLeft: 30,
-        borderRadius: 20}} />
+            flexDirection: 'row'
+        }} onPress={() => navigation.navigate('MenuInfo', { item })}>
+            <Image source={item.url} style={{
+                flex: 2,
+                height: 120,
+                width: 120,
+                marginLeft: 30,
+                borderRadius: 20
+            }} />
             <View style={styles.textinbox}>
                 <Text>{item.Name}{'\n'}</Text>
                 <Text>食材: {item.ingre}</Text>
@@ -222,16 +227,16 @@ function Menu({ navigation }) {
 
             {/* 其他食譜 */}
             <View style={{ flex: 1, marginTop: 5 }}>
-                <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20 ,margin: 5  }}>其他食譜</Text>
+                <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20, margin: 5 }}>其他食譜</Text>
                 <ScrollView>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf: 'center', marginTop: 10 }}>
                         <FlatList
-                            data={DisaplyOfData}
+                            data={Menu}
                             renderItem={renderItem}
                             keyExtractor={item => item.conversation}
                         >
                         </FlatList>
-                        {/* <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Pineapple')}>
+                        <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Pineapple')}>
                             <Image source={require('../assets/Recipe/豬肋排.jpg')} style={styles.imageposition} />
                             <View style={styles.textinbox}>
                                 <Text>
@@ -243,6 +248,7 @@ function Menu({ navigation }) {
                             </View>
                             <Materialicons onPress={() => setHeart(!heart)} name={heart ? 'favorite' : 'favorite-outline'} size={35} style={{ flex: 0.7, color: 'red' }} />
                         </TouchableOpacity>
+                        {/* 
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
                             <Image source={require('../assets/Recipe/海鮮羹.jpg')} style={styles.imageposition} />
                             <View style={styles.textinbox}>
@@ -253,25 +259,6 @@ function Menu({ navigation }) {
                                     食材: 蝦仁、花枝、蟹腿肉、金針菇、干貝、烏醋
                             </Text>
                             </View>
-                            <Materialicons name="favorite-outline" size={35} color="red" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
-                            <Image source={require('../assets/Recipe/水煮牛.jpg')} style={styles.imageposition} />
-                            <View style={styles.textinbox}>
-                                <Text>
-                                    重慶水煮牛{'\n'}
-                                </Text>
-                                <Text>
-                                    食材: 牛肉、豆芽菜
-                            </Text>
-                            </View>
-                            <Materialicons name="favorite-outline" size={35} color="red" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
-                            <Image source={require('../assets/Recipe/炒飯.jpg')} style={styles.imageposition} />
-                            <Text style={styles.textinbox}>
-                                蛋炒飯
-                            </Text>
                             <Materialicons name="favorite-outline" size={35} color="red" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
