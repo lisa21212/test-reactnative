@@ -7,7 +7,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 
 
-const Stack = createStackNavigator();
 
 function Notification({ navigation }) {
     const data = [
@@ -17,7 +16,14 @@ function Notification({ navigation }) {
     const [text, onChangeText] = React.useState("Useless Text");
 
     const renderItem = ({ item, i }) => (
-        <View style={styles.conversations}>
+        <View style={{
+            backgroundColor: 'white',
+            height: 50,
+            margin: 8,
+            marginTop: 10,
+            borderRadius: 8,
+            flexDirection: 'row',
+        }}>
             <MaterialCommunityIcons name="bell" size={25} color="orange" style={{justifyContent:'center', padding:15}}/>
             <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 2, fontSize: 16, marginLeft: 10 }}>{item.conversation}</Text>
             <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 1, fontSize: 16 }}>{item.date}</Text>

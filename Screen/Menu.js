@@ -48,7 +48,7 @@ function Menu({ navigation }) {
                     like: doc.data().like,
                 }
                 newMenu.push(menu)
-                // console.log(menu)
+                console.log('qqq',Menu)
 
             });
             setMenu(newMenu)
@@ -58,7 +58,6 @@ function Menu({ navigation }) {
 
     useEffect(() => {
         getData()
-        console.log(Menu.type);
     }, [])
 
     const handleOnClick = (type) => {

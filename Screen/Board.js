@@ -1,22 +1,63 @@
 import 'react-native-gesture-handler';
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TextInput } from 'react-native';
+import * as firebase from 'firebase';
+import firestore from 'firebase/firestore'
+import * as FirebaseCore from 'expo-firebase-core';
+import { updateLocale } from 'moment';
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
+}
+const db = firebase.firestore();
+var ref = db.collection("Board");
 
 function Board({ navigation }) {
-  const data = [
-    { conversation: "今晚我想來點炒菠菜", date: "2021-03-16" },
-    { conversation: "今晚我想來點麻婆豆腐", date: "2021-03-17" },
-  ]
-  const [text, onChangeText] = React.useState("Useless Text");
+
+  const [Boards, setBoards] = useState([]);
+  const [Texts, setTexts] = useState("");
+
+  function getData() {
+    let newBoard = [];
+    ref.onSnapshot(querySnapshot => {
+        querySnapshot.forEach(doc => {
+            const board = {
+                id: doc.id,
+                comment: doc.data().comment,
+            }
+            newBoard.push(board)
+            console.log('qqq',board)
+
+        });
+        setBoards(newBoard)
+    });
+}
+useEffect(() => {
+  getData()
+}, [])
+
+async function update(Texts){
+  try {
+    const docRef = await db.collection("Board").add({
+      comment: Texts
+    });
+  }
+  catch(error) {
+    console.error("Error adding document: ", error);
+  }
+  setTexts("") 
+}
+
+  
 
   const renderItem = ({ item, i }) => (
     <View style={styles.conversations}>
-      <Text style={{alignSelf:'center', justifyContent:'center', flex:2, fontSize:16, marginLeft:10}}>{item.conversation}</Text>
-      <Text style={{alignSelf:'center', justifyContent:'center', flex:1, fontSize:16}}>{item.date}</Text>
+      <Text style={{alignSelf:'center', justifyContent:'center', flex:2, fontSize:16, marginLeft:10}}>{item.comment}</Text>
+      <Text style={{alignSelf:'center', justifyContent:'center', flex:1, fontSize:16}}></Text>
     </View>
 
   );
@@ -38,14 +79,22 @@ function Board({ navigation }) {
 
       <View style={{ flex: 0.5, justifyContent: 'flex-start'}}>
         <FlatList
-          data={data}
+          data={Boards}
           renderItem={renderItem}
           keyExtractor={item => item.conversation}
           style={{ padding:5}}
         >
         </FlatList>
         {/* <Text style={{ fontSize: 20, textAlign: 'center', marginRight: 300, backgroundColor:'white' }}>留言...</Text> */}
-        <TextInput style={{height: 50, borderWidth:1, margin:15, borderRadius:8, fontSize:16}} placeholder="留言區"/>
+        <TextInput style={{height: 50, borderWidth:1, margin:15, borderRadius:8, fontSize:16}} 
+        placeholder="在此輸入留言" 
+        onChangeText={text => setTexts(text)}
+        value={Texts}
+        />
+        {/* <Text >
+                {Texts}
+            </Text> */}
+        <Button onPress={() => update(Texts)} title="新增"/>
       </View>
     </>
   );

@@ -40,10 +40,11 @@ function FoodInfo({ navigation, route }) {
       setNum(Num - 1)
     }
   }
-
-  // ref.set({
-  //   Number: {Num}
-  // }).then(())
+  function update(Num) {
+    const ref = db.collection("Fridge").doc(item.id).set({
+      Number: Num
+    })
+  }
 
 
   return (
@@ -105,6 +106,7 @@ function FoodInfo({ navigation, route }) {
             marginTop: 40
           }}
             onPress={() => navigation.goBack()}
+            // onPressIn={() => update(Num)}
           >
             <Text style={{ fontSize: 20 }}>確認</Text>
           </TouchableOpacity>
