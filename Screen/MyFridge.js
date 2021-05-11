@@ -80,7 +80,6 @@ function MyFridge({ navigation }) {
 
     const renderItem = ({ item, i }) => (
         <ScrollView>
-
         <View style={{ flex: 15, flexDirection: 'column' }}>
         <View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf: 'center' }}>
             <TouchableOpacity style={styles.test} onPress={() => navigation.navigate('FoodInfo', {item})}>

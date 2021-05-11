@@ -10,7 +10,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 
 
-function Keep({ navigation }) {
+function Keep({ navigation, route }) {
     return (
         <>
             <View style={{ height: 40, backgroundColor: 'white' }} />

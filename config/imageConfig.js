@@ -19,5 +19,6 @@ export const Images = {
     '茶碗蒸': require('../assets/Recipe/茶碗蒸.jpeg'),
     '牛肉漢堡排': require('../assets/Recipe/漢堡.jpeg'),
     '明太子奶香義大利麵': require('../assets/Recipe/義大利麵.jpeg'),
+    '肉絲蛋炒飯': require('../assets/Recipe/炒飯.jpg'),
 
 }

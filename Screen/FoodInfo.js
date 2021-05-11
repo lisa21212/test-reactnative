@@ -6,6 +6,17 @@ import Materialicons from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialCicons from 'react-native-vector-icons/MaterialIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
 import { ScrollView } from 'react-native';
+import * as firebase from 'firebase';
+import firestore from 'firebase/firestore'
+import * as FirebaseCore from 'expo-firebase-core';
+
+
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
+}
+const db = firebase.firestore();
+var ref = db.collection("Fridge")
 
 
 
@@ -29,6 +40,12 @@ function FoodInfo({ navigation, route }) {
       setNum(Num - 1)
     }
   }
+
+  // ref.set({
+  //   Number: {Num}
+  // }).then(())
+
+
   return (
     <>
       <View style={{ height: 40, backgroundColor: 'white' }} />
@@ -88,9 +105,6 @@ function FoodInfo({ navigation, route }) {
             marginTop: 40
           }}
             onPress={() => navigation.goBack()}
-
-
-
           >
             <Text style={{ fontSize: 20 }}>確認</Text>
           </TouchableOpacity>
