@@ -12,10 +12,11 @@ import * as FirebaseCore from 'expo-firebase-core';
 if (!firebase.apps.length) {
   firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
 }
-const db = firebase.firestore();
-var ref = db.collection("Board");
 
-function Board({ navigation }) {
+const db = firebase.firestore();
+var ref = db.collection("菜單");
+
+function Add({ navigation }) {
 
   const [Boards, setBoards] = useState([]);
   const [Texts, setTexts] = useState("");
@@ -51,15 +52,6 @@ function Board({ navigation }) {
     setTexts("")
   }
 
-
-
-  const renderItem = ({ item, i }) => (
-    <View style={styles.conversations} key={item.id}>
-      <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 2, fontSize: 16, marginLeft: 10 }}>{item.comment}</Text>
-      <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 1, fontSize: 16 }}></Text>
-    </View>
-
-  );
   return (
     <>
       <View style={{ height: 40, backgroundColor: 'white' }} />
@@ -69,7 +61,7 @@ function Board({ navigation }) {
         </View>
 
         <View style={styles.cell}>
-          <Text style={{ fontSize: 25, textAlign: 'center' }}>留言版</Text>
+          <Text style={{ fontSize: 25, textAlign: 'center' }}>自建食譜</Text>
         </View>
         <View style={styles.cell_fixed}>
           {/* 右上按鈕空間 */}
@@ -77,13 +69,7 @@ function Board({ navigation }) {
       </View>
 
      
-        <FlatList
-          data={Boards}
-          renderItem={renderItem}
-          keyExtractor={item => { return item.id; }}
-          style={{ padding: 5 }}
-        >
-        </FlatList>
+        
         <View style={{ flexDirection: 'row' }}>
           <TextInput style={[styles.inputBox]}
             placeholder="在此輸入留言"
@@ -148,4 +134,4 @@ const styles = StyleSheet.create({
     margin:15 ,
   },
 })
-export default Board;
+export default Add;

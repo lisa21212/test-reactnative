@@ -139,7 +139,7 @@ function MyFridge({ navigation }) {
 
 
             {/* 過濾列 */}
-            <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', paddingBottom: 10 }}>
+            <View style={{ justifyContent: 'space-evenly', flexDirection: 'row', paddingBottom: 10 }}>
                 
                 <TouchableOpacity style={[styles.filterBox, activeStyle('fruit')]} onPress={() => handleOnClick('fruit')}>
                     <Text style={{ fontSize: 18 }}>水果</Text>
@@ -186,48 +186,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center'
-    },
-    label_select: {
-        backgroundColor: '#8c8c8c',
-        borderWidth: 0.5,
-        width: 60,
-        height: 30,
-        textAlign: 'center',
-        borderRadius: 7,
-        fontSize: 18,
-    },
-    label: {
-        backgroundColor: '#e6e6e6',
-        borderWidth: 0.5,
-        width: 60,
-        height: 30,
-        textAlign: 'center',
-        borderRadius: 7,
-        fontSize: 18,
-        justifyContent: 'center',
-    },
-    body_image: {
-        height: 170,
-        width: 170,
-        borderWidth: 2,
-        backgroundColor: 'white',
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: 'lightgrey',
-        margin: 5,
-    },
-    imagebox: {
-        height: 170,
-        width: '90%',
-        borderWidth: 2,
-        backgroundColor: 'white',
-        borderRadius: 50,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        borderColor: 'lightgrey',
-        margin: 5,
-        flexDirection: 'row'
     },
     test: {
         height: 90,

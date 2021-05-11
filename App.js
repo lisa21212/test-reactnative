@@ -19,21 +19,17 @@ import Keep from './Screen/Keep';
 import Setting from './Screen/Setting';
 import Notification from './Screen/Notification';
 import Board from './Screen/Board';
-import Memo from './Screen/Memo'
-import LoginScreen from './Screen/LoginScreen'
-import RegisterScreen from './Screen/RegisterScreen'
-import Habbit from './Screen/Habbit'
-import Preference from './Screen/Preference'
-import People from './Screen/People'
-import Stores from './Screen/Stores'
-import Recipe from './Screen/Recipe'
-import Grape from './FridgeFood/Grape'
-import Strawberry from './FridgeFood/Strawberry'
-import Pineapple from './FridgeFood/Pineapple'
-import Guava from './FridgeFood/Guava'
-import Banana from './FridgeFood/Banana'
-import Orange from './FridgeFood/Orange'
-import Avocado from './FridgeFood/Avocado'
+import Memo from './Screen/Memo';
+import LoginScreen from './Screen/LoginScreen';
+import RegisterScreen from './Screen/RegisterScreen';
+import Habbit from './Screen/Habbit';
+import Preference from './Screen/Preference';
+import People from './Screen/People';
+import Stores from './Screen/Stores';
+import Recipe from './Screen/Recipe';
+import Add from './Screen/Add';
+
+
 
 const Tab = createBottomTabNavigator();
 const LoginStack = createStackNavigator();
@@ -54,13 +50,6 @@ export default function App() {
         <fridgeStack.Screen name="FoodInfo" component={FoodInfo} />
         <fridgeStack.Screen name="Board" component={Board} />
         <fridgeStack.Screen name="Memo" component={Memo} />
-        <fridgeStack.Screen name="Grape" component={Grape} />
-        <fridgeStack.Screen name="Strawberry" component={Strawberry} />
-        <fridgeStack.Screen name="Pineapple" component={Pineapple} />
-        <fridgeStack.Screen name="Guava" component={Guava} />
-        <fridgeStack.Screen name="Banana" component={Banana} />
-        <fridgeStack.Screen name="Orange" component={Orange} />
-        <fridgeStack.Screen name="Avocado" component={Avocado} />
       </fridgeStack.Navigator>
     )
   }
@@ -74,6 +63,7 @@ export default function App() {
         <menuStack.Screen name="MenuInfo" component={MenuInfo} />
         <menuStack.Screen name="Stores" component={Stores} />
         <menuStack.Screen name="Recipe" component={Recipe} />
+        <menuStack.Screen name="Add" component={Add} />
       </menuStack.Navigator>
     )
   }
