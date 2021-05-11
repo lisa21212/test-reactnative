@@ -48,7 +48,7 @@ function Menu({ navigation }) {
                     like: doc.data().like,
                 }
                 newMenu.push(menu)
-                console.log('qqq',Menu)
+                // console.log('qqq', Menu)
 
             });
             setMenu(newMenu)
@@ -74,7 +74,7 @@ function Menu({ navigation }) {
 
 
     useEffect(() => {
-        console.log(category)
+        // console.log(category)
         if (category.length == 0) {
             setDisplayOfData(Menu)
             return
@@ -104,39 +104,41 @@ function Menu({ navigation }) {
 
 
     const renderItem = ({ item, i }) => (
-        <TouchableOpacity style={{
-            height: 170,
-            // width: '90%',
-            borderWidth: 2,
-            backgroundColor: 'white',
-            borderRadius: 50,
-            alignItems: 'center',
-            borderColor: 'lightgrey',
-            margin: 5,
-            flexDirection: 'row'
-        }} onPress={() => navigation.navigate('MenuInfo', { item })}>
-            <Image source={item.url} style={{
-                flex: 2,
-                height: 120,
-                width: 120,
-                marginLeft: 30,
-                borderRadius: 20
-            }} />
-            <View style={styles.textinbox}>
-                <Text>{item.Name}{'\n'}</Text>
-                <Text>食材: {item.ingre}</Text>
+        <ScrollView>
+            <View style={{ marginTop: 10 }}>
+                <TouchableOpacity style={{
+                    height: 170,
+                    // width: '90%',
+                    borderWidth: 2,
+                    backgroundColor: 'white',
+                    borderRadius: 50,
+                    alignItems: 'center',
+                    borderColor: 'lightgrey',
+                    margin: 5,
+                    flexDirection: 'row'
+                }} onPress={() => navigation.navigate('MenuInfo', { item })}>
+                    <Image source={item.url} style={{
+                        flex: 2,
+                        height: 120,
+                        width: 120,
+                        marginLeft: 30,
+                        borderRadius: 20
+                    }} />
+                    <View style={styles.textinbox}>
+                        <Text>{item.Name}{'\n'}</Text>
+                        <Text>食材: {item.ingre}</Text>
+                    </View>
+                    <Materialicons onPress={() => setHeart(!item.like)}
+                        name={item.like ? 'favorite' : 'favorite-outline'}
+                        size={35} style={{ flex: 0.7, color: 'red' }} />
+                </TouchableOpacity>
             </View>
-            <Materialicons onPress={() => setHeart(!item.like)}
-                name={item.like ? 'favorite' : 'favorite-outline'}
-                size={35} style={{ flex: 0.7, color: 'red' }} />
-        </TouchableOpacity>
+        </ScrollView>
     );
 
     const activeStyle = (type) => {
         return category.includes(type) ? { backgroundColor: '#fd8828' } : {}
     }
-
-
 
     return (
         <>
@@ -262,16 +264,12 @@ function Menu({ navigation }) {
             {/* 其他食譜 */}
             <View style={{ flex: 1, marginTop: 5 }}>
                 <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20, margin: 5 }}>其他食譜</Text>
-                <ScrollView>
-                    <View style={{ marginTop: 10 }}>
-                        <FlatList
-                            data={DisaplyOfData}
-                            renderItem={renderItem}
-                            keyExtractor={item => item.conversation}
-                        >
-                        </FlatList>
-                    </View>
-                </ScrollView>
+                <FlatList
+                    data={DisaplyOfData}
+                    renderItem={renderItem}
+                    keyExtractor={item => {return item.id;}}
+                >
+                </FlatList>
             </View>
 
         </>

@@ -30,7 +30,7 @@ function Board({ navigation }) {
                 comment: doc.data().comment,
             }
             newBoard.push(board)
-            console.log('qqq',board)
+            // console.log('qqq',board)
 
         });
         setBoards(newBoard)
@@ -55,7 +55,7 @@ async function update(Texts){
   
 
   const renderItem = ({ item, i }) => (
-    <View style={styles.conversations}>
+    <View style={styles.conversations} key={item.id}>
       <Text style={{alignSelf:'center', justifyContent:'center', flex:2, fontSize:16, marginLeft:10}}>{item.comment}</Text>
       <Text style={{alignSelf:'center', justifyContent:'center', flex:1, fontSize:16}}></Text>
     </View>

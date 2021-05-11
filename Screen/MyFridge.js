@@ -70,7 +70,7 @@ function MyFridge({ navigation }) {
                     fruit.Unit = "條"
                 }
                 newFruits.push(fruit)
-                console.log(fruit)
+                // console.log(fruit)
     
             });
             setFruits(newFruits)
@@ -82,7 +82,7 @@ function MyFridge({ navigation }) {
         <ScrollView>
         <View style={{ flex: 15, flexDirection: 'column' }}>
         <View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf: 'center' }}>
-            <TouchableOpacity style={styles.test} onPress={() => navigation.navigate('FoodInfo', {item})}>
+            <TouchableOpacity style={styles.test} key={item.id} onPress={() => navigation.navigate('FoodInfo', {item})}>
                 <Image source={item.Url} style={{ height: 60, flex: 0.5 }} />
                 <View style={{ flex: 2, flexDirection: 'row' }}>
                     <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Expire} 天到期</Text>
@@ -162,7 +162,7 @@ function MyFridge({ navigation }) {
                     <FlatList
                         data={DisaplyOfData}
                         renderItem={renderItem}
-                        keyExtractor={item => item.conversation}
+                        keyExtractor={item => {return item.id;}}
                     >
                     </FlatList>
 
