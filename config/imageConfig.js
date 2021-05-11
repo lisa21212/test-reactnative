@@ -15,4 +15,9 @@ export const Images = {
     '炒菠菜': require('../assets/Recipe/炒菠菜.jpeg'),
     '重慶水煮牛': require('../assets/Recipe/麻辣水煮牛.jpeg'),
     '海鮮羹': require('../assets/Recipe/海鮮羹.jpg'),
+    '滑蛋豬肉丼飯': require('../assets/Recipe/滑蛋豬肉丼飯.jpeg'),
+    '茶碗蒸': require('../assets/Recipe/茶碗蒸.jpeg'),
+    '牛肉漢堡排': require('../assets/Recipe/漢堡.jpeg'),
+    '明太子奶香義大利麵': require('../assets/Recipe/義大利麵.jpeg'),
+
 }

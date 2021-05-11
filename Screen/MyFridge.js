@@ -142,19 +142,19 @@ function MyFridge({ navigation }) {
             {/* 過濾列 */}
             <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', paddingBottom: 10 }}>
                 
-                <TouchableOpacity style={[styles.filterBox, , activeStyle('fruit')]} onPress={() => handleOnClick('fruit')}>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('fruit')]} onPress={() => handleOnClick('fruit')}>
                     <Text style={{ fontSize: 18 }}>水果</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.filterBox, , activeStyle('meat')]} onPress={() => handleOnClick('meat')}>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('meat')]} onPress={() => handleOnClick('meat')}>
                     <Text style={{ fontSize: 18 }}>肉類</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.filterBox, , activeStyle('soy')]} onPress={() => handleOnClick('soy')}>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('soy')]} onPress={() => handleOnClick('soy')}>
                     <Text style={{ fontSize: 18 }}>豆類</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.filterBox, , activeStyle('sea')]} onPress={() => handleOnClick('sea')}>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('sea')]} onPress={() => handleOnClick('sea')}>
                     <Text style={{ fontSize: 18 }}>海鮮</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.filterBox, , activeStyle('veg')]} onPress={() => handleOnClick('veg')}>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('veg')]} onPress={() => handleOnClick('veg')}>
                     <Text style={{ fontSize: 18 }}>蔬菜</Text>
                 </TouchableOpacity>
             </View>

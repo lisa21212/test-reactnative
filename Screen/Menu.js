@@ -26,6 +26,10 @@ function Menu({ navigation }) {
 
     const [Menu, setMenu] = useState([]);
     const [DisaplyOfData, setDisplayOfData] = useState([]);
+    const [category, setCategory] = useState([]);
+
+
+
 
     function getData() {
         let newMenu = [];
@@ -44,7 +48,7 @@ function Menu({ navigation }) {
                     like: doc.data().like,
                 }
                 newMenu.push(menu)
-                console.log(menu)
+                // console.log(menu)
 
             });
             setMenu(newMenu)
@@ -54,7 +58,37 @@ function Menu({ navigation }) {
 
     useEffect(() => {
         getData()
+        console.log(Menu.type);
     }, [])
+
+    const handleOnClick = (type) => {
+        const temp = [...category]
+        const findIndex = category.findIndex(data => data === type)
+
+        if (findIndex > -1) {
+            temp.splice(findIndex, 1)
+        } else {
+            temp.push(type)
+        }
+        setCategory(temp)
+    }
+
+
+    useEffect(() => {
+        console.log(category)
+        if (category.length == 0) {
+            setDisplayOfData(Menu)
+            return
+        }
+        const temp = Menu.filter((data) => {
+            const types = data.type.split('、')
+            const filter = category.join(',')
+            return types.some(type => filter.includes(type))
+        })
+        setDisplayOfData(temp)
+    }, [category])
+
+
 
 
     const TwoCellAlert = () =>
@@ -67,11 +101,8 @@ function Menu({ navigation }) {
             ]
         )
 
-    const [heart, setHeart] = useState(Menu.like)
-    console.log(heart)
-    function HeartAlert() {
-        setHeart(!heart);
-    }
+    const [heart, setHeart] = useState([])
+
 
     const renderItem = ({ item, i }) => (
         <TouchableOpacity style={{
@@ -96,11 +127,15 @@ function Menu({ navigation }) {
                 <Text>{item.Name}{'\n'}</Text>
                 <Text>食材: {item.ingre}</Text>
             </View>
-            <Materialicons onPress={() => setHeart(!heart)}
-                name={heart ? 'favorite' : 'favorite-outline'}
+            <Materialicons onPress={() => setHeart(!item.like)}
+                name={item.like ? 'favorite' : 'favorite-outline'}
                 size={35} style={{ flex: 0.7, color: 'red' }} />
         </TouchableOpacity>
     );
+
+    const activeStyle = (type) => {
+        return category.includes(type) ? { backgroundColor: '#fd8828' } : {}
+    }
 
 
 
@@ -146,22 +181,22 @@ function Menu({ navigation }) {
             {/* <ScrollView horizontal={true}> */}
             <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', paddingBottom: 10 }}>
 
-                <TouchableOpacity style={[styles.filterBox]} onPress={() => handleOnClick('fruit')}>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('中式')]} onPress={() => handleOnClick('中式')}>
                     <Text style={{ fontSize: 18 }}>中式</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.filterBox]} onPress={() => handleOnClick('meat')}>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('日式')]} onPress={() => handleOnClick('日式')}>
                     <Text style={{ fontSize: 18 }}>日式</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.filterBox]} onPress={() => handleOnClick('soy')}>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('美式')]} onPress={() => handleOnClick('美式')}>
                     <Text style={{ fontSize: 18 }}>美式</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.filterBox]} onPress={() => handleOnClick('sea')}>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('義式')]} onPress={() => handleOnClick('義式')}>
                     <Text style={{ fontSize: 18 }}>義式</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.filterBox]} onPress={() => handleOnClick('veg')}>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('飯類')]} onPress={() => handleOnClick('飯類')}>
                     <Text style={{ fontSize: 18 }}>飯類</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.filterBox]} onPress={() => handleOnClick('veg')}>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('麵類')]} onPress={() => handleOnClick('麵類')}>
                     <Text style={{ fontSize: 18 }}>麵類</Text>
                 </TouchableOpacity>
             </View>
@@ -229,52 +264,13 @@ function Menu({ navigation }) {
             <View style={{ flex: 1, marginTop: 5 }}>
                 <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20, margin: 5 }}>其他食譜</Text>
                 <ScrollView>
-                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf: 'center', marginTop: 10 }}>
+                    <View style={{ marginTop: 10 }}>
                         <FlatList
-                            data={Menu}
+                            data={DisaplyOfData}
                             renderItem={renderItem}
                             keyExtractor={item => item.conversation}
                         >
                         </FlatList>
-                        <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Pineapple')}>
-                            <Image source={require('../assets/Recipe/豬肋排.jpg')} style={styles.imageposition} />
-                            <View style={styles.textinbox}>
-                                <Text>
-                                    醬燒豬肋排{'\n'}
-                                </Text>
-                                <Text>
-                                    食材: 豬肋排、醬油、花椰菜
-                            </Text>
-                            </View>
-                            <Materialicons onPress={() => setHeart(!heart)} name={heart ? 'favorite' : 'favorite-outline'} size={35} style={{ flex: 0.7, color: 'red' }} />
-                        </TouchableOpacity>
-                        {/* 
-                        <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
-                            <Image source={require('../assets/Recipe/海鮮羹.jpg')} style={styles.imageposition} />
-                            <View style={styles.textinbox}>
-                                <Text>
-                                    海鮮羹{'\n'}
-                                </Text>
-                                <Text>
-                                    食材: 蝦仁、花枝、蟹腿肉、金針菇、干貝、烏醋
-                            </Text>
-                            </View>
-                            <Materialicons name="favorite-outline" size={35} color="red" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
-                            <Image source={require('../assets/Recipe/海參.jpg')} style={styles.imageposition} />
-                            <Text style={styles.textinbox}>
-                                海參煲
-                            </Text>
-                            <Materialicons name="favorite-outline" size={35} color="red" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
-                            <Image source={require('../assets/Recipe/砂鍋雞.jpg')} style={styles.imageposition} />
-                            <Text style={styles.textinbox}>
-                                砂鍋雞
-                            </Text>
-                            <Materialicons name="favorite-outline" size={35} color="red" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                        </TouchableOpacity> */}
                     </View>
                 </ScrollView>
             </View>

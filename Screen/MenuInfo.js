@@ -4,7 +4,6 @@ import { Text, View, Button, StyleSheet, Image, FlatList } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Item } from 'native-base';
 
 
 const Stack = createStackNavigator();
@@ -15,6 +14,8 @@ function MenuInfo({ navigation, route }) {
     console.log('item', item);
     let ingre = item.ingre;
     let ingreArr = ingre.split('、');
+    // console.log('ingre', ingreArr);
+
 
 
 
