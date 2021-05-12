@@ -1,42 +1,111 @@
 import 'react-native-gesture-handler';
-import * as React from 'react';
-import { Text, View, Button, StyleSheet, TouchableOpacity, Image, Input } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, Button, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, TabRouter } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
-import BouncyCheckbox from "react-native-bouncy-checkbox";
+
+import firebase from 'firebase';
+import firestore from 'firebase/firestore'
+import * as FirebaseCore from 'expo-firebase-core';
+import { Images } from '../config/imageConfig'
 
 
+if (!firebase.apps.length) {
+    firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
+}
+const db = firebase.firestore();
+db.ref = '/Fridge'
+var ref = db.collection("菜單").orderBy("rank", "desc");
 
+function Keep({ navigation }) {
+    const [Keeps, setKeeps] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [DisplayOfData, setDisplayOfData] = useState([]);
+    function getData() {
+        let newKeeps = [];
+        ref.onSnapshot(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                const menu = {
+                    id: doc.id,
+                    Name: doc.data().name,
+                    desc: doc.data().desc,
+                    Url: Images[doc.data().name],
+                    people: doc.data().people,
+                    type: doc.data().type,
+                    time: doc.data().time,
+                    ingre: doc.data().ingre,
+                    like: doc.data().like,
+                }
+                console.log(doc.id)
+                if (menu.like === true) {
+                    newKeeps.push(menu)
+                    console.log(menu)
+                }
 
-function Keep({ navigation, route }) {
-    const [checkboxState, setCheckboxState] = React.useState(false);
-    const [checkList, setCheckList] = React.useState([]);
+            });
+            setKeeps(newKeeps)
+            setDisplayOfData(newKeeps)
+        });
+    }
 
-    React.useEffect(()=> {
-        console.log('checkList', checkList)
-    }, [checkList])
+    function update(id) {
+        db.collection('菜單').doc(id).update({ like: false }).then(() => {
+            console.log('User updated!');
+        });
+    }
+    useEffect(() => {
+        getData()
+        console.log(Keeps);
+    }, [])
 
-    function cb1(value) {
-        const temp = [...checkList]
-        
+    const handleOnClick = (type) => {
+        const temp = [...category]
+        const findIndex = category.findIndex(data => data === type)
 
-        const findIndex = checkList.findIndex(data=>data === value)
-
-
-       if(findIndex > -1) {
-           temp.splice(findIndex, 1)
-       }else {
-           temp.push(value)
-       }
-
-
-        setCheckList(temp)
+        if (findIndex > -1) {
+            temp.splice(findIndex, 1)
+        } else {
+            temp.push(type)
+        }
+        setCategory(temp)
     }
 
 
+    useEffect(() => {
+        if (category.length == 0) {
+            setDisplayOfData(Keeps)
+            return
+        }
+
+        const temp = Keeps.filter((data) => {
+            const types = data.type.split('、')
+            const filter = category.join(',')
+            return types.some(type => filter.includes(type))
+        })
+        setDisplayOfData(temp)
+    }, [category])
+
+
+    const renderItem = ({ item, i }) => (
+        <ScrollView>
+        <View style={{}}>
+            <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('MenuInfo')}>
+                <Image source={item.Url} style={styles.imageposition} />
+                <Text style={styles.textinbox}>
+                    {item.Name}
+                </Text>
+                <Ionicons name="trash-outline" size={35} color="black" style={{ flex: 0.7 }} onPress={() => update(Keeps.id)} />
+            </TouchableOpacity>
+        </View>
+        </ScrollView>
+
+    );
+    const activeStyle = (type) => {
+        return category.includes(type) ? { backgroundColor: '#fd8828' } : {}
+    }
     return (
         <>
             <View style={{ height: 40, backgroundColor: 'white' }} />
@@ -45,107 +114,48 @@ function Keep({ navigation, route }) {
                     <Ionicons name="chevron-back" size={30} color="black" style={{ marginLeft: 10 }} onPress={() => navigation.goBack()} />
                 </View>
                 <View style={styles.cell}>
-                    <Text style={{ fontSize: 20, textAlign: 'center' }}>收藏食譜</Text>
+                    <Text style={{ fontSize: 20, textAlign: 'center', fontWeight:"600" }}>收藏食譜</Text>
                 </View>
                 <View style={styles.cell_fixed}>
                     {/* 右上按鈕空間 */}
                 </View>
             </View>
 
-            <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row' }}>
-                <Button title="中式" />
-                <Button title="日式" />
-                <Button title="雞肉" />
-                <Button title="家常" />
-                <Button title="•••" onPress={() => navigation.navigate('MenuInfo')} />
+            <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', padding: 10 }}>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('中式')]} onPress={() => handleOnClick('中式')}>
+                    <Text style={{ fontSize: 18 }}>中式</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('日式')]} onPress={() => handleOnClick('日式')}>
+                    <Text style={{ fontSize: 18 }}>日式</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('美式')]} onPress={() => handleOnClick('美式')}>
+                    <Text style={{ fontSize: 18 }}>美式</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('義式')]} onPress={() => handleOnClick('義式')}>
+                    <Text style={{ fontSize: 18 }}>義式</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('飯類')]} onPress={() => handleOnClick('飯類')}>
+                    <Text style={{ fontSize: 18 }}>飯類</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.filterBox, activeStyle('麵類')]} onPress={() => handleOnClick('麵類')}>
+                    <Text style={{ fontSize: 18 }}>麵類</Text>
+                </TouchableOpacity>
             </View>
 
-            <ScrollView>
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                    <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Pineapple')}>
-
-                        <View style={{ flexDirection: 'row' }}>
-                            
-                            <BouncyCheckbox
-                                size={25}
-                                style={{ marginTop: 16 }}
-                                text="Custom Checkbox"
-                                isChecked={checkList.includes('test')}
-                                onPress={() => cb1('test')}
-                            />
-                            <Text style={styles.textinbox}>
-                                豬肋排
-                            </Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row' }}>
-                            <BouncyCheckbox
-                                style={{ marginTop: 16 }}
-                                isChecked={checkboxState}
-                                text="蝦子"
-                                isChecked={checkList.includes('shrimp')}
-                                onPress={() => cb1('shrimp')}
-
-                            />
-                            <Text style={styles.textinbox}>
-                                醬燒
-                            </Text>
-                        </View>
-
-
-
-                        <Ionicons name="trash-outline" size={35} color="black" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
-                        <Image source={require('../assets/Recipe/海鮮羹.jpg')} style={styles.imageposition} />
-                        <Text style={styles.textinbox}>
-                            海鮮羹
-                            </Text>
-                        <Ionicons name="trash-outline" size={35} color="black" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
-                        <Image source={require('../assets/Recipe/清蒸石斑.jpg')} style={styles.imageposition} />
-                        <Text style={styles.textinbox}>
-                            醬燒豬肋排
-                            </Text>
-                        <Ionicons name="trash-outline" size={35} color="black" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
-                        <Image source={require('../assets/Recipe/水煮牛.jpg')} style={styles.imageposition} />
-                        <Text style={styles.textinbox}>
-                            重慶水煮牛
-                            </Text>
-                        <Ionicons name="trash-outline" size={35} color="black" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
-                        <Image source={require('../assets/Recipe/炒飯.jpg')} style={styles.imageposition} />
-                        <Text style={styles.textinbox}>
-                            蛋炒飯
-                            </Text>
-                        <Ionicons name="trash-outline" size={35} color="black" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
-                        <Image source={require('../assets/Recipe/海參.jpg')} style={styles.imageposition} />
-                        <Text style={styles.textinbox}>
-                            海參煲
-                            </Text>
-                        <Ionicons name="trash-outline" size={35} color="black" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('Strawberry')}>
-                        <Image source={require('../assets/Recipe/砂鍋雞.jpg')} style={styles.imageposition} />
-                        <Text style={styles.textinbox}>
-                            砂鍋雞
-                            </Text>
-                        <Ionicons name="trash-outline" size={35} color="black" style={{ flex: 0.7 }} onPress={() => navigation.goBack()} />
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
+                <FlatList
+                    data={DisplayOfData}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.conversation}
+                >
+                </FlatList>
 
         </>
     );
 }
 
 export default Keep;
+
+
 
 
 const styles = StyleSheet.create({
@@ -164,14 +174,14 @@ const styles = StyleSheet.create({
     },
     imagebox: {
         height: 170,
-        width: '90%',
+        // width: '90%',
         borderWidth: 2,
         backgroundColor: 'white',
         borderRadius: 50,
         alignItems: 'center',
         borderColor: 'lightgrey',
         margin: 5,
-        flexDirection: 'column'
+        flexDirection: 'row'
     },
     imageposition: {
         flex: 2,
@@ -181,7 +191,16 @@ const styles = StyleSheet.create({
         borderRadius: 20
     },
     textinbox: {
+        flex: 2,
         textAlign: 'center',
         fontSize: 15,
+    },
+    filterBox: {
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        borderColor: 'grey',
+        // borderWidth:1,
+        backgroundColor: 'lightgrey'
     },
 })

@@ -20,6 +20,7 @@ function Add({ navigation }) {
 
   const [Boards, setBoards] = useState([]);
   const [Texts, setTexts] = useState("");
+  
 
   function getData() {
     let newBoard = [];
@@ -68,31 +69,84 @@ function Add({ navigation }) {
         </View>
       </View>
 
-     
-        
-        <View style={{ flexDirection: 'row' }}>
-          <TextInput style={[styles.inputBox]}
-            placeholder="在此輸入留言"
-            onChangeText={text => setTexts(text)}
-            value={Texts}
-          />
-            <TouchableOpacity style={[styles.filterBox]} onPress={() => update(Texts)} >
-              <Text style={{ fontSize: 18, alignSelf:'center'}}>新增</Text>
-            </TouchableOpacity>
-        </View>
+      <View style={[styles.add]}>
+        <Text style={{ fontSize: 18, alignSelf: 'center' }}>菜名：</Text>
+        <TextInput style={[styles.inputBox]}
+          placeholder="例：炒菠菜"
+          onChangeText={text => setTexts(text)}
+          value={Texts}
+        />
+      </View>
+      <View style={[styles.add]}>
+        <Text style={{ fontSize: 18, alignSelf: 'center' }}>簡介：</Text>
+        <TextInput style={[styles.inputBox]}
+          placeholder="例：簡單的清炒菠菜料理"
+          onChangeText={text => setTexts(text)}
+          value={Texts}
+        />
+      </View>
+      <View style={[styles.add]}>
+        <Text style={{ fontSize: 18, alignSelf: 'center' }}>份數：</Text>
+        <TextInput style={[styles.inputBox]}
+          placeholder="例：2~3"
+          onChangeText={text => setTexts(text)}
+          value={Texts}
+        />
+      </View>
+      <View style={[styles.add]}>
+        <Text style={{ fontSize: 18, alignSelf: 'center' }}>時間：</Text>
+        <TextInput style={[styles.inputBox]}
+          placeholder="例：10"
+          onChangeText={text => setTexts(text)}
+          value={Texts}
+        />
+      </View>
+      <View style={[styles.add]}>
+        <Text style={{ fontSize: 18, alignSelf: 'center' }}>食材：</Text>
+        <TextInput style={[styles.inputBox]}
+          placeholder="例：菠菜、蒜、薑"
+          onChangeText={text => setTexts(text)}
+          value={Texts}
+        />
+      </View>
+      <View style={[styles.add]}>
+        <Text style={{ fontSize: 18, alignSelf: 'center' }}>調味：</Text>
+        <TextInput style={[styles.inputBox]}
+          placeholder="例：鹽、油"
+          onChangeText={text => setTexts(text)}
+          value={Texts}
+        />
+      </View>
+      <View style={[styles.add]}>
+        <Text style={{ fontSize: 18, alignSelf: 'center' }}>標籤：</Text>
+        <TextInput style={[styles.inputBox]}
+          placeholder="例：蔬菜、中式"
+          onChangeText={text => setTexts(text)}
+          value={Texts}
+        />
+      </View><View style={[styles.add]}>
+        <Text style={{ fontSize: 18, alignSelf: 'center' }}>步驟：</Text>
+        <TextInput style={[styles.inputBox]}
+          placeholder="例：1.XXX。2.OOO。(步驟間以。分割)"
+          onChangeText={text => setTexts(text)}
+          value={Texts}
+        />
+      </View>
+      <TouchableOpacity style={[styles.subButton]} onPress={() => update(Texts)} >
+        <Text style={{ fontSize: 18, alignSelf: 'center' }}>新增</Text>
+      </TouchableOpacity>
+      <Text>
+              {Texts}
+            </Text>
 
-      
+
+
+
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  body_image: {
-    height: 300,
-    width: 400,
-    borderWidth: 2,
-    backgroundColor: 'grey',
-  },
   cell_fixed: {
     width: 80,
     height: 40,
@@ -106,32 +160,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  conversations: {
-    backgroundColor: 'white',
+  inputBox: {
     height: 50,
-    margin: 8,
-    marginTop: 10,
+    borderWidth: 1,
     borderRadius: 8,
-    flexDirection: 'row',
-  },
-  inputBox:{
-    height: 50, 
-    borderWidth: 1, 
-    marginLeft:10, 
-    marginTop:15, 
-    borderRadius: 8, 
-    fontSize: 16, 
+    fontSize: 16,
     flex: 3,
+    padding: 10,
   },
-  filterBox: {
+  add: {
+    flexDirection: 'row',
+    padding: 10,
+  },
+  subButton: {
     paddingVertical: 16,
-    paddingHorizontal: 5,
     borderRadius: 10,
     borderColor: 'grey',
-    // borderWidth:1,
-    backgroundColor: '#fd8828' ,
-    flex: 0.6,
-    margin:15 ,
+    backgroundColor: '#fd8828',
+    margin: 15,
   },
 })
 export default Add;

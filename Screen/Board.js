@@ -29,10 +29,14 @@ function Board({ navigation }) {
           comment: doc.data().comment,
         }
         newBoard.push(board)
-        // console.log('qqq',board)
+        
 
       });
       setBoards(newBoard)
+      console.log('qqq',Boards.map(({comment}) => 
+        {comment.id}
+        
+      ))
     });
   }
   useEffect(() => {
@@ -93,6 +97,7 @@ function Board({ navigation }) {
             <TouchableOpacity style={[styles.filterBox]} onPress={() => update(Texts)} >
               <Text style={{ fontSize: 18, alignSelf:'center'}}>新增</Text>
             </TouchableOpacity>
+            
         </View>
 
       
