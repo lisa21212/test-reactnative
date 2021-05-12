@@ -16,41 +16,64 @@ if (!firebase.apps.length) {
 const db = firebase.firestore();
 var ref = db.collection("菜單");
 
-function Add({ navigation }) {
+function AddRecipe({ navigation }) {
 
   const [Boards, setBoards] = useState([]);
-  const [Texts, setTexts] = useState("");
+  const [nameTexts, setnameTexts] = useState("");
+  const [descTexts, setdescTexts] = useState("");
+  const [peopleTexts, setpeopleTexts] = useState("");
+  const [timeTexts, settimeTexts] = useState("");
+  const [ingreTexts, setingreTexts] = useState("");
+  const [seasonTexts, setseasonTexts] = useState("");
+  const [typeTexts, settypeTexts] = useState("");
+  const [stepTexts, setstepTexts] = useState("");
   
 
-  function getData() {
-    let newBoard = [];
-    ref.onSnapshot(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        const board = {
-          id: doc.id,
-          comment: doc.data().comment,
-        }
-        newBoard.push(board)
-        // console.log('qqq',board)
+  // function getData() {
+  //   let newBoard = [];
+  //   ref.onSnapshot(querySnapshot => {
+  //     querySnapshot.forEach(doc => {
+  //       const board = {
+  //         id: doc.id,
+  //         comment: doc.data().comment,
+  //       }
+  //       newBoard.push(board)
+  //       // console.log('qqq',board)
 
-      });
-      setBoards(newBoard)
-    });
-  }
-  useEffect(() => {
-    getData()
-  }, [])
+  //     });
+  //     setBoards(newBoard)
+  //   });
+  // }
+  // useEffect(() => {
+  //   getData()
+  // }, [])
 
-  async function update(Texts) {
+  async function update() {
     try {
-      const docRef = await db.collection("Board").add({
-        comment: Texts
+      const docRef = await db.collection("test").add({
+        name: nameTexts,
+        desc: descTexts,
+        people: peopleTexts,
+        time: timeTexts,
+        ingre: ingreTexts,
+        season: seasonTexts,
+        type: typeTexts,
+        step: stepTexts,
+        like: false,
+        rank: 1,
       });
     }
     catch (error) {
       console.error("Error adding document: ", error);
     }
-    setTexts("")
+    setnameTexts("")
+    setdescTexts("")
+    setpeopleTexts("")
+    settimeTexts("")
+    setingreTexts("")
+    setseasonTexts("")
+    settypeTexts("")
+    setstepTexts("")
   }
 
   return (
@@ -73,71 +96,71 @@ function Add({ navigation }) {
         <Text style={{ fontSize: 18, alignSelf: 'center' }}>菜名：</Text>
         <TextInput style={[styles.inputBox]}
           placeholder="例：炒菠菜"
-          onChangeText={text => setTexts(text)}
-          value={Texts}
+          onChangeText={text => setnameTexts(text)}
+          value={nameTexts}
         />
       </View>
       <View style={[styles.add]}>
         <Text style={{ fontSize: 18, alignSelf: 'center' }}>簡介：</Text>
         <TextInput style={[styles.inputBox]}
           placeholder="例：簡單的清炒菠菜料理"
-          onChangeText={text => setTexts(text)}
-          value={Texts}
+          onChangeText={text => setdescTexts(text)}
+          value={descTexts}
         />
       </View>
       <View style={[styles.add]}>
         <Text style={{ fontSize: 18, alignSelf: 'center' }}>份數：</Text>
         <TextInput style={[styles.inputBox]}
           placeholder="例：2~3"
-          onChangeText={text => setTexts(text)}
-          value={Texts}
+          onChangeText={text => setpeopleTexts(text)}
+          value={peopleTexts}
         />
       </View>
       <View style={[styles.add]}>
         <Text style={{ fontSize: 18, alignSelf: 'center' }}>時間：</Text>
         <TextInput style={[styles.inputBox]}
           placeholder="例：10"
-          onChangeText={text => setTexts(text)}
-          value={Texts}
+          onChangeText={text => settimeTexts(text)}
+          value={timeTexts}
         />
       </View>
       <View style={[styles.add]}>
         <Text style={{ fontSize: 18, alignSelf: 'center' }}>食材：</Text>
         <TextInput style={[styles.inputBox]}
           placeholder="例：菠菜、蒜、薑"
-          onChangeText={text => setTexts(text)}
-          value={Texts}
+          onChangeText={text => setingreTexts(text)}
+          value={ingreTexts}
         />
       </View>
       <View style={[styles.add]}>
         <Text style={{ fontSize: 18, alignSelf: 'center' }}>調味：</Text>
         <TextInput style={[styles.inputBox]}
           placeholder="例：鹽、油"
-          onChangeText={text => setTexts(text)}
-          value={Texts}
+          onChangeText={text => setseasonTexts(text)}
+          value={seasonTexts}
         />
       </View>
       <View style={[styles.add]}>
         <Text style={{ fontSize: 18, alignSelf: 'center' }}>標籤：</Text>
         <TextInput style={[styles.inputBox]}
           placeholder="例：蔬菜、中式"
-          onChangeText={text => setTexts(text)}
-          value={Texts}
+          onChangeText={text => settypeTexts(text)}
+          value={typeTexts}
         />
       </View><View style={[styles.add]}>
         <Text style={{ fontSize: 18, alignSelf: 'center' }}>步驟：</Text>
         <TextInput style={[styles.inputBox]}
           placeholder="例：1.XXX。2.OOO。(步驟間以。分割)"
-          onChangeText={text => setTexts(text)}
-          value={Texts}
+          onChangeText={text => setstepTexts(text)}
+          value={stepTexts}
         />
       </View>
-      <TouchableOpacity style={[styles.subButton]} onPress={() => update(Texts)} >
+      <TouchableOpacity style={[styles.subButton]} onPress={() => update()} >
         <Text style={{ fontSize: 18, alignSelf: 'center' }}>新增</Text>
       </TouchableOpacity>
-      <Text>
-              {Texts}
-            </Text>
+      {/* <Text>
+              {nameTexts}
+            </Text> */}
 
 
 
@@ -180,4 +203,4 @@ const styles = StyleSheet.create({
     margin: 15,
   },
 })
-export default Add;
+export default AddRecipe;

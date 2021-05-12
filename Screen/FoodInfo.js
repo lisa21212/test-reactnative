@@ -24,7 +24,7 @@ function FoodInfo({ navigation, route }) {
 
   const { item } = route.params
   const [Num, setNum] = useState(item.Number);
-  console.log("item:", item);
+  console.log("item:", item.Time.toDate().toDateString());
 
   function addcount() {
     if (item.Unit === "公克") {

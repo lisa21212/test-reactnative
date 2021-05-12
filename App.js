@@ -27,7 +27,8 @@ import Preference from './Screen/Preference';
 import People from './Screen/People';
 import Stores from './Screen/Stores';
 import Recipe from './Screen/Recipe';
-import Add from './Screen/Add';
+import AddRecipe from './Screen/AddRecipe';
+import AddFood from './Screen/AddFood';
 
 
 
@@ -63,7 +64,7 @@ export default function App() {
         <menuStack.Screen name="MenuInfo" component={MenuInfo} />
         <menuStack.Screen name="Stores" component={Stores} />
         <menuStack.Screen name="Recipe" component={Recipe} />
-        <menuStack.Screen name="Add" component={Add} />
+        <menuStack.Screen name="AddRecipe" component={AddRecipe} />
       </menuStack.Navigator>
     )
   }
@@ -77,6 +78,7 @@ export default function App() {
         <LoginStack.Screen name="Preference" component={Preference} />
         <LoginStack.Screen name="People" component={People} />
         <LoginStack.Screen name="MyFridge" component={MyFridge} />
+        <LoginStack.Screen name="AddFood" component={AddFood} />
       </LoginStack.Navigator>
     )
   }
@@ -109,7 +111,7 @@ export default function App() {
           }}
         />
         <Tab.Screen name="Setting"
-          component={Preference}
+          component={AddFood}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account" color={color} size={size} />

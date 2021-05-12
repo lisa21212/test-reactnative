@@ -92,7 +92,7 @@ function Keep({ navigation }) {
     const renderItem = ({ item, i }) => (
         <ScrollView>
         <View style={{}}>
-            <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('MenuInfo')}>
+            <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('MenuInfo')} key={item.id}>
                 <Image source={item.Url} style={styles.imageposition} />
                 <Text style={styles.textinbox}>
                     {item.Name}

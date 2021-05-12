@@ -145,7 +145,7 @@ function Menu({ navigation }) {
             <View style={{ height: 40, backgroundColor: 'white' }} />
             <View style={{ flexDirection: 'row' }}>
                 <View style={styles.cell_fixed}>
-                    <Ionicons name="ios-add" size={40} color="black" style={{ marginLeft: 10 }} onPress={() => navigation.navigate('Add')} />
+                    <Ionicons name="ios-add" size={40} color="black" style={{ marginLeft: 10 }} onPress={() => navigation.navigate('AddRecipe')} />
                 </View>
                 <View style={styles.cell}>
                     <Text style={{ fontSize: 20, textAlign: 'center', fontWeight: '600' }}>推薦菜單</Text>

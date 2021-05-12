@@ -65,6 +65,7 @@ function MyFridge({ navigation }) {
                     Category: doc.data().Category,
                     Kal: doc.data().Kal,
                     Unit: doc.data().Unit,
+                    Time: doc.data().inTime,
                 }
                 if (fruit.Name === "鮮魚"){
                     fruit.Unit = "條"
