@@ -35,10 +35,32 @@ function AddRecipe({ navigation }) {
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
     var hours = new Date().getHours(); //Current Hours
+    var min = new Date().getMinutes();
     setCurrentDate(
-      year + '/' + month + '/' + date + ' ' + hours 
+      year + '/' + month + '/' + date + ' ' + hours + ":" + min
     );
   }, []);
+
+  function getData() {
+    let newBoard = [];
+    db.collection('test').onSnapshot(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        const board = {
+          id: doc.id,
+          comment: doc.data().comment,
+          time: doc.data().time,
+        }
+        newBoard.push(board)
+        var time = board.time.toDate();
+        console.log('qq',time)
+
+      });
+      setBoards(newBoard)
+    });
+  }
+  useEffect(() => {
+    getData()
+  }, [])
 
   function deleteData() {
     const Ref = db.collection('test').get().then(querySnapshot => {
@@ -59,13 +81,14 @@ function AddRecipe({ navigation }) {
 
   async function update() {
     try {
-      const docRef = await db.collection("Fridge").add({
+      const docRef = await db.collection("test").add({
         Name: nameTexts,
         Number: descTexts,
         Kal: peopleTexts,
         Expire: timeTexts,
         Unit: ingreTexts,
         Category: seasonTexts,
+        time: new Date(),
       });
     }
     catch (error) {

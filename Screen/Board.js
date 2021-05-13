@@ -46,7 +46,8 @@ function Board({ navigation }) {
   async function update(Texts) {
     try {
       const docRef = await db.collection("Board").add({
-        comment: Texts
+        comment: Texts,
+        time: new Date(),
       });
     }
     catch (error) {

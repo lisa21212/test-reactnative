@@ -1,20 +1,45 @@
 import 'react-native-gesture-handler';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, Button, StyleSheet, FlatList, TextInput } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import * as firebase from 'firebase';
+import firestore from 'firebase/firestore';
+import * as FirebaseCore from 'expo-firebase-core';
 
 
 
 function Notification({ navigation }) {
-    const data = [
-        { conversation: "冰箱中的蘋果即將過期", date: "2021-03-16" },
-        { conversation: "留言板中有一則新的留言", date: "2021-03-17" },
-    ]
-    const [text, onChangeText] = React.useState("Useless Text");
 
+    if (!firebase.apps.length) {
+        firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
+    }
+    const db = firebase.firestore();
+    const [notifications, setnotification] = useState([]);
+
+    async function readData() {
+        const newnotifications = [];
+        try {
+            const querySnapshot = await db.collection("notification")
+                .orderBy("time", "asc").get();
+            querySnapshot.forEach((doc) => {
+                let time = doc.data().time.toDate();
+                const newnotification = {
+                    notice: doc.data().notice,
+                    time: time,
+                    id: doc.id,
+                }
+                newnotifications.push(newnotification);
+            });//foreach
+            setnotification(newnotifications);
+            console.log(notifications)
+        }//try
+        catch (e) { console.log(e); }
+    }//readData
+    useEffect(() => {
+        readData();
+    },[]);
     const renderItem = ({ item, i }) => (
         <View style={{
             backgroundColor: 'white',
@@ -23,10 +48,10 @@ function Notification({ navigation }) {
             marginTop: 10,
             borderRadius: 8,
             flexDirection: 'row',
-        }}>
-            <MaterialCommunityIcons name="bell" size={25} color="orange" style={{justifyContent:'center', padding:15}}/>
-            <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 2, fontSize: 16, marginLeft: 10 }}>{item.conversation}</Text>
-            <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 1, fontSize: 16 }}>{item.date}</Text>
+        }} key={item.id}>
+            <MaterialCommunityIcons name="bell" size={25} color="#fc9642" style={{ justifyContent: 'center', padding: 15 }} />
+            <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 2, fontSize: 16, marginLeft: 10 }}>{item.notice}</Text>
+            <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 1, fontSize: 16 }}>{item.time.toTimeString().slice(0,5)}</Text>
         </View>
 
     );
@@ -50,7 +75,7 @@ function Notification({ navigation }) {
 
             <View style={{ flex: 0.5, justifyContent: 'flex-start' }}>
                 <FlatList
-                    data={data}
+                    data={notifications}
                     renderItem={renderItem}
                     keyExtractor={item => item.conversation}
                     style={{ padding: 5 }}
@@ -91,6 +116,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         borderRadius: 8,
         flexDirection: 'row',
-        
+
     }
 })
