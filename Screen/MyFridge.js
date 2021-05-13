@@ -15,18 +15,14 @@ if (!firebase.apps.length) {
 const db = firebase.firestore();
 db.ref = '/Fridge'
 var ref = db.collection("Fridge").orderBy("Expire", "asc");
+var conref = db.collection("Config").doc('AllFood');
 
 
 function MyFridge({ navigation }) {
     const [Fruit, setFruits] = useState([]);
     const [DisaplyOfData, setDisplayOfData] = useState([]);
-
+    const [AllFood, setAllFood] = useState([]);
     const [category, setCategory] = useState([]);
-
-
-    useEffect(()=>{
-        getData()
-    }, [])
 
     useEffect(()=>{
         if(category.length==0) {
@@ -53,7 +49,7 @@ function MyFridge({ navigation }) {
 
     function getData() {
         let newFruits = [];
-        
+        let Food = [];
         ref.onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
                 const fruit = {
@@ -71,13 +67,31 @@ function MyFridge({ navigation }) {
                     fruit.Unit = "條"
                 }
                 newFruits.push(fruit)
-                // console.log(fruit)
+                Food.push(fruit.Name)
     
-            });
+            })
             setFruits(newFruits)
             setDisplayOfData(newFruits)
-        });
+            updateFoodArr(Food)
+
+            // setAllFood(Food)
+        })
+
+
     }
+
+    function updateFoodArr(Food){
+        console.log('FoodFoodFoodFood', Food)
+
+        conref.set({
+            AllFoodArr: []
+        }).then(()=>conref.set({ AllFoodArr: Food,}))
+
+    }
+    
+    useEffect(() => {
+        getData()
+    },[])
 
     const renderItem = ({ item, i }) => (
         <ScrollView>
@@ -106,6 +120,7 @@ function MyFridge({ navigation }) {
             <View style={{ height: 40, backgroundColor: 'white' }} />
             <View style={{ flexDirection: 'row' }}>
                 <View style={styles.cell_fixed}>
+                    
                     <Button title="備忘錄" onPress={() => navigation.navigate('Memo')} />
                 </View>
                 <View style={styles.cell}>
@@ -135,7 +150,7 @@ function MyFridge({ navigation }) {
                         padding: 10,
                     }}>
                 </TextInput>
-                <Image source={require('../assets/search_black.png')} style={{ width: 25, height: 25, right: 15, position: 'absolute' }} />
+                <Image source={require('../assets/search_black.png')} style={{ width: 25, height: 25, right: 15, position: 'absolute' }}/>
             </View>
 
 
@@ -170,6 +185,7 @@ function MyFridge({ navigation }) {
         </>
     );
 }
+
 
 export default MyFridge;
 

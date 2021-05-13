@@ -41,26 +41,6 @@ function AddRecipe({ navigation }) {
     );
   }, []);
 
-  function getData() {
-    let newBoard = [];
-    db.collection('test').onSnapshot(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        const board = {
-          id: doc.id,
-          comment: doc.data().comment,
-          time: doc.data().time,
-        }
-        newBoard.push(board)
-        var time = board.time.toDate();
-        console.log('qq',time)
-
-      });
-      setBoards(newBoard)
-    });
-  }
-  useEffect(() => {
-    getData()
-  }, [])
 
   function deleteData() {
     const Ref = db.collection('test').get().then(querySnapshot => {
@@ -69,27 +49,29 @@ function AddRecipe({ navigation }) {
       })
     })
   }
-  function deleteoneData(id) {
-    const Ref = db.collection('Fridge').doc(id).delete().then(() => {
-      console.log("success");
-    }).catch((error) => {
-      console.error("Error removing document: ", error);
-    })
-    setkeyTexts("");
+  // function deleteoneData(id) {
+  //   const Ref = db.collection('Fridge').doc(id).delete().then(() => {
+  //     console.log("success");
+  //   }).catch((error) => {
+  //     console.error("Error removing document: ", error);
+  //   })
+  //   setkeyTexts("");f
 
-  }
+  // }
 
-  async function update() {
+  const update = async() => {
     try {
-      const docRef = await db.collection("test").add({
+      await db.collection("Fridge").add({
         Name: nameTexts,
-        Number: descTexts,
+        Number: +descTexts,
         Kal: peopleTexts,
-        Expire: timeTexts,
+        Expire: +timeTexts,
         Unit: ingreTexts,
         Category: seasonTexts,
-        time: new Date(),
+        // time: new Date(),
       });
+      console.log('update')
+
     }
     catch (error) {
       console.error("Error adding document: ", error);
@@ -168,7 +150,7 @@ function AddRecipe({ navigation }) {
               value={seasonTexts}
             />
           </View>
-          <TouchableOpacity style={[styles.subButton]} onPress={() => update()} >
+          <TouchableOpacity style={[styles.subButton]} onPress={update} >
             <Text style={{ fontSize: 18, alignSelf: 'center' }}>新增</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.subButton]} onPress={() => deleteData()} >

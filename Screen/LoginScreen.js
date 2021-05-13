@@ -8,14 +8,14 @@ import Button from '../components/Button'
 import TextInput from '../components/TextInput'
 import BackButton from '../components/BackButton'
 import { theme } from '../core/theme'
-import { emailValidator } from 
-'../helpers/emailValidator'
+import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import * as firebase from 'firebase';
 import firestore from 'firebase/firestore'
 import * as FirebaseCore from 'expo-firebase-core';
+import setloginState from '../App';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation },props) => {
 const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
 const [message, setMessage] = useState("");
@@ -24,9 +24,10 @@ firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
   }
   async function signIn(){
     try {
-      const res= firebase.auth()
-        .signInWithEmailAndPassword(email, password);
+      const res= firebase.auth().signInWithEmailAndPassword(email, password);
       console.log('User login successfully!');
+      // prpps.setloginState(true)
+      
       setEmail('');
       setPassword('');
       setMessage('');

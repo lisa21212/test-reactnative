@@ -77,7 +77,7 @@ function Notification({ navigation }) {
                 <FlatList
                     data={notifications}
                     renderItem={renderItem}
-                    keyExtractor={item => item.conversation}
+                    keyExtractor={item => item.id}
                     style={{ padding: 5 }}
                 >
                 </FlatList>

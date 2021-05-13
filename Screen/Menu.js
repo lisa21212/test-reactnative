@@ -47,7 +47,7 @@ function Menu({ navigation }) {
                     like: doc.data().like,
                 }
                 newMenu.push(menu)
-                // console.log('qqq', Menu)
+                // console.log('food', menu.Name)
 
             });
             setMenu(newMenu)

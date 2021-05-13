@@ -29,6 +29,7 @@ import Stores from './Screen/Stores';
 import Recipe from './Screen/Recipe';
 import AddRecipe from './Screen/AddRecipe';
 import AddFood from './Screen/AddFood';
+import { loginState } from './Screen/LoginScreen';
 
 
 
@@ -41,7 +42,11 @@ const settingStack = createStackNavigator();
 
 
 
-export default function App() {
+
+export default function App(props) {
+
+  const [loginState, setloginState] = useState(true);
+
   function FridgeScreen() {
     return (
       <fridgeStack.Navigator screenOptions={{ headerShown: false }}>
@@ -86,30 +91,19 @@ export default function App() {
   function TabStack() {
     return (
       <Tab.Navigator initialRouteName="MyFridge" tabBarOptions={{ activeTintColor: '#ff9933' }}>
-        <Tab.Screen name="MyFridge"
-          component={FridgeScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="fridge" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen name="Menu"
-          component={MenuScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="receipt" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen name="Notification"
-          component={Notification}
-          options={{
-            tabBarIcon: ({ color, size }) => (
+        <Tab.Screen name="MyFridge" component={FridgeScreen} options={{tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="fridge" color={color} size={size} />
+          ),
+        }} />
+        <Tab.Screen name="Menu" component={MenuScreen} options={{
+          tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="receipt" color={color} size={size} />
+          ),
+        }}/>
+        <Tab.Screen name="Notification" component={Notification}
+          options={{tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="bell" color={color} size={size} />
             ),
-          }}
-        />
+          }}/>
         <Tab.Screen name="Setting"
           component={AddFood}
           options={{
@@ -123,12 +117,12 @@ export default function App() {
   }
 
 
-
+  console.log("login", loginState)
   return (
-    
+
     <NavigationContainer>
       {
-        true ? <TabStack /> : <LoginScreenStack />
+        true ? <TabStack/> : <LoginScreenStack/>
       }
     </NavigationContainer>
   );

@@ -11,13 +11,13 @@ const Stack = createStackNavigator();
 function MenuInfo({ navigation, route }) {
 
     const { item } = route.params
-    console.log('item', item);
+    // console.log('item', item);
     let ingre = item.ingre;
     let ingreArr = ingre.split('、');
-    // console.log('ingre', ingreArr);
+    console.log('ingre', ingreArr);
 
 
-
+    
 
     return (
         <>
@@ -51,14 +51,26 @@ function MenuInfo({ navigation, route }) {
                             <Text style={{ marginTop: 30, fontSize: 20, lineHeight: 20 }}>食材:</Text>
                             <View style={{ width: '100%', height: 2, backgroundColor: '#000', marginVertical: 4 }} />
 
-                            <View style={{ flexDirection: 'row', marginVertical: 4 }}>
-                                <View style={{ flexDirection: 'row', flex: 1 }}>
+                            <View style={{ flexDirection: 'row', marginVertical: 4, flexWrap: 'wrap' }}>
+                                <View style={{ flexDirection: 'row', width: '50%' }}>
                                     <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>絲瓜</Text>
                                     <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
                                         <Ionicons name="checkmark" size={30} color="green" />
                                     </View>
                                 </View>
-                                <View style={{ flexDirection: 'row', flex: 1 }}>
+                                <View style={{ flexDirection: 'row', width: '50%' }}>
+                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>牛肉</Text>
+                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
+                                        <Ionicons name="checkmark" size={30} color="green" />
+                                    </View>
+                                </View>
+                                <View style={{ flexDirection: 'row', width: '50%' }}>
+                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>絲瓜</Text>
+                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
+                                        <Ionicons name="checkmark" size={30} color="green" />
+                                    </View>
+                                </View>
+                                <View style={{ flexDirection: 'row', width: '50%' }}>
                                     <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>牛肉</Text>
                                     <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
                                         <Ionicons name="checkmark" size={30} color="green" />
