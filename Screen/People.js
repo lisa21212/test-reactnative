@@ -26,7 +26,7 @@ const Habbit = ({ navigation }) => {
       </View>
       <View style={styles.container1}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Habbit')}
+          onPress={() => navigation.navigate('Preference')}
         >
           <Text style={styles.check}>下一頁
         </Text>

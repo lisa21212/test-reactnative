@@ -72,16 +72,17 @@ function MyFridge({ navigation }) {
             })
             setFruits(newFruits)
             setDisplayOfData(newFruits)
-            updateFoodArr(Food)
-
+            setAllFood(Food)
+            // updateFoodArr(Food)
+            // console.log("Foooood",AllFood)
             // setAllFood(Food)
         })
-
+        console.log("Food",AllFood)
 
     }
 
     function updateFoodArr(Food){
-        console.log('FoodFoodFoodFood', Food)
+        // console.log('FoodFoodFoodFood', Food)
 
         conref.set({
             AllFoodArr: []

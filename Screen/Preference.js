@@ -7,15 +7,26 @@ import Button from '../components/Button'
 import { Text } from 'react-native-paper'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import * as firebase from 'firebase';
+import firestore from 'firebase/firestore'
+import * as FirebaseCore from 'expo-firebase-core';
 
-
+ async function signout() {
+  try {
+    await firebase.auth().signOut();
+    console.log("logout")
+} catch (e) {
+    console.log(e);
+}
+ }
+ 
 
 
 const Preference = ({ navigation }) => {
   const [status, setStatus] = useState(0)
   return (
     <Background>
-      {/* <View style={styles.container}>
+      <View style={styles.container}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Habbit')}>
           <Text style={{ fontWeight: 'bold', fontSize: 18 }}>上一頁</Text>
@@ -25,7 +36,7 @@ const Preference = ({ navigation }) => {
         <TouchableOpacity nPress={() => navigation.navigate('People')}>
           <Text style={{ fontWeight: 'bold', fontSize: 18 }}>下一頁</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
       <Header>偏好設定</Header>
       <View style={styles.container3}>
         <Text style={styles.row}>海鮮</Text>
@@ -73,7 +84,7 @@ const Preference = ({ navigation }) => {
       </View>
       <Button
         mode="contained"
-        onPress={() => navigation.navigate('Login')}
+        onPress={signout}
         style={{ marginTop: 6 }}>
         登出
       </Button>

@@ -10,6 +10,7 @@ const TextInput = ({ errorText, description, ...props }) => (
       selectionColor={theme.colors.primary}
       underlineColor="transparent"
       mode="outlined"
+      rippleColor="#fa9543"
       {...props}
     />
     {description && !errorText ? (
@@ -22,7 +23,7 @@ const TextInput = ({ errorText, description, ...props }) => (
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginVertical: 12,
+    marginVertical: 10,
   },
   input: {
     backgroundColor: theme.colors.surface,

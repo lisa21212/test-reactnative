@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 function MenuInfo({ navigation, route }) {
 
     const { item } = route.params
-    // console.log('item', item);
+    console.log('item', item);
     let ingre = item.ingre;
     let ingreArr = ingre.split('、');
     console.log('ingre', ingreArr);

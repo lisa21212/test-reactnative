@@ -27,19 +27,32 @@ const [password, setPassword] = useState("");
   }
 
   async function signUp(){
-    try {
-      const res = await firebase.auth()
-        .createUserWithEmailAndPassword(email, password);
-      res.user.updateProfile({Name: Name});
+
+      const res = await firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((response) => {
+        const uid = response.user.uid
+                const data = {
+                    id: uid,
+                    email,
+                };
+                const usersRef = firebase.firestore().collection('users')
+                usersRef.doc(uid).set(data).then(() => {
+                    navigation.navigate('Register', {user: data})
+                })
+                .catch((error) => {
+                  alert(error)
+              })
+              .catch((error) => {
+                alert(error)
+        });
+              
+      })
       //console.log('User registered successfully!');
       setName('');
       setEmail('');
       setPassword('');
       setMessage('');
-    }
-    catch(error){
-      setMessage(error.message);
-    }
+    
   }
 
   return (
@@ -60,22 +73,22 @@ const [password, setPassword] = useState("");
        </Text>
         </TouchableOpacity>
       </View>
-      <Header>Register</Header>
-      <TextInput
+      <Header>註冊</Header>
+      {/* <TextInput
         label="Name"
         returnKeyType="next"
         value={name}
         onChangeText={text=>setName(text)}
         error={!!name.error}
         errorText={name.error}
-      />
+      /> */}
       <TextInput
         label="Email"
         returnKeyType="next"
         value={email}  
         //onChangeText={(text) => setEmail({ value: text, error: '' })}
         onChangeText={text=>setEmail(text)}
-        secureTextEntry={true} 
+        secureTextEntry={false} 
         error={!!email.error}
         errorText={email.error}
         autoCapitalize="none"
@@ -98,7 +111,7 @@ const [password, setPassword] = useState("");
         onPress={signUp}
         style={{ marginTop: 4 }}
       >
-        Sign Up
+        註冊並登入
       </Button>
       <View style={styles.row}>
         <Text>Already have an account? </Text>

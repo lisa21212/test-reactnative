@@ -18,7 +18,7 @@ const Habbit = ({ navigation }) =>{
     <Background>
      <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('RegisterScreen')}
+          onPress={() => navigation.navigate('Register')}
         >
           <Text style={styles.check}>上一頁
        </Text>

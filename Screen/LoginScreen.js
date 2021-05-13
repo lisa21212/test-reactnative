@@ -13,34 +13,40 @@ import { passwordValidator } from '../helpers/passwordValidator'
 import * as firebase from 'firebase';
 import firestore from 'firebase/firestore'
 import * as FirebaseCore from 'expo-firebase-core';
-import setloginState from '../App';
 
-const LoginScreen = ({ navigation },props) => {
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
-const [message, setMessage] = useState("");
-if (!firebase.apps.length) {
-firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
+const LoginScreen = ({ navigation }, props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  if (!firebase.apps.length) {
+    firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
   }
-  async function signIn(){
-    try {
-      const res= firebase.auth().signInWithEmailAndPassword(email, password);
-      console.log('User login successfully!');
-      // prpps.setloginState(true)
-      
-      setEmail('');
-      setPassword('');
-      setMessage('');
-    }
-    catch(error){
-      setMessage(error.message);
-    } 
-   };
+  async function signIn() {
+
+    firebase.auth().signInWithEmailAndPassword(email, password).then((response) => {
+      const uid = response.user.uid
+      const usersRef = firebase.firestore().collection('users')
+      usersRef.doc(uid).get().then((dbDoc) => {
+        if (!dbDoc.exists) {
+          alert("User does not exist anymore.")
+          return;
+        }
+        const user = dbDoc.data()
+      })
+        .catch(error => {
+          alert(error)
+        })
+    })
+    console.log('User login successfully!');
+    setEmail('');
+    setPassword('');
+    setMessage('');
+  };
 
   return (
     <Background>
       <Header>Fridge in hand</Header>
-      <Text style={styles.Singin}>Sign in</Text>
+      <Text style={styles.Singin}>登入</Text>
       <TextInput
         label="Email"
         returnKeyType="next"
@@ -62,22 +68,15 @@ firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
         errorText={password.error}
         secureTextEntry
       />
-            
-        
-      <View style={styles.forgotPassword}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('ForgotPasswordScreen')}
-        >
-          <Text style={styles.forgot}>Forgot your password?
-       </Text>
-        </TouchableOpacity>
-      </View>
-      <Button mode="contained" onPress={signIn}>
-        Login
+
+
+      
+      <Button onPress={signIn}>
+        登入
       </Button>
       <View style={styles.row}>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.link}>Register at first time</Text>
+          <Text style={styles.link}>沒有帳號嗎？立即註冊</Text>
         </TouchableOpacity>
       </View>
     </Background>
@@ -104,12 +103,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: theme.colors.primary,
   },
-    Singin: {
+  Singin: {
     fontWeight: 'bold',
     fontSize: 26,
 
     color: theme.colors.primary,
-    }
+  }
 })
 
 export default LoginScreen

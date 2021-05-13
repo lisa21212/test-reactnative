@@ -1,9 +1,12 @@
 import 'react-native-gesture-handler';
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import * as firebase from 'firebase';
+import firestore from 'firebase/firestore'
+import * as FirebaseCore from 'expo-firebase-core';
 
 // import icon
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -45,7 +48,9 @@ const settingStack = createStackNavigator();
 
 export default function App(props) {
 
-  const [loginState, setloginState] = useState(true);
+  const [user, setUser] = useState(null)
+  const [userLogged, setUserLogged] = useState(false); // it keep tracks of user login status
+
 
   function FridgeScreen() {
     return (
@@ -82,8 +87,6 @@ export default function App(props) {
         <LoginStack.Screen name="Habbit" component={Habbit} />
         <LoginStack.Screen name="Preference" component={Preference} />
         <LoginStack.Screen name="People" component={People} />
-        <LoginStack.Screen name="MyFridge" component={MyFridge} />
-        <LoginStack.Screen name="AddFood" component={AddFood} />
       </LoginStack.Navigator>
     )
   }
@@ -105,7 +108,7 @@ export default function App(props) {
             ),
           }}/>
         <Tab.Screen name="Setting"
-          component={AddFood}
+          component={Preference}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account" color={color} size={size} />
@@ -116,13 +119,22 @@ export default function App(props) {
     )
   }
 
+  useEffect(() => {
+    const authListener = firebase.auth().onAuthStateChanged((user) => {
+      setUserLogged(user ? true : false);
+     
+    });
+    return authListener;
+  }, []);
 
-  console.log("login", loginState)
+
+
+console.log(user)
   return (
 
     <NavigationContainer>
       {
-        true ? <TabStack/> : <LoginScreenStack/>
+        userLogged ? <TabStack/> : <LoginScreenStack/>
       }
     </NavigationContainer>
   );
