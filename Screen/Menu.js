@@ -17,47 +17,102 @@ if (!firebase.apps.length) {
     firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
 }
 const db = firebase.firestore();
-var ref = db.collection("菜單").orderBy("rank", "desc");
+var MENUref = db.collection("菜單").orderBy("rank", "desc");
+var FOODref = db.collection("Fridge")
+var TESTref = db.collection("test")
 
 
 
 function Menu({ navigation }) {
 
     const [Menu, setMenu] = useState([]);
+    const [Foods, setFoods] = useState([]);
     const [DisaplyOfData, setDisplayOfData] = useState([]);
     const [category, setCategory] = useState([]);
+    const [Ingre1, setIngre1] = useState([]);
+    const Fridgearr = [
+        { Name: "1", Number: 2 },
+        { Name: "2", Number: 1 },
+        { Name: "3", Number: 1 },
+        { Name: "4", Number: 2 },
+        { Name: "5", Number: 2 }
+    ];
+    const Ingre = [
+        { Name: "1", Number: 1 },
+        { Name: "2", Number: 2 },
+        { Name: "5", Number: 1 }
+    ];
+    
+
+    const compare = (arr, filterarr) => (
+        arr.filter(el => 
+            filterarr.some(f => 
+                f.Name === el.Name && el.Number >= f.Number
+            )
+        )
+    );
+
+    // console.log('aaaaa', compare(Fridgearr, Ingre))
 
 
-
-
-    function getData() {
+    function getMenuData() {
         let newMenu = [];
-        ref.onSnapshot(querySnapshot => {
+        let newIngre = [];
+        MENUref.onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
+                newIngre = doc.data().ingre
+                console.log("ingrre:",newIngre)
                 const menu = {
                     id: doc.id,
                     Name: doc.data().name,
                     desc: doc.data().desc,
                     url: Images[doc.data().name],
                     people: doc.data().people,
+                    ingre: doc.data().ingre,
                     type: doc.data().type,
                     time: doc.data().time,
-                    ingre: doc.data().ingre,
                     season: doc.data().season,
                     like: doc.data().like,
                 }
                 newMenu.push(menu)
-                // console.log('food', menu.Name)
-
             });
+            
             setMenu(newMenu)
             setDisplayOfData(newMenu)
+            // console.log('food', Menu)
         });
     }
 
     useEffect(() => {
-        getData()
+        getMenuData()
     }, [])
+
+    function getFoodData() {
+        let newFood = [];
+        FOODref.onSnapshot(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                const food = {
+                    Name: doc.data().Name,
+                    Number: doc.data().Number,
+                }
+                newFood.push(food)
+            });
+            setFoods(newFood)
+        });
+    }
+    // console.log('food', Foods)
+
+
+    useEffect(() => {
+        getFoodData()
+    }, [])
+
+    function updateLike(id, like) {
+        db.collection('菜單').doc(id).update({ like: !like }).then(() => {
+            console.log('User updated!');
+            getMenuData()
+        });
+    }
 
     const handleOnClick = (type) => {
         const temp = [...category]
@@ -81,6 +136,7 @@ function Menu({ navigation }) {
         const temp = Menu.filter((data) => {
             const types = data.type.split('、')
             const filter = category.join(',')
+            console.log(types)
             return types.some(type => filter.includes(type))
         })
         setDisplayOfData(temp)
@@ -127,7 +183,7 @@ function Menu({ navigation }) {
                         <Text>{item.Name}{'\n'}</Text>
                         <Text>食材: {item.ingre}</Text>
                     </View>
-                    <Materialicons onPress={() => setHeart(!item.like)}
+                    <Materialicons onPress={() => updateLike(item.id, item.like)}
                         name={item.like ? 'favorite' : 'favorite-outline'}
                         size={35} style={{ flex: 0.7, color: 'red' }} />
                 </TouchableOpacity>
@@ -266,7 +322,7 @@ function Menu({ navigation }) {
                 <FlatList
                     data={DisaplyOfData}
                     renderItem={renderItem}
-                    keyExtractor={item => {return item.id;}}
+                    keyExtractor={item => { return item.id; }}
                 >
                 </FlatList>
             </View>

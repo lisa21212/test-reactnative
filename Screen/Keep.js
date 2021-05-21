@@ -23,12 +23,12 @@ var ref = db.collection("菜單").orderBy("rank", "desc");
 function Keep({ navigation }) {
     const [Keeps, setKeeps] = useState([]);
     const [category, setCategory] = useState([]);
-    const [DisplayOfData, setDisplayOfData] = useState([]);
+    const [DisplayOfData,setDisplayOfData]=useState([]);
     function getData() {
         let newKeeps = [];
         ref.onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
-                const menu = {
+                const keep = {
                     id: doc.id,
                     Name: doc.data().name,
                     desc: doc.data().desc,
@@ -39,10 +39,10 @@ function Keep({ navigation }) {
                     ingre: doc.data().ingre,
                     like: doc.data().like,
                 }
-                console.log(doc.id)
-                if (menu.like === true) {
-                    newKeeps.push(menu)
-                    console.log(menu)
+                if (keep.like === true) {
+                    newKeeps.push(keep)
+                    console.log(keep)
+                    console.log(doc.id)
                 }
 
             });
@@ -51,11 +51,12 @@ function Keep({ navigation }) {
         });
     }
 
-    function update(id) {
-        db.collection('菜單').doc(id).update({ like: false }).then(() => {
-            console.log('User updated!');
-        });
-    }
+    function update(id){
+        db.collection('菜單').doc(id).update({like:false}).then(() => {
+            getData()
+
+    });
+}
     useEffect(() => {
         getData()
         console.log(Keeps);
@@ -97,7 +98,7 @@ function Keep({ navigation }) {
                 <Text style={styles.textinbox}>
                     {item.Name}
                 </Text>
-                <Ionicons name="trash-outline" size={35} color="black" style={{ flex: 0.7 }} onPress={() => update(Keeps.id)} />
+                <Ionicons name="trash-outline" size={35} color="black" style={{ flex: 0.7 }} onPress={() => update(item.id)} />
             </TouchableOpacity>
         </View>
         </ScrollView>

@@ -69,11 +69,11 @@ const Preference = ({ navigation }) => {
         <Text style={styles.row}>家庭人數</Text>
       </View>
       <View style={styles.cc}>
-        <BouncyCheckbox style={{ padding: 1 }} onPress={(isChecked: boolean) => { }} text='一位' />
-        <BouncyCheckbox style={{ padding: 1 }} onPress={(isChecked: boolean) => { }} text='二位' />
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='三位' />
-        <BouncyCheckbox onPress={(isChecked: boolean) => { }} text='四位' />
-        <BouncyCheckbox onPress={(isChecked: boolean) => { }} text='五位' />
+        <BouncyCheckbox style={{padding: 19,}} onPress={(isChecked: boolean) => { }} text='一位' />
+        <BouncyCheckbox style={{padding: 19,}} onPress={(isChecked: boolean) => { }} text='二位' />
+        <BouncyCheckbox style={{padding: 19,}} onPress={(isChecked: boolean) => { }} text='三位' />
+        <BouncyCheckbox style={{padding: 19,}} onPress={(isChecked: boolean) => { }} text='四位' />
+        <BouncyCheckbox style={{padding: 19,}} onPress={(isChecked: boolean) => { }} text='五位' />
       </View>
       <View style={styles.container3}>
         <Text style={styles.row}>店家偏好設定</Text>

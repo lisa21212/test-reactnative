@@ -122,7 +122,7 @@ function MyFridge({ navigation }) {
             <View style={{ flexDirection: 'row' }}>
                 <View style={styles.cell_fixed}>
                     
-                    <Button title="備忘錄" onPress={() => navigation.navigate('Memo')} />
+                    <Button title="備忘錄" onPress={() => navigation.navigate('addimg')} />
                 </View>
                 <View style={styles.cell}>
                     <Text style={{ fontSize: 20, textAlign: 'center', fontWeight: '600' }}>我的冰箱</Text>

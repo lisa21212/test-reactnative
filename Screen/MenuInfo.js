@@ -52,7 +52,7 @@ function MenuInfo({ navigation, route }) {
                             <View style={{ width: '100%', height: 2, backgroundColor: '#000', marginVertical: 4 }} />
 
                             <View style={{ flexDirection: 'row', marginVertical: 4, flexWrap: 'wrap' }}>
-                                <View style={{ flexDirection: 'row', width: '50%' }}>
+                                {/* <View style={{ flexDirection: 'row', width: '50%' }}>
                                     <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>絲瓜</Text>
                                     <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
                                         <Ionicons name="checkmark" size={30} color="green" />
@@ -63,7 +63,7 @@ function MenuInfo({ navigation, route }) {
                                     <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
                                         <Ionicons name="checkmark" size={30} color="green" />
                                     </View>
-                                </View>
+                                </View> */}
                                 <View style={{ flexDirection: 'row', width: '50%' }}>
                                     <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>絲瓜</Text>
                                     <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>

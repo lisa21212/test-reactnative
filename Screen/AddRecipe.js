@@ -27,7 +27,9 @@ function AddRecipe({ navigation }) {
   const [seasonTexts, setseasonTexts] = useState("");
   const [typeTexts, settypeTexts] = useState("");
   const [stepTexts, setstepTexts] = useState("");
-  
+  const [selectedImage, setSelectedImage] = useState({ localUri: 'https://i.imgur.com/TkIrScD.png' });
+  const [message, setMessage] = useState("");
+
 
   // function getData() {
   //   let newBoard = [];

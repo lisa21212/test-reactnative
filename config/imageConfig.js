@@ -20,5 +20,19 @@ export const Images = {
     '牛肉漢堡排': require('../assets/Recipe/漢堡.jpeg'),
     '明太子奶香義大利麵': require('../assets/Recipe/義大利麵.jpeg'),
     '肉絲蛋炒飯': require('../assets/Recipe/炒飯.jpg'),
+    '蔥': require('../assets/FridgeFood/蔥.jpeg'),
+    '番茄': require('../assets/FridgeFood/番茄.jpeg'),
+    '洋蔥': require('../assets/FridgeFood/洋蔥.jpeg'),
+    '蒜': require('../assets/FridgeFood/蒜.jpeg'),
+    '蛋': require('../assets/FridgeFood/蛋.jpeg'),
+    '紅蘿蔔': require('../assets/FridgeFood/紅蘿蔔.jpeg'),
+    '絲瓜': require('../assets/FridgeFood/絲瓜.jpeg'),
+
+
+
+
+
+
+
 
 }

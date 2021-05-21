@@ -31,7 +31,7 @@ import People from './Screen/People';
 import Stores from './Screen/Stores';
 import Recipe from './Screen/Recipe';
 import AddRecipe from './Screen/AddRecipe';
-import AddFood from './Screen/AddFood';
+import ImageUpload from './Screen/ImageUpload';
 import { loginState } from './Screen/LoginScreen';
 
 
@@ -61,6 +61,7 @@ export default function App(props) {
         <fridgeStack.Screen name="FoodInfo" component={FoodInfo} />
         <fridgeStack.Screen name="Board" component={Board} />
         <fridgeStack.Screen name="Memo" component={Memo} />
+        <fridgeStack.Screen name="addimg" component={ImageUpload} />
       </fridgeStack.Navigator>
     )
   }
