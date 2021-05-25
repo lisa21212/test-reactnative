@@ -27,7 +27,7 @@ export const Images = {
     '蛋': require('../assets/FridgeFood/蛋.jpeg'),
     '紅蘿蔔': require('../assets/FridgeFood/紅蘿蔔.jpeg'),
     '絲瓜': require('../assets/FridgeFood/絲瓜.jpeg'),
-
+    '香菇': require('../assets/FridgeFood/香菇.jpeg'),
 
 
 

@@ -30,62 +30,82 @@ function Menu({ navigation }) {
     const [DisaplyOfData, setDisplayOfData] = useState([]);
     const [category, setCategory] = useState([]);
     const [Ingre1, setIngre1] = useState([]);
-    const Fridgearr = [
-        { Name: "1", Number: 2 },
-        { Name: "2", Number: 1 },
-        { Name: "3", Number: 1 },
-        { Name: "4", Number: 2 },
-        { Name: "5", Number: 2 }
-    ];
-    const Ingre = [
-        { Name: "1", Number: 1 },
-        { Name: "2", Number: 2 },
-        { Name: "5", Number: 1 }
-    ];
-    
+    const [recMenu, setrecMenu] = useState([]);
+    const Resarr = [];
+
+
+
+
+    function loops() {
+        for (let i = 1; i < Ingre1.length; i += 2) {
+            let res = []
+            let menuname = Ingre1[i - 1]
+            let temp = compare(Foods, Ingre1[i])
+            let count = (Ingre1[i].length) - (temp.length)
+            temp = count
+            res.push(menuname, temp)
+            Resarr.push(res)
+        }
+        Resarr.sort(Comparator)
+        let final = []
+        for (let i = 0; i < Resarr.length; i++) {
+            final.push(Resarr[i][0])
+            db.collection('菜單').doc(Resarr[i][0].id).update({lack:Resarr[i][1]})
+        }
+        // console.log(Resarr)
+        // console.log(final)
+    }
 
     const compare = (arr, filterarr) => (
-        arr.filter(el => 
-            filterarr.some(f => 
+        arr.filter(el =>
+            filterarr.some(f =>
                 f.Name === el.Name && el.Number >= f.Number
             )
         )
     );
 
-    // console.log('aaaaa', compare(Fridgearr, Ingre))
-
+    function Comparator(a, b) {
+        if (a[1] > b[1]) return 1;
+        if (a[1] < b[1]) return -1;
+    }
 
     function getMenuData() {
         let newMenu = [];
         let newIngre = [];
         MENUref.onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
-                newIngre = doc.data().ingre
-                console.log("ingrre:",newIngre)
+                const temp = doc.data().ingre
+                const menuName = {
+                    id: doc.id,
+                    Name:doc.data().name,
+                }
+                let mapp = temp.map((item) => {
+                    return item.Name
+                })
+                mapp = mapp.join('、')
                 const menu = {
                     id: doc.id,
                     Name: doc.data().name,
                     desc: doc.data().desc,
                     url: Images[doc.data().name],
                     people: doc.data().people,
-                    ingre: doc.data().ingre,
+                    ingre: mapp,
                     type: doc.data().type,
                     time: doc.data().time,
                     season: doc.data().season,
                     like: doc.data().like,
+                    temp: temp,
+                    lack: doc.data().lack,
                 }
                 newMenu.push(menu)
+                newIngre.push(menuName)
+                newIngre.push(temp)
             });
-            
+            setIngre1(newIngre)
             setMenu(newMenu)
             setDisplayOfData(newMenu)
-            // console.log('food', Menu)
         });
     }
-
-    useEffect(() => {
-        getMenuData()
-    }, [])
 
     function getFoodData() {
         let newFood = [];
@@ -100,11 +120,24 @@ function Menu({ navigation }) {
             setFoods(newFood)
         });
     }
-    // console.log('food', Foods)
 
+    function sortrecMenu() {
+        let temp = Menu;
+        console.log(temp)
+        temp.sort(function (a, b) {
+            if (a.lack > b.lack) return 1;
+            if (a.lack < b.lack) return -1;
+        })
+        temp.splice(5)
+        setrecMenu(temp)
+    }
 
     useEffect(() => {
+        getMenuData()
         getFoodData()
+        loops()
+        sortrecMenu()
+        // console.log("All task done")
     }, [])
 
     function updateLike(id, like) {
@@ -158,9 +191,24 @@ function Menu({ navigation }) {
     const [heart, setHeart] = useState([])
 
 
+    const renderMenu = ({ item, i }) => (
+        <ScrollView>
+            <View key={item.id}>
+            <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('MenuInfo', { item })}>
+                <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert} />
+                <Image source={item.url} style={styles.image_style} />
+                <View style={{ flex: 1.5 }}>
+                    <Text style={{ marginTop: 10 }}>{item.Name}</Text>
+                    {/* <Text>熱量: 555 kal</Text> */}
+                </View>
+            </TouchableOpacity>
+            </View>
+        </ScrollView>
+    );
+
     const renderItem = ({ item, i }) => (
         <ScrollView>
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginTop: 10 }} key={item.id}>
                 <TouchableOpacity style={{
                     height: 170,
                     // width: '90%',
@@ -233,8 +281,8 @@ function Menu({ navigation }) {
                 </TextInput>
                 <Image source={require('../assets/search_black.png')} style={{ width: 25, height: 25, right: 15, position: 'absolute' }} />
             </View>
+
             {/* 類別列 */}
-            {/* <ScrollView horizontal={true}> */}
             <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', paddingBottom: 10 }}>
 
                 <TouchableOpacity style={[styles.filterBox, activeStyle('中式')]} onPress={() => handleOnClick('中式')}>
@@ -256,64 +304,16 @@ function Menu({ navigation }) {
                     <Text style={{ fontSize: 18 }}>麵類</Text>
                 </TouchableOpacity>
             </View>
-            {/* </ScrollView> */}
 
 
             {/* 推薦食譜區 */}
-            <View>
+            <View style={{ flex: 0.55, marginTop: 5 }}>
                 <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20, margin: 5 }}>推薦食譜</Text>
-                <ScrollView horizontal={true}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
-                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Pineapple')}>
-                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert} />
-                            <Image source={require('../assets/Recipe/豬肋排.jpg')} style={styles.image_style} />
-                            <View style={{ flex: 1.5 }}>
-                                <Text style={{ marginTop: 10 }}>醬燒豬肋排</Text>
-                                <Text>熱量: 555 kal</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Strawberry')}>
-                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert} />
-                            <Image source={require('../assets/Recipe/海鮮羹.jpg')} style={styles.image_style} />
-                            <View style={{ flex: 1.5 }}>
-                                <Text style={{ marginTop: 10 }}>海鮮羹</Text>
-                                <Text>熱量: 456 kal</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Strawberry')}>
-                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert} />
-                            <Image source={require('../assets/Recipe/炒飯.jpg')} style={styles.image_style} />
-                            <View style={{ flex: 1.5 }}>
-                                <Text style={{ marginTop: 10 }}>蝦仁蛋炒飯</Text>
-                                <Text>熱量: 430 kal</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Strawberry')}>
-                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert} />
-                            <Image source={require('../assets/Recipe/海參.jpg')} style={styles.image_style} />
-                            <View style={{ flex: 1.5 }}>
-                                <Text style={{ marginTop: 10 }}>精華海參煲</Text>
-                                <Text>熱量: 510 kal</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Strawberry')}>
-                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert} />
-                            <Image source={require('../assets/Recipe/砂鍋雞.jpg')} style={styles.image_style} />
-                            <View style={{ flex: 1.5 }}>
-                                <Text style={{ marginTop: 10 }}>主廚砂鍋雞</Text>
-                                <Text>熱量: 420 kal</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('Strawberry')}>
-                            <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert} />
-                            <Image source={require('../assets/Recipe/水煮牛.jpg')} style={styles.image_style} />
-                            <View style={{ flex: 1.5 }}>
-                                <Text style={{ marginTop: 10 }}>重慶水煮牛</Text>
-                                <Text>熱量: 450 kal</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
+                <FlatList 
+                data={recMenu}
+                renderItem={renderMenu}
+                >
+                </FlatList>
             </View>
 
             {/* 其他食譜 */}
