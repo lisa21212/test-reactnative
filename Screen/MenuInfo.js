@@ -1,23 +1,67 @@
 import 'react-native-gesture-handler';
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, Button, StyleSheet, Image, FlatList } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
+import * as firebase from 'firebase';
+import firestore from 'firebase/firestore'
+import * as FirebaseCore from 'expo-firebase-core';
 
 
 const Stack = createStackNavigator();
+const db = firebase.firestore();
+var FOODref = db.collection("Fridge")
+
 
 function MenuInfo({ navigation, route }) {
 
     const { item } = route.params
-    console.log('item', item);
+    const [Foods, setFoods] = useState([]);
+    const [resArr, setresArr] = useState([]);
+    // console.log('item', item);
+    let temp = item.temp;
     let ingre = item.ingre;
     let ingreArr = ingre.split('、');
-    console.log('ingre', ingreArr);
+    // console.log('ingre', ingreArr);
 
 
-    
+
+    function getFoodData(callback) {
+        let newFood = [];
+        FOODref.onSnapshot(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                const food = {
+                    Name: doc.data().Name,
+                    Number: doc.data().Number,
+                }
+                newFood.push(food)
+            });
+            setFoods(newFood)
+            callback()
+            console.log('Foods',Foods)
+        });
+    }
+
+    useEffect(() => {
+        getFoodData(function(){
+            let res = compare(Foods,temp)
+            setresArr(res)
+        })
+        console.log('resArr',resArr)
+        // console.log('ssss',Foods)
+    }, [])
+
+
+    const compare = (arr, filterarr, callback) => (
+        arr.filter(el =>
+            filterarr.some(f =>
+                f.Name === el.Name && el.Number >= f.Number
+            )
+        )
+    );
+
+
 
     return (
         <>
@@ -38,7 +82,7 @@ function MenuInfo({ navigation, route }) {
                                 <Text style={{ fontSize: 18, fontWeight: '400' }}>{item.time} 分</Text>
                             </View>
                             <View style={{ height: 40, width: 100, borderRadius: 15, backgroundColor: 'lightgrey', justifyContent: 'center', alignItems: 'center', marginLeft: 10 }}>
-                                <Text style={{ fontSize: 18, fontWeight: '400' }}>{item.people} 人</Text>
+                                <Text style={{ fontSize: 18, fontWeight: '400' }}>{item.people} 人份</Text>
                             </View>
                         </View>
 
@@ -52,10 +96,22 @@ function MenuInfo({ navigation, route }) {
                             <View style={{ width: '100%', height: 2, backgroundColor: '#000', marginVertical: 4 }} />
 
                             <View style={{ flexDirection: 'row', marginVertical: 4, flexWrap: 'wrap' }}>
+                                {ingreArr.map((i) => {
+                                    return (
+                                        <View style={{ flexDirection: 'row', width: '50%' }} key={i}>
+                                            <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>{i}</Text>
+                                            <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
+                                                <Ionicons name="checkmark" size={30} color="green" />
+                                            </View>
+                                        </View>
+                                    )
+                                })}
+
+                                {/* <Text>{ingreArr}</Text>  */}
                                 {/* <View style={{ flexDirection: 'row', width: '50%' }}>
                                     <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>絲瓜</Text>
                                     <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
-                                        <Ionicons name="checkmark" size={30} color="green" />
+                                        <Ionicons name="close" size={30} color="red" />
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', width: '50%' }}>
@@ -64,44 +120,7 @@ function MenuInfo({ navigation, route }) {
                                         <Ionicons name="checkmark" size={30} color="green" />
                                     </View>
                                 </View> */}
-                                <View style={{ flexDirection: 'row', width: '50%' }}>
-                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>絲瓜</Text>
-                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
-                                        <Ionicons name="checkmark" size={30} color="green" />
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', width: '50%' }}>
-                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>牛肉</Text>
-                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
-                                        <Ionicons name="checkmark" size={30} color="green" />
-                                    </View>
-                                </View>
                             </View>
-
-                            <View style={{ flexDirection: 'row', marginVertical: 4 }}>
-                                <View style={{ flexDirection: 'row', flex: 1 }}>
-                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>紅蘿蔔</Text>
-                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
-                                        <Ionicons name="checkmark" size={30} color="green" />
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', flex: 1 }}>
-                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>青蔥段</Text>
-                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
-                                        <Ionicons name="close" size={30} color="red" />
-                                    </View>
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: 'row', marginVertical: 4 }}>
-                                <View style={{ flexDirection: 'row', flex: 1 }}>
-                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>猴頭菇</Text>
-                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
-                                        <Ionicons name="close" size={30} color="red" />
-                                    </View>
-                                </View>
-                                <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}></Text>
-                            </View>
-
 
                             <Text style={{ marginTop: 30, fontSize: 20, lineHeight: 20 }}>調味料:</Text>
                             <View style={{ width: '100%', height: 2, backgroundColor: '#000', marginVertical: 4 }} />

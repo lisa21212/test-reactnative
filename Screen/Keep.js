@@ -11,6 +11,10 @@ import firebase from 'firebase';
 import firestore from 'firebase/firestore'
 import * as FirebaseCore from 'expo-firebase-core';
 import { Images } from '../config/imageConfig'
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
+
 
 
 if (!firebase.apps.length) {
@@ -92,7 +96,7 @@ function Keep({ navigation }) {
 
     const renderItem = ({ item, i }) => (
         <ScrollView>
-        <View style={{}}>
+        <View key={item.id}>
             <TouchableOpacity style={styles.imagebox} onPress={() => navigation.navigate('MenuInfo')} key={item.id}>
                 <Image source={item.Url} style={styles.imageposition} />
                 <Text style={styles.textinbox}>

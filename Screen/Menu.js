@@ -69,7 +69,7 @@ function Menu({ navigation }) {
         if (a[1] < b[1]) return -1;
     }
 
-    function getMenuData() {
+   async function getMenuData() {
         let newMenu = [];
         let newIngre = [];
         MENUref.onSnapshot(querySnapshot => {
@@ -105,9 +105,10 @@ function Menu({ navigation }) {
             setMenu(newMenu)
             setDisplayOfData(newMenu)
         });
+        await getFoodData()
     }
 
-    function getFoodData() {
+    async function getFoodData() {
         let newFood = [];
         FOODref.onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
@@ -122,8 +123,7 @@ function Menu({ navigation }) {
     }
 
     function sortrecMenu() {
-        let temp = Menu;
-        console.log(temp)
+        let temp = [...Menu];
         temp.sort(function (a, b) {
             if (a.lack > b.lack) return 1;
             if (a.lack < b.lack) return -1;
@@ -137,8 +137,8 @@ function Menu({ navigation }) {
         getFoodData()
         loops()
         sortrecMenu()
-        // console.log("All task done")
     }, [])
+    
 
     function updateLike(id, like) {
         db.collection('菜單').doc(id).update({ like: !like }).then(() => {
@@ -195,7 +195,7 @@ function Menu({ navigation }) {
         <ScrollView>
             <View key={item.id}>
             <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('MenuInfo', { item })}>
-                <Ionicons name="settings-outline" size={20} color="black" style={styles.setting_icon} onPress={TwoCellAlert} />
+                <Ionicons name="" size={20} color="black" style={styles.setting_icon}/>
                 <Image source={item.url} style={styles.image_style} />
                 <View style={{ flex: 1.5 }}>
                     <Text style={{ marginTop: 10 }}>{item.Name}</Text>
@@ -312,6 +312,7 @@ function Menu({ navigation }) {
                 <FlatList 
                 data={recMenu}
                 renderItem={renderMenu}
+                horizontal
                 >
                 </FlatList>
             </View>

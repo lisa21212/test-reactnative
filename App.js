@@ -130,7 +130,7 @@ export default function App(props) {
 
 
 
-console.log(user)
+console.log('user',user)
   return (
 
     <NavigationContainer>

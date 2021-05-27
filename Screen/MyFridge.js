@@ -15,7 +15,6 @@ if (!firebase.apps.length) {
 const db = firebase.firestore();
 db.ref = '/Fridge'
 var ref = db.collection("Fridge").orderBy("Expire", "asc");
-var conref = db.collection("Config").doc('AllFood');
 
 
 function MyFridge({ navigation }) {
@@ -24,89 +23,84 @@ function MyFridge({ navigation }) {
     const [AllFood, setAllFood] = useState([]);
     const [category, setCategory] = useState([]);
 
-    useEffect(()=>{
-        if(category.length==0) {
+    useEffect(() => {
+        if (category.length == 0) {
             setDisplayOfData(Fruit)
-            return 
+            return
         }
-        const temp = Fruit.filter((data)=>{
+        const temp = Fruit.filter((data) => {
             return category.includes(data.Category)
-        }) 
+        })
         setDisplayOfData(temp)
     }, [category])
 
     const handleOnClick = (type) => {
-       const temp = [...category]
-       const findIndex = category.findIndex(data=>data === type)
+        const temp = [...category]
+        const findIndex = category.findIndex(data => data === type)
 
-       if(findIndex > -1) {
-           temp.splice(findIndex, 1)
-       }else {
-           temp.push(type)
-       }
-       setCategory(temp)
+        if (findIndex > -1) {
+            temp.splice(findIndex, 1)
+        } else {
+            temp.push(type)
+        }
+        setCategory(temp)
     }
 
-    function getData() {
-        let newFruits = [];
-        let Food = [];
-        ref.onSnapshot(querySnapshot => {
-            querySnapshot.forEach(doc => {
-                const fruit = {
-                    id: doc.id,
-                    Name: doc.data().Name,
-                    Number: doc.data().Number,
-                    Url: Images[doc.data().Name],
-                    Expire: doc.data().Expire,
-                    Category: doc.data().Category,
-                    Kal: doc.data().Kal,
-                    Unit: doc.data().Unit,
-                    Time: doc.data().inTime,
-                }
-                if (fruit.Name === "鮮魚"){
-                    fruit.Unit = "條"
-                }
-                newFruits.push(fruit)
-                Food.push(fruit.Name)
-    
+    async function getData(callback) {
+            console.log('1')
+            let newFruits = [];
+            let Food = [];
+            ref.onSnapshot(querySnapshot => {
+                querySnapshot.forEach(doc => {
+                    const fruit = {
+                        id: doc.id,
+                        Name: doc.data().Name,
+                        Number: doc.data().Number,
+                        Url: Images[doc.data().Name],
+                        Expire: doc.data().Expire,
+                        Category: doc.data().Category,
+                        Kal: doc.data().Kal,
+                        Unit: doc.data().Unit,
+                        Time: doc.data().inTime,
+                    }
+                    if (fruit.Name === "鮮魚") {
+                        fruit.Unit = "條"
+                    }
+                    newFruits.push(fruit)
+                    Food.push(fruit.Name)
+                })
+                setFruits(newFruits)
+                setDisplayOfData(newFruits)
+                setAllFood(Food)
+                console.log("Foooood", AllFood)
+                console.log('2')
+                callback()
             })
-            setFruits(newFruits)
-            setDisplayOfData(newFruits)
-            setAllFood(Food)
-            // updateFoodArr(Food)
-            // console.log("Foooood",AllFood)
-            // setAllFood(Food)
-        })
-        console.log("Food",AllFood)
-
+            console.log("3")
     }
 
-    function updateFoodArr(Food){
-        // console.log('FoodFoodFoodFood', Food)
 
-        conref.set({
-            AllFoodArr: []
-        }).then(()=>conref.set({ AllFoodArr: Food,}))
 
-    }
-    
     useEffect(() => {
-        getData()
-    },[])
+        getData(function() {
+            console.log('4')
+            console.log("Allfood", AllFood)
+        })
+    }, [])
 
     const renderItem = ({ item, i }) => (
         <ScrollView>
-        <View style={{ flex: 15, flexDirection: 'column' }}>
-        <View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf: 'center' }}>
-            <TouchableOpacity style={styles.test} key={item.id} onPress={() => navigation.navigate('FoodInfo', {item})}>
-                <Image source={item.Url} style={{ height: 60, flex: 0.5 }} />
-                <View style={{ flex: 2, flexDirection: 'row' }}>
-                    <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Expire} 天到期</Text>
-                    <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Number} {item.Unit}</Text>
+            <View style={{ flex: 15, flexDirection: 'column' }}>
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf: 'center' }}>
+                    <TouchableOpacity style={styles.test} key={item.id} onPress={() => navigation.navigate('FoodInfo', { item })}>
+                        <Image source={item.Url} style={{ height: 60, flex: 0.5 }} />
+                        <View style={{ flex: 2, flexDirection: 'row' }}>
+                            <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Expire} 天到期</Text>
+                            <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Number} {item.Unit}</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
-        </View>
-        </View>
+            </View>
         </ScrollView>
     );
 
@@ -121,7 +115,7 @@ function MyFridge({ navigation }) {
             <View style={{ height: 40, backgroundColor: 'white' }} />
             <View style={{ flexDirection: 'row' }}>
                 <View style={styles.cell_fixed}>
-                    
+
                     <Button title="備忘錄" onPress={() => navigation.navigate('addimg')} />
                 </View>
                 <View style={styles.cell}>
@@ -151,13 +145,13 @@ function MyFridge({ navigation }) {
                         padding: 10,
                     }}>
                 </TextInput>
-                <Image source={require('../assets/search_black.png')} style={{ width: 25, height: 25, right: 15, position: 'absolute' }}/>
+                <Image source={require('../assets/search_black.png')} style={{ width: 25, height: 25, right: 15, position: 'absolute' }} />
             </View>
 
 
             {/* 過濾列 */}
             <View style={{ justifyContent: 'space-evenly', flexDirection: 'row', paddingBottom: 10 }}>
-                
+
                 <TouchableOpacity style={[styles.filterBox, activeStyle('fruit')]} onPress={() => handleOnClick('fruit')}>
                     <Text style={{ fontSize: 18 }}>水果</Text>
                 </TouchableOpacity>
@@ -174,14 +168,14 @@ function MyFridge({ navigation }) {
                     <Text style={{ fontSize: 18 }}>蔬菜</Text>
                 </TouchableOpacity>
             </View>
-                {/* 庫存顯示區 */}
-                {/* 畫面一開始可以將快要到期的食材放在嫌面 ，期限小於三天的 */}
-                    <FlatList
-                        data={DisaplyOfData}
-                        renderItem={renderItem}
-                        keyExtractor={item => {return item.id;}}
-                    >
-                    </FlatList>
+            {/* 庫存顯示區 */}
+            {/* 畫面一開始可以將快要到期的食材放在嫌面 ，期限小於三天的 */}
+            <FlatList
+                data={DisaplyOfData}
+                renderItem={renderItem}
+                keyExtractor={item => { return item.id; }}
+            >
+            </FlatList>
 
         </>
     );
