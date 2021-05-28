@@ -22,6 +22,8 @@ function MyFridge({ navigation }) {
     const [DisaplyOfData, setDisplayOfData] = useState([]);
     const [AllFood, setAllFood] = useState([]);
     const [category, setCategory] = useState([]);
+    const [Search, setSeacrch] = useState("");
+
 
     useEffect(() => {
         if (category.length == 0) {
@@ -44,6 +46,21 @@ function MyFridge({ navigation }) {
             temp.push(type)
         }
         setCategory(temp)
+    }
+
+    const handleSearch = (text) => {
+        if (text === '') {
+            setSeacrch('')
+            setDisplayOfData(Fruit)
+        } else {
+            const temp = [...Fruit]
+            console.log(temp)
+            let searchData = temp.filter(e =>
+                e.Name === text
+            )
+            setSeacrch(text);
+            setDisplayOfData(searchData)
+        }
     }
 
     async function getData(callback) {
@@ -137,6 +154,8 @@ function MyFridge({ navigation }) {
             }}>
                 <TextInput placeholder="輸入食材名稱"
                     placeholderTextColor="black"
+                    value={Search}
+                    onChangeText={handleSearch}
                     style={{
                         height: 40,
                         backgroundColor: '#cccccc',

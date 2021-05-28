@@ -31,6 +31,7 @@ function Menu({ navigation }) {
     const [category, setCategory] = useState([]);
     const [Ingre1, setIngre1] = useState([]);
     const [recMenu, setrecMenu] = useState([]);
+    const [Search, setSeacrch] = useState("");
     const Resarr = [];
 
 
@@ -50,7 +51,7 @@ function Menu({ navigation }) {
         let final = []
         for (let i = 0; i < Resarr.length; i++) {
             final.push(Resarr[i][0])
-            db.collection('菜單').doc(Resarr[i][0].id).update({lack:Resarr[i][1]})
+            db.collection('菜單').doc(Resarr[i][0].id).update({ lack: Resarr[i][1] })
         }
         // console.log(Resarr)
         // console.log(final)
@@ -69,7 +70,7 @@ function Menu({ navigation }) {
         if (a[1] < b[1]) return -1;
     }
 
-   async function getMenuData() {
+    async function getMenuData() {
         let newMenu = [];
         let newIngre = [];
         MENUref.onSnapshot(querySnapshot => {
@@ -77,7 +78,7 @@ function Menu({ navigation }) {
                 const temp = doc.data().ingre
                 const menuName = {
                     id: doc.id,
-                    Name:doc.data().name,
+                    Name: doc.data().name,
                 }
                 let mapp = temp.map((item) => {
                     return item.Name
@@ -138,7 +139,6 @@ function Menu({ navigation }) {
         loops()
         sortrecMenu()
     }, [])
-    
 
     function updateLike(id, like) {
         db.collection('菜單').doc(id).update({ like: !like }).then(() => {
@@ -157,6 +157,21 @@ function Menu({ navigation }) {
             temp.push(type)
         }
         setCategory(temp)
+    }
+
+    const handleSearch = (text) => {
+        if (text === '') {
+            setSeacrch('')
+            setDisplayOfData(Menu)
+        } else {
+            const temp = [...Menu]
+            console.log(temp)
+            let searchData = temp.filter(e =>
+                e.Name === text
+            )
+            setSeacrch(text);
+            setDisplayOfData(searchData)
+        }
     }
 
 
@@ -194,14 +209,14 @@ function Menu({ navigation }) {
     const renderMenu = ({ item, i }) => (
         <ScrollView>
             <View key={item.id}>
-            <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('MenuInfo', { item })}>
-                <Ionicons name="" size={20} color="black" style={styles.setting_icon}/>
-                <Image source={item.url} style={styles.image_style} />
-                <View style={{ flex: 1.5 }}>
-                    <Text style={{ marginTop: 10 }}>{item.Name}</Text>
-                    {/* <Text>熱量: 555 kal</Text> */}
-                </View>
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.body_image} onPress={() => navigation.navigate('MenuInfo', { item })}>
+                    <Ionicons name="" size={20} color="black" style={styles.setting_icon} />
+                    <Image source={item.url} style={styles.image_style} />
+                    <View style={{ flex: 1.5 }}>
+                        <Text style={{ marginTop: 10 }}>{item.Name}</Text>
+                        {/* <Text>熱量: 555 kal</Text> */}
+                    </View>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );
@@ -271,6 +286,8 @@ function Menu({ navigation }) {
             }}>
                 <TextInput placeholder="Search somthing to eat"
                     placeholderTextColor="black"
+                    onChangeText={handleSearch}
+                    value={Search}
                     style={{
                         height: 40,
                         backgroundColor: '#cccccc',
@@ -309,10 +326,10 @@ function Menu({ navigation }) {
             {/* 推薦食譜區 */}
             <View style={{ flex: 0.55, marginTop: 5 }}>
                 <Text style={{ fontSize: 25, fontWeight: '600', marginLeft: 20, margin: 5 }}>推薦食譜</Text>
-                <FlatList 
-                data={recMenu}
-                renderItem={renderMenu}
-                horizontal
+                <FlatList
+                    data={recMenu}
+                    renderItem={renderMenu}
+                    horizontal
                 >
                 </FlatList>
             </View>
