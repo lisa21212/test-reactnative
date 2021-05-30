@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
-import { Text, View, Button, StyleSheet, Image, FlatList } from 'react-native';
+import { Text, View, Button, StyleSheet, Image, FlatList, findNodeHandle } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -21,8 +21,11 @@ function MenuInfo({ navigation, route }) {
     const [resArr, setresArr] = useState([]);
     // console.log('item', item);
     let temp = item.temp;
+    let season = item.season;
+    let seasonArr = season.split('、');
     let ingre = item.ingre;
     let ingreArr = ingre.split('、');
+    console.log('season',seasonArr)
     // console.log('ingre', ingreArr);
 
 
@@ -46,7 +49,9 @@ function MenuInfo({ navigation, route }) {
     useEffect(() => {
         getFoodData(function(){
             let res = compare(Foods,temp)
-            setresArr(res)
+            setresArr(res.map((item) => {
+                return item.Name
+            }))
         })
         console.log('resArr',resArr)
         // console.log('ssss',Foods)
@@ -101,36 +106,26 @@ function MenuInfo({ navigation, route }) {
                                         <View style={{ flexDirection: 'row', width: '50%' }} key={i}>
                                             <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>{i}</Text>
                                             <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
-                                                <Ionicons name="checkmark" size={30} color="green" />
+                                                <Ionicons name={resArr.includes(i) ? "checkmark" : "close"} size={30} color={resArr.includes(i) ? "green" : "red"} />
                                             </View>
                                         </View>
                                     )
                                 })}
-
-                                {/* <Text>{ingreArr}</Text>  */}
-                                {/* <View style={{ flexDirection: 'row', width: '50%' }}>
-                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>絲瓜</Text>
-                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
-                                        <Ionicons name="close" size={30} color="red" />
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', width: '50%' }}>
-                                    <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>牛肉</Text>
-                                    <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
-                                        <Ionicons name="checkmark" size={30} color="green" />
-                                    </View>
-                                </View> */}
                             </View>
 
                             <Text style={{ marginTop: 30, fontSize: 20, lineHeight: 20 }}>調味料:</Text>
                             <View style={{ width: '100%', height: 2, backgroundColor: '#000', marginVertical: 4 }} />
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>醬油</Text>
-                                <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>油</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>鹽</Text>
-                                <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}></Text>
+                            <View style={{ flexDirection: 'row', marginVertical: 4, flexWrap: 'wrap' }}>
+                                {seasonArr.map((i) => {
+                                    return (
+                                        <View style={{ flexDirection: 'row', width: '50%', paddingVertical:6 }} key={i}>
+                                            <Text style={{ fontSize: 16, lineHeight: 20, flex: 1 }}>{i}</Text>
+                                            {/* <View style={{ alignItems: 'flex-end', flex: 1, marginHorizontal: 20 }}>
+                                                <Ionicons name={resArr.includes(i) ? "checkmark" : "close"} size={30} color={resArr.includes(i) ? "green" : "red"} />
+                                            </View> */}
+                                        </View>
+                                    )
+                                })}
                             </View>
                         </View>
 

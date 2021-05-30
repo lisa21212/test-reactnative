@@ -17,6 +17,7 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 var ref = db.collection("Fridge")
+var TESTref = db.collection("testFridge")
 
 
 
@@ -40,7 +41,7 @@ function FoodInfo({ navigation, route }) {
     }
   }
   function update(Num) {
-    const ref = db.collection("Fridge").doc(item.id).set({
+    const ref = db.collection("Fridge").doc(item.id).update({
       Number: Num
     })
   }
@@ -105,7 +106,7 @@ function FoodInfo({ navigation, route }) {
             marginTop: 40
           }}
             onPress={() => navigation.goBack()}
-            // onPressIn={() => update(Num)}
+            onPressIn={() => update(Num)}
           >
             <Text style={{ fontSize: 20 }}>確認</Text>
           </TouchableOpacity>

@@ -15,6 +15,7 @@ if (!firebase.apps.length) {
 const db = firebase.firestore();
 db.ref = '/Fridge'
 var ref = db.collection("Fridge").orderBy("Expire", "asc");
+var TESTref = db.collection("testFridge")
 
 
 function MyFridge({ navigation }) {
@@ -133,7 +134,7 @@ function MyFridge({ navigation }) {
             <View style={{ flexDirection: 'row' }}>
                 <View style={styles.cell_fixed}>
 
-                    <Button title="備忘錄" onPress={() => navigation.navigate('addimg')} />
+                    {/* <Button title="備忘錄" onPress={() => navigation.navigate('addimg')} /> */}
                 </View>
                 <View style={styles.cell}>
                     <Text style={{ fontSize: 20, textAlign: 'center', fontWeight: '600' }}>我的冰箱</Text>

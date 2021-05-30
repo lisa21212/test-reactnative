@@ -13,7 +13,8 @@ if (!firebase.apps.length) {
   firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
 }
 const db = firebase.firestore();
-var ref = db.collection("Board");
+var ref = db.collection("Board")
+.orderBy("time", "desc");
 
 function Board({ navigation }) {
 
@@ -42,7 +43,8 @@ function Board({ navigation }) {
   useEffect(() => {
     getData()
   }, [])
-
+  // 我想要吃炒菠菜
+  // 今晚我想來點日式的晚餐
   async function update(Texts) {
     try {
       const docRef = await db.collection("Board").add({
