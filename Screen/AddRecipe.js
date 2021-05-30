@@ -35,7 +35,7 @@ function AddRecipe({ navigation }) {
   const [valueSS, setValueSS] = useState('');
   const [ingreMS, setingreMS] = useState('');
   const [seasonMS, setseasonMS] = useState('');
-  const [fields, setfields] = useState([{}]);
+  const [inputList, setInputList] = useState(['','','']);
 
 
 
@@ -48,14 +48,14 @@ function AddRecipe({ navigation }) {
     { label: '麵類', value: '6' }
   ];
   const season = [
-    {label: '醬油', value: '1'},
-    {label: '鹽', value: '2'},
-    {label: '胡椒', value: '3'},
-    {label: '油', value: '4'},
-    {label: '味噌', value: '5'},
-    {label: '豆瓣醬', value: '6'},
-    {label: '沙茶醬', value: '7'},
-    {label: '番茄醬', value: '8'},
+    { label: '醬油', value: '1' },
+    { label: '鹽', value: '2' },
+    { label: '胡椒', value: '3' },
+    { label: '油', value: '4' },
+    { label: '味噌', value: '5' },
+    { label: '豆瓣醬', value: '6' },
+    { label: '沙茶醬', value: '7' },
+    { label: '番茄醬', value: '8' },
   ]
 
   const onChangeSS = (value) => {
@@ -70,17 +70,22 @@ function AddRecipe({ navigation }) {
     setseasonMS(value);
   };
 
-  function handleChange(i, event) {
-    const values = [...fields];
-    values[i].value = event.target.value;
-    setFields(values);
-  }
+  const handleInputChange = (text, index) => {
+    const list = [...inputList];
+    list[index] = text;
+    setInputList(list);
+    console.log(inputList)
+  };
 
-  function handleAdd() {
-    const values = [...fields];
-    values.push({ value: null });
-    setfields(values);
-  }
+  const handleRemoveClick = index => {
+    const list = [...inputList];
+    list.splice(index, 1);
+    setInputList(list);
+  };
+
+  const handleAddClick = () => {
+    setInputList([...inputList, []]);
+  };
 
   async function getFoodData() {
     let newFood = [];
@@ -211,7 +216,7 @@ function AddRecipe({ navigation }) {
             onChange={onChangeseasonMS}
           />
         </View>
-        
+
         <View style={[styles.add]}>
           <Text style={{ fontSize: 18, alignSelf: 'center' }}>步驟：</Text>
           {/* <TextInput style={[styles.inputBox]}
@@ -219,17 +224,37 @@ function AddRecipe({ navigation }) {
             onChangeText={text => setstepTexts(text)}
             value={stepTexts}
           /> */}
-          
-      <TouchableOpacity style={[styles.subButton]} onPress={() => handleAdd()} >
-          <Text style={{ fontSize: 18, alignSelf: 'center' }}>+</Text>
-        </TouchableOpacity>
-          {fields.map((field ,idx) => {
-            return (
-              <TextInput
-              onChangeText={e => handleChange(idx,e)}
-              />
-            )
-          })}
+
+          <View style={{ flexDirection: 'column' }}>
+            {inputList.map((x, i) => {
+              return (
+                <TextInput
+                  style={{
+                    height: 50,
+                    borderWidth: 1,
+                    borderRadius: 8,
+                    fontSize: 16,
+                    width:320,
+                    padding:10,
+                    marginVertical:6
+                  }}
+                  value={inputList[i]}
+                  placeholder="請輸入步驟內容"
+                  onChangeText={text => handleInputChange(text, i)}
+                />
+              )
+            })}
+          </View>
+          <View style={{flexDirection:'column'}}>
+          <TouchableOpacity style={styles.addbox} onPress={() => handleRemoveClick()} >
+            <Text style={{ fontSize: 25, textAlign:'center'}}>-</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.addbox} onPress={() => handleAddClick()} >
+            <Text style={{ fontSize: 20, textAlign:'center'}}>+</Text>
+          </TouchableOpacity>
+          </View>
+
         </View>
         <TouchableOpacity style={[styles.subButton]} onPress={() => update()} >
           <Text style={{ fontSize: 18, alignSelf: 'center' }}>新增</Text>
@@ -281,6 +306,15 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     backgroundColor: '#fd8828',
     margin: 15,
+  },
+  addbox: {
+    borderRadius: 7,
+    borderColor: 'grey',
+    backgroundColor: '#fd8828',
+    margin: 15,
+    justifyContent:'center',
+    height:30,
+    width:20,
   },
 })
 export default AddRecipe;
