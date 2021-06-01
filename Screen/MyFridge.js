@@ -5,7 +5,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as firebase from 'firebase';
 import firestore from 'firebase/firestore'
 import * as FirebaseCore from 'expo-firebase-core';
-
 import { Images } from '../config/imageConfig'
 
 
@@ -14,7 +13,7 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 db.ref = '/Fridge'
-var ref = db.collection("Fridge").orderBy("Expire", "asc");
+var ref = db.collection("Fridge").orderBy("Leftday", "asc");
 var TESTref = db.collection("testFridge")
 
 
@@ -65,7 +64,6 @@ function MyFridge({ navigation }) {
     }
 
     async function getData(callback) {
-            console.log('1')
             let newFruits = [];
             let Food = [];
             ref.onSnapshot(querySnapshot => {
@@ -79,7 +77,9 @@ function MyFridge({ navigation }) {
                         Category: doc.data().Category,
                         Kal: doc.data().Kal,
                         Unit: doc.data().Unit,
-                        Time: doc.data().inTime,
+                        secTime: doc.data().inTime.toDate(),
+                        Time: doc.data().inTime.toDate().toDateString().split(' ').reverse().splice(0,3),
+                        Leftday: Math.floor((doc.data().inTime.toDate() - new Date()) /1000 /60 /60 /24) + doc.data().Expire,
                     }
                     if (fruit.Name === "鮮魚") {
                         fruit.Unit = "條"
@@ -90,19 +90,20 @@ function MyFridge({ navigation }) {
                 setFruits(newFruits)
                 setDisplayOfData(newFruits)
                 setAllFood(Food)
-                console.log("Foooood", AllFood)
-                console.log('2')
+                console.log("Fruit", Fruit)
                 callback()
             })
-            console.log("3")
     }
 
 
 
     useEffect(() => {
         getData(function() {
-            console.log('4')
-            console.log("Allfood", AllFood)
+            // console.log(new Date())
+            // console.log(Fruit.map((item) => {return item.secTime}))
+            // console.log(Fruit.map((item) => {
+            //     return Math.floor((item.secTime - new Date()) / 1000 /60 /60 /24) + item.Expire
+            // }))
         })
     }, [])
 
@@ -113,7 +114,7 @@ function MyFridge({ navigation }) {
                     <TouchableOpacity style={styles.test} key={item.id} onPress={() => navigation.navigate('FoodInfo', { item })}>
                         <Image source={item.Url} style={{ height: 60, flex: 0.5 }} />
                         <View style={{ flex: 2, flexDirection: 'row' }}>
-                            <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Expire} 天到期</Text>
+                            <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Leftday >0 ? item.Leftday+"天到期" : "已到期"}</Text>
                             <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Number} {item.Unit}</Text>
                         </View>
                     </TouchableOpacity>

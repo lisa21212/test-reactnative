@@ -17,6 +17,41 @@ function Notification({ navigation }) {
     }
     const db = firebase.firestore();
     const [notifications, setnotification] = useState([]);
+    const [Expirewarning, setExpirewarning] = useState([]);
+    const [oneDwarning, setoneDwarning] = useState([]);
+    const [threeDwarning, setthreeDwarning] = useState([]);
+
+
+
+    async function getFridgeData() {
+        const fridge0 = [];
+        const fridge1 = [];
+        const fridge3 = [];
+        try {
+            const querySnapshot = await db.collection("Fridge").orderBy("Leftday", "asc").get();
+            querySnapshot.forEach((doc) => {
+                const fruit = {
+                    id: doc.id,
+                    Name: doc.data().Name,
+                    Leftday: doc.data().Leftday,
+                }
+                if (fruit.Leftday < 1){
+                    fridge0.push(fruit);
+                }else if (fruit.Leftday === 1){
+                    fridge1.push(fruit);
+                }else if (fruit.Leftday > 1 && fruit.Leftday <= 3 ){
+                    fridge3.push(fruit);
+                }
+            });//foreach
+            setExpirewarning(fridge0);
+            setoneDwarning(fridge1);
+            setthreeDwarning(fridge3);
+            // console.log('expire',Expirewarning);
+            console.log('1 day',oneDwarning);
+            console.log('3 day',threeDwarning);
+        }//try
+        catch (e) { console.log(e); }
+    }//readData
 
     async function readData() {
         const newnotifications = [];
@@ -33,13 +68,57 @@ function Notification({ navigation }) {
                 newnotifications.push(newnotification);
             });//foreach
             setnotification(newnotifications);
-            console.log(notifications)
+            // console.log(notifications)
         }//try
         catch (e) { console.log(e); }
     }//readData
+
+async function ExpireNoticeLisstner() {
+    let temp = [...Expirewarning];
+    if (temp.length > 0) {
+        const docRef = await db.collection("notification").add({
+            notice: temp.map((item) => {
+                return item.Name+"已經過期"
+            }),
+            time: new Date(),
+          });
+    }
+}
+
+async function onedayNoticeLisstner() {
+    let temp = [...oneDwarning];
+    if (temp.length > 0) {
+        const docRef = await db.collection("notification").add({
+            notice: temp.map((item) => {
+                return item.Name
+            })+"將於一天後過期",
+            time: new Date(),
+          });
+    }
+}
+
+async function threedayNoticeLisstner() {
+    let temp = [...threeDwarning];
+    if (temp.length > 0) {
+        const docRef = await db.collection("notification").add({
+            notice: temp.map((item) => {
+                return item.Name
+            })+"將於三天內過期",
+            time: new Date(),
+          });
+    }
+}
+
     useEffect(() => {
         readData();
-    },[]);
+        getFridgeData();
+        ExpireNoticeLisstner();
+        onedayNoticeLisstner();
+        threedayNoticeLisstner();
+    }, []);
+
+
+
     const renderItem = ({ item, i }) => (
         <View style={{
             backgroundColor: 'white',
@@ -51,7 +130,7 @@ function Notification({ navigation }) {
         }} key={item.id}>
             <MaterialCommunityIcons name="bell" size={25} color="#fc9642" style={{ justifyContent: 'center', padding: 15 }} />
             <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 2, fontSize: 16, marginLeft: 10 }}>{item.notice}</Text>
-            <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 1, fontSize: 16 }}>{item.time.toTimeString().slice(0,5)}</Text>
+            <Text style={{ alignSelf: 'center', justifyContent: 'center', flex: 1, fontSize: 16 }}>{item.time.toDateString().slice(4, 10)}</Text>
         </View>
 
     );

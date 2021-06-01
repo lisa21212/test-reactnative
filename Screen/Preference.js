@@ -27,45 +27,45 @@ const Preference = ({ navigation }) => {
   return (
     <Background>
       <View style={styles.container}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.navigate('Habbit')}>
           <Text style={{ fontWeight: 'bold', fontSize: 18 }}>上一頁</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View style={styles.container1}>
-        <TouchableOpacity nPress={() => navigation.navigate('People')}>
+        {/* <TouchableOpacity nPress={() => navigation.navigate('People')}>
           <Text style={{ fontWeight: 'bold', fontSize: 18 }}>下一頁</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <Header>偏好設定</Header>
       <View style={styles.container3}>
         <Text style={styles.row}>海鮮</Text>
       </View>
       <View style={styles.cc}>
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='蝦子' />
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='黃魚' />
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='海膽' />
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='石斑' />
+        <BouncyCheckbox style={{ padding: 40 }} onPress={(isChecked: boolean) => { }} text='蝦子' />
+        <BouncyCheckbox style={{ padding: 40 }} onPress={(isChecked: boolean) => { }} text='黃魚' />
+        <BouncyCheckbox style={{ padding: 40 }} onPress={(isChecked: boolean) => { }} text='海膽' />
+        <BouncyCheckbox style={{ padding: 40 }} onPress={(isChecked: boolean) => { }} text='石斑' />
       </View>
       <View style={styles.container3}>
         <Text style={styles.row}>肉類</Text>
       </View>
       <View style={styles.cc}>
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='牛肉' />
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='豬肉' />
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='羊肉' />
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='雞肉' />
+        <BouncyCheckbox style={{ padding: 40 }} onPress={(isChecked: boolean) => { }} text='牛肉' />
+        <BouncyCheckbox style={{ padding: 40 }} onPress={(isChecked: boolean) => { }} text='豬肉' />
+        <BouncyCheckbox style={{ padding: 40 }} onPress={(isChecked: boolean) => { }} text='羊肉' />
+        <BouncyCheckbox style={{ padding: 40 }} onPress={(isChecked: boolean) => { }} text='雞肉' />
       </View>
       <View style={styles.container3}>
         <Text style={styles.row}>菜類</Text>
       </View>
       <View style={styles.cc}>
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='花椰菜' />
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='大陸妹' />
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='地瓜葉' />
-        <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='番茄' />
+        <BouncyCheckbox style={{ padding: 40 }} onPress={(isChecked: boolean) => { }} text='花椰菜' />
+        <BouncyCheckbox style={{ padding: 40 }} onPress={(isChecked: boolean) => { }} text='大陸妹' />
+        <BouncyCheckbox style={{ padding: 40 }} onPress={(isChecked: boolean) => { }} text='地瓜葉' />
+        <BouncyCheckbox style={{ padding: 40 }} onPress={(isChecked: boolean) => { }} text='番茄' />
       </View>
-      <View style={styles.container3}>
+      {/* <View style={styles.container3}>
         <Text style={styles.row}>家庭人數</Text>
       </View>
       <View style={styles.cc}>
@@ -74,14 +74,14 @@ const Preference = ({ navigation }) => {
         <BouncyCheckbox style={{padding: 19,}} onPress={(isChecked: boolean) => { }} text='三位' />
         <BouncyCheckbox style={{padding: 19,}} onPress={(isChecked: boolean) => { }} text='四位' />
         <BouncyCheckbox style={{padding: 19,}} onPress={(isChecked: boolean) => { }} text='五位' />
-      </View>
-      <View style={styles.container3}>
+      </View> */}
+      {/* <View style={styles.container3}>
         <Text style={styles.row}>店家偏好設定</Text>
       </View>
       <View style={styles.cc}>
         <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='頂好' />
         <BouncyCheckbox style={{ padding: 15 }} onPress={(isChecked: boolean) => { }} text='家樂福' />
-      </View>
+      </View> */}
       <Button
         mode="contained"
         onPress={signout}
@@ -94,13 +94,9 @@ const Preference = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container3: {
-    flex: 1,
-    padding: 10,
   },
   row: {
-    padding: 4,
     borderBottomColor: "grey",
-    alignItems: 'flex-start',
     fontSize: 18,
     borderBottomWidth: StyleSheet.hairlineWidth
   }

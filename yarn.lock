@@ -9351,6 +9351,11 @@
   "resolved" "https://registry.npmjs.org/react-native-bouncy-checkbox/-/react-native-bouncy-checkbox-2.1.0.tgz"
   "version" "2.1.0"
 
+"react-native-date-picker@^3.3.0":
+  "integrity" "sha512-7hllNNQtdg+vO92xNSjz6tsQBNOlr4VjYCG+4L65tPiYMolJ/JJeLbpA0WMtYtKKTitvFKr769ZaJeAGpx+3Wg=="
+  "resolved" "https://registry.npmjs.org/react-native-date-picker/-/react-native-date-picker-3.3.0.tgz"
+  "version" "3.3.0"
+
 "react-native-elements@^3.3.0":
   "integrity" "sha512-GNvS7/26WNo0ovZ2vQWRFWJxhyDeBrGakFSX0aCey69B6KtZQh8gaFGF6CutlRjMzVfZTHGU2+0NS8A0dNWhAA=="
   "resolved" "https://registry.npmjs.org/react-native-elements/-/react-native-elements-3.3.0.tgz"

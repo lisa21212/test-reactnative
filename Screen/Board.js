@@ -28,16 +28,14 @@ function Board({ navigation }) {
         const board = {
           id: doc.id,
           comment: doc.data().comment,
+          time: doc.data().time.toDate().toDateString(),
         }
         newBoard.push(board)
         
 
       });
       setBoards(newBoard)
-      console.log('qqq',Boards.map(({comment}) => 
-        {comment.id}
-        
-      ))
+      console.log(Boards.map(item => {return item.time}))
     });
   }
   useEffect(() => {

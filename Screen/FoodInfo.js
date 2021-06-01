@@ -10,6 +10,9 @@ import * as firebase from 'firebase';
 import firestore from 'firebase/firestore'
 import * as FirebaseCore from 'expo-firebase-core';
 
+import DatePicker from 'react-native-date-picker'
+
+
 
 
 if (!firebase.apps.length) {
@@ -25,6 +28,8 @@ function FoodInfo({ navigation, route }) {
 
   const { item } = route.params
   const [Num, setNum] = useState(item.Number);
+  const [date, setDate] = useState(new Date())
+
 
   function addcount() {
     if (item.Unit === "公克") {
@@ -42,7 +47,9 @@ function FoodInfo({ navigation, route }) {
   }
   function update(Num) {
     const ref = db.collection("Fridge").doc(item.id).update({
-      Number: Num
+      Number: Num,
+      // Leftday: item.Leftday,
+      // inTime: new Date()
     })
   }
 
@@ -72,8 +79,12 @@ function FoodInfo({ navigation, route }) {
             <View style={styles.textbox}>
               <Text style={{ fontSize: 20 }}>放入時間:</Text>
               <View style={{ flexDirection: 'row' }}>
-                <Text style={{ fontSize: 20 }}>2020/3/5</Text>
-                <Entypo name="triangle-down" size={20} />
+                <Text style={{ fontSize: 20 }}>{item.Time.join('/')}</Text>
+                {/* <Entypo name="triangle-down" size={20} /> */}
+                {/* <DatePicker
+                  date={date}
+                  onDateChange={setDate}
+                /> */}
               </View>
             </View>
             <View style={styles.textbox}>
