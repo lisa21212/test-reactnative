@@ -48,7 +48,7 @@ function FoodInfo({ navigation, route }) {
   function update(Num) {
     const ref = db.collection("Fridge").doc(item.id).update({
       Number: Num,
-      // Leftday: item.Leftday,
+      Leftday: item.Leftday,
       // inTime: new Date()
     })
   }

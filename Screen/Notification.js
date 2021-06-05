@@ -46,7 +46,7 @@ function Notification({ navigation }) {
             setExpirewarning(fridge0);
             setoneDwarning(fridge1);
             setthreeDwarning(fridge3);
-            // console.log('expire',Expirewarning);
+            console.log('expire',Expirewarning);
             console.log('1 day',oneDwarning);
             console.log('3 day',threeDwarning);
         }//try
@@ -57,7 +57,7 @@ function Notification({ navigation }) {
         const newnotifications = [];
         try {
             const querySnapshot = await db.collection("notification")
-                .orderBy("time", "asc").get();
+                .orderBy("time", "desc").get();
             querySnapshot.forEach((doc) => {
                 let time = doc.data().time.toDate();
                 const newnotification = {
@@ -78,8 +78,8 @@ async function ExpireNoticeLisstner() {
     if (temp.length > 0) {
         const docRef = await db.collection("notification").add({
             notice: temp.map((item) => {
-                return item.Name+"已經過期"
-            }),
+                return item.Name
+            })+"已經過期",
             time: new Date(),
           });
     }
@@ -112,9 +112,9 @@ async function threedayNoticeLisstner() {
     useEffect(() => {
         readData();
         getFridgeData();
-        ExpireNoticeLisstner();
-        onedayNoticeLisstner();
-        threedayNoticeLisstner();
+        // ExpireNoticeLisstner();
+        // onedayNoticeLisstner();
+        // threedayNoticeLisstner();
     }, []);
 
 
@@ -152,7 +152,7 @@ async function threedayNoticeLisstner() {
                 </View>
             </View>
 
-            <View style={{ flex: 0.5, justifyContent: 'flex-start' }}>
+            <View style={{ flex: 1, justifyContent: 'flex-start'}}>
                 <FlatList
                     data={notifications}
                     renderItem={renderItem}

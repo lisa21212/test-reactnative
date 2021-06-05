@@ -90,7 +90,7 @@ function MyFridge({ navigation }) {
                 setFruits(newFruits)
                 setDisplayOfData(newFruits)
                 setAllFood(Food)
-                console.log("Fruit", Fruit)
+                // console.log("Fruit", Fruit)
                 callback()
             })
     }

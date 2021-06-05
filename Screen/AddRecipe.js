@@ -26,12 +26,6 @@ function AddRecipe({ navigation }) {
   const [descTexts, setdescTexts] = useState("");
   const [peopleTexts, setpeopleTexts] = useState("");
   const [timeTexts, settimeTexts] = useState("");
-  const [ingreTexts, setingreTexts] = useState("");
-  const [seasonTexts, setseasonTexts] = useState("");
-  const [typeTexts, settypeTexts] = useState("");
-  const [stepTexts, setstepTexts] = useState("");
-  const [selectedImage, setSelectedImage] = useState({ localUri: 'https://i.imgur.com/TkIrScD.png' });
-  const [message, setMessage] = useState("");
   const [valueSS, setValueSS] = useState('');
   const [ingreMS, setingreMS] = useState('');
   const [seasonMS, setseasonMS] = useState('');
@@ -40,30 +34,34 @@ function AddRecipe({ navigation }) {
 
 
   const type = [
-    { label: '中式', value: '1' },
-    { label: '日式', value: '2' },
-    { label: '美式', value: '3' },
-    { label: '義式', value: '4' },
-    { label: '飯類', value: '5' },
-    { label: '麵類', value: '6' }
+    { label: '中式', value: '中式' },
+    { label: '日式', value: '日式' },
+    { label: '美式', value: '美式' },
+    { label: '義式', value: '義式' },
+    { label: '飯類', value: '飯類' },
+    { label: '麵類', value: '麵類' }
   ];
   const season = [
-    { label: '醬油', value: '1' },
-    { label: '鹽', value: '2' },
-    { label: '胡椒', value: '3' },
-    { label: '油', value: '4' },
-    { label: '味噌', value: '5' },
-    { label: '豆瓣醬', value: '6' },
-    { label: '沙茶醬', value: '7' },
-    { label: '番茄醬', value: '8' },
+    { label: '醬油', value: '醬油' },
+    { label: '鹽', value: '鹽' },
+    { label: '胡椒', value: '胡椒' },
+    { label: '油', value: '油' },
+    { label: '味噌', value: '味噌' },
+    { label: '豆瓣醬', value: '豆瓣醬' },
+    { label: '沙茶醬', value: '沙茶醬' },
+    { label: '番茄醬', value: '番茄醬' },
   ]
 
   const onChangeSS = (value) => {
     setValueSS(value);
+    console.log(valueSS)
   };
 
   const onChangeMS = (value) => {
+    // let temp = [...ingreMS]
+    // console.log('temp',temp)
     setingreMS(value);
+    // console.log()
   };
 
   const onChangeseasonMS = (value) => {
@@ -93,8 +91,9 @@ function AddRecipe({ navigation }) {
       querySnapshot.forEach(doc => {
         const food = {
           label: doc.data().Name,
+          value: doc.data().Name,
           Number: doc.data().Number,
-          value: doc.id
+          id: doc.id,
         }
         newFood.push(food)
       });
@@ -108,15 +107,17 @@ function AddRecipe({ navigation }) {
 
   async function update() {
     try {
-      const docRef = await db.collection("test").add({
+      const docRef = await db.collection("菜單").add({
         name: nameTexts,
         desc: descTexts,
         people: peopleTexts,
         time: timeTexts,
-        ingre: ingreTexts,
-        season: seasonTexts,
-        type: typeTexts,
-        step: stepTexts,
+        ingre: ingreMS.map((item) => {
+          return {Name:item,Number:0}
+        }),
+        season: seasonMS.join('、'),
+        type: valueSS.join('、'),
+        step: inputList,
         like: false,
         rank: 1,
       });
@@ -128,10 +129,10 @@ function AddRecipe({ navigation }) {
     setdescTexts("")
     setpeopleTexts("")
     settimeTexts("")
-    setingreTexts("")
-    setseasonTexts("")
-    settypeTexts("")
-    setstepTexts("")
+    setingreMS("")
+    setseasonMS("")
+    setValueSS("")
+    setInputList(["","",""])
   }
 
   return (
@@ -229,6 +230,7 @@ function AddRecipe({ navigation }) {
             {inputList.map((x, i) => {
               return (
                 <TextInput
+                key={i}
                   style={{
                     height: 50,
                     borderWidth: 1,
