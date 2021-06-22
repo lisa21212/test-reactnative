@@ -10,10 +10,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 import firebase from 'firebase';
 import firestore from 'firebase/firestore'
 import * as FirebaseCore from 'expo-firebase-core';
-import { Images } from '../config/imageConfig'
-import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-LogBox.ignoreAllLogs();//Ignore all log notifications
+// import { Images } from '../config/imageConfig'
+// import { LogBox } from 'react-native';
+// LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+// LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
 

@@ -13,7 +13,7 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 db.ref = '/Fridge'
-var ref = db.collection("Fridge").orderBy("Leftday", "asc");
+var ref = db.collection("Fridge");
 var TESTref = db.collection("testFridge")
 
 
@@ -77,9 +77,10 @@ function MyFridge({ navigation }) {
                         Category: doc.data().Category,
                         Kal: doc.data().Kal,
                         Unit: doc.data().Unit,
-                        secTime: doc.data().inTime.toDate(),
-                        Time: doc.data().inTime.toDate().toDateString().split(' ').reverse().splice(0,3),
-                        Leftday: Math.floor((doc.data().inTime.toDate() - new Date()) /1000 /60 /60 /24) + doc.data().Expire,
+                        // secTime: doc.data().inTime.toDate(),
+                        Time: doc.data().inTime,
+                        // Time: doc.data().inTime.toDate().toDateString().split(' ').reverse().splice(0,3),
+                        // Leftday: Math.floor((doc.data().inTime.toDate() - new Date()) /1000 /60 /60 /24) + doc.data().Expire,
                     }
                     if (fruit.Name === "鮮魚") {
                         fruit.Unit = "條"
@@ -90,7 +91,7 @@ function MyFridge({ navigation }) {
                 setFruits(newFruits)
                 setDisplayOfData(newFruits)
                 setAllFood(Food)
-                // console.log("Fruit", Fruit)
+                console.log("Fruit", Fruit)
                 callback()
             })
     }
@@ -114,7 +115,7 @@ function MyFridge({ navigation }) {
                     <TouchableOpacity style={styles.test} key={item.id} onPress={() => navigation.navigate('FoodInfo', { item })}>
                         <Image source={item.Url} style={{ height: 60, flex: 0.5 }} />
                         <View style={{ flex: 2, flexDirection: 'row' }}>
-                            <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Leftday >0 ? item.Leftday+"天到期" : "已到期"}</Text>
+                            <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Name}</Text>
                             <Text style={{ fontSize: 18, flex: 1, textAlign: 'center' }}>{item.Number} {item.Unit}</Text>
                         </View>
                     </TouchableOpacity>
@@ -134,8 +135,7 @@ function MyFridge({ navigation }) {
             <View style={{ height: 40, backgroundColor: 'white' }} />
             <View style={{ flexDirection: 'row' }}>
                 <View style={styles.cell_fixed}>
-
-                    {/* <Button title="備忘錄" onPress={() => navigation.navigate('addimg')} /> */}
+                <Ionicons name="ios-add" size={40} color="black" style={{ marginLeft: 10 }} onPress={() => navigation.navigate('AddFood')} />
                 </View>
                 <View style={styles.cell}>
                     <Text style={{ fontSize: 20, textAlign: 'center', fontWeight: '600' }}>我的冰箱</Text>

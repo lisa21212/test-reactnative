@@ -9,6 +9,12 @@ import { ScrollView } from 'react-native';
 import * as firebase from 'firebase';
 import firestore from 'firebase/firestore'
 import * as FirebaseCore from 'expo-firebase-core';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Dropdown, GroupDropdown, MultiselectDropdown, } from 'sharingan-rn-modal-dropdown';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+// import DropDownPicker from 'react-native-dropdown-picker';
+
+
 
 
 
@@ -25,9 +31,78 @@ var TESTref = db.collection("testFridge")
 function FoodInfo({ navigation, route }) {
 
   const { item } = route.params
-  const [Num, setNum] = useState(item.Number);
+  const [valueSS, setValueSS] = useState('');
+  const [Num, setNum] = useState(valueSS);
   const [date, setDate] = useState(new Date())
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  let TempTime;
 
+  if (Array.isArray(item.Time)) {
+    const Temptime = item.Time.map((item) => {
+      return {
+        value: item.Number,
+        label: item.Time.toDate().toDateString()
+      }
+    })
+    TempTime = Temptime;
+  }
+
+  console.log("Temptime",TempTime)
+
+  function updatecount() {
+    let tempT = [...TempTime]
+    let tempobj = [];
+    let temp = [];
+    tempT.map((item) => {
+      temp.push(item.label);
+      temp.push(item.value);
+    })
+    if (temp.includes(date.toDateString())){
+
+    }else{
+      if (Num != 0){
+        temp.push(date.toDateString());
+        temp.push(Num);
+      }
+    }
+    const index = temp.indexOf(valueSS)
+    temp[index] = Num;
+    for (let i = 0; i < temp.length ; i+=2){
+      const obj ={
+        label: temp[i],
+        value: temp[i+1],
+      }
+      tempobj.push(obj)
+    }
+    tempT = tempobj;
+    TempTime = tempT;
+  }
+
+  const onChangeSS = (value) => {
+    setValueSS(value);
+    setNum(valueSS);
+    // console.log("date",value)
+  };
+
+  const onChange = (event, selectedDate) => {
+    let temp = [];
+    TempTime.map((item) => {
+      temp.push(item.label);
+      temp.push(item.value);
+    })
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+    if (temp.includes(date.toDateString())) {
+      setNum(temp[temp.indexOf(date.toDateString()) + 1]);
+    } else {
+      setNum(0);
+    }
+    // console.log(date.toDateString())
+    // console.log('sss',TempTime)
+
+  };
 
   function addcount() {
     if (item.Unit === "公克") {
@@ -36,6 +111,7 @@ function FoodInfo({ navigation, route }) {
       setNum(Num + 1)
     }
   }
+
   function minuscount() {
     if (item.Unit === "公克") {
       setNum(Num - 50)
@@ -43,13 +119,33 @@ function FoodInfo({ navigation, route }) {
       setNum(Num - 1)
     }
   }
+
+  function toTimestamp(abc){
+    var datum = Date.parse(abc);
+    return datum;
+   }
+
+
   function update(Num) {
+    updatecount()
+    console.log(TempTime)
+    const temp = TempTime.map((item) => (
+      {
+        Number: item.value,
+        Time: new Date(toTimestamp(item.label)),
+      }
+    ));
+    var count = 0;
+    for (var i = 0; i < TempTime.length; i++) {
+      count += TempTime.map((item) => item.value)[i];
+    }
     const ref = db.collection("Fridge").doc(item.id).update({
-      Number: Num,
-      Leftday: item.Leftday,
-      inTime: new Date()
+      Number: count,
+      // Leftday: item.Leftday,
+      inTime: temp,
     })
   }
+
 
 
   return (
@@ -75,15 +171,31 @@ function FoodInfo({ navigation, route }) {
 
           <View style={styles.boxcontainer}>
             <View style={styles.textbox}>
-              <Text style={{ fontSize: 20 }}>放入時間:</Text>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ fontSize: 20 }}>{item.Time.join('/')}</Text>
-                {/* <Entypo name="triangle-down" size={20} /> */}
-                {/* <DatePicker
-                  date={date}
-                  onDateChange={setDate}
-                /> */}
+              <Text style={{ fontSize: 20, marginTop: 10 }}>放入時間:</Text>
+              <View style={{ flex: 1, alignItems: 'center' }}>
+                <View style={{ height: 50, width: 150 }}>
+                  <Dropdown
+                    label="選擇日期"
+                    data={TempTime}
+                    value={valueSS}
+                    onChange={onChangeSS}
+                  />
+                </View>
+                <View style={{ height: 36, marginTop: 30, width: 200, marginLeft: 80 }}>
+
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    mode={mode}
+                    is24Hour={true}
+                    onChange={onChange}
+                  />
+                </View>
+
               </View>
+
+
+
             </View>
             <View style={styles.textbox}>
               <Text style={{ fontSize: 20 }}>建議保存期限:</Text>
@@ -112,7 +224,7 @@ function FoodInfo({ navigation, route }) {
             borderRadius: 10,
             borderColor: 'grey',
             backgroundColor: '#ffa459',
-            marginTop: 40
+            marginTop: 20
           }}
             onPress={() => navigation.goBack()}
             onPressIn={() => update(Num)}
@@ -158,12 +270,11 @@ const styles = StyleSheet.create({
   boxcontainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    paddingTop: 15,
 
   },
 
   textbox: {
-    height: 130,
+    height: 170,
     width: 180,
     borderRadius: 50,
     backgroundColor: 'white',

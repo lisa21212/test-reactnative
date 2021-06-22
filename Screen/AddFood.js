@@ -9,6 +9,8 @@ import * as firebase from 'firebase';
 import firestore from 'firebase/firestore'
 import * as FirebaseCore from 'expo-firebase-core';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Dropdown, GroupDropdown, MultiselectDropdown, } from 'sharingan-rn-modal-dropdown';
+
 
 if (!firebase.apps.length) {
   firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
@@ -26,9 +28,16 @@ function AddRecipe({ navigation }) {
   const [timeTexts, settimeTexts] = useState("");
   const [ingreTexts, setingreTexts] = useState("");
   const [seasonTexts, setseasonTexts] = useState("");
-  const [typeTexts, settypeTexts] = useState("");
-  const [stepTexts, setstepTexts] = useState("");
-  const [keyTexts, setkeyTexts] = useState("");
+  const [TypeMS, setTypeMS] = useState('');
+
+
+  const type = [
+    { label: '水果', value: '水果' },
+    { label: '肉類', value: '肉類' },
+    { label: '豆類', value: '豆類' },
+    { label: '海鮮', value: '海鮮' },
+    { label: '蔬菜', value: '蔬菜' }
+  ];
 
   useEffect(() => {
     var date = new Date().getDate(); //Current Date
@@ -40,6 +49,11 @@ function AddRecipe({ navigation }) {
       year + '/' + month + '/' + date + ' ' + hours + ":" + min
     );
   }, []);
+
+  const onChangeType = (value) => {
+    setTypeMS(value);
+    console.log(TypeMS)
+  };
 
 
   function deleteData() {
@@ -61,7 +75,7 @@ function AddRecipe({ navigation }) {
 
   const update = async() => {
     try {
-      await db.collection("Fridge").add({
+      await db.collection("test").add({
         Name: nameTexts,
         Number: +descTexts,
         Kal: peopleTexts,
@@ -144,11 +158,18 @@ function AddRecipe({ navigation }) {
           </View>
           <View style={[styles.add]}>
             <Text style={{ fontSize: 18, alignSelf: 'center' }}>類別：</Text>
-            <TextInput style={[styles.inputBox]}
+            {/* <TextInput style={[styles.inputBox]}
               placeholder="輸入類別"
               onChangeText={text => setseasonTexts(text)}
               value={seasonTexts}
-            />
+            /> */}
+            <MultiselectDropdown
+            label="選擇食譜類型"
+            data={type}
+            value={TypeMS}
+            onChange={onChangeType}
+            chipType="outlined"
+          />
           </View>
           <TouchableOpacity style={[styles.subButton]} onPress={update} >
             <Text style={{ fontSize: 18, alignSelf: 'center' }}>新增</Text>
@@ -158,19 +179,9 @@ function AddRecipe({ navigation }) {
           </TouchableOpacity>
         </View>
         <Text>
-          {currentDate}
+          {/* {currentDate} */}
         </Text>
-        {/* <View style={{ flexDirection: 'row' }}>
-          <TextInput style={[styles.inputBox]}
-            placeholder="在此輸入Key"
-            onChangeText={text => setkeyTexts(text)}
-            value={keyTexts}
-          />
-          <TouchableOpacity style={[styles.filterBox]} onPress={() => deleteoneData(keyTexts)} >
-            <Text style={{ fontSize: 18, alignSelf: 'center' }}>刪除</Text>
-          </TouchableOpacity>
-
-        </View> */}
+        
 
       </ScrollView>
 
